@@ -73,7 +73,6 @@ func _on_menu_pop():
 	await tween_in_menu(menu_stack[-1]).finished
 	menu_stack[-1].process_mode = PROCESS_MODE_INHERIT
 
-	
 
 func _on_menu_pop_all():
 	Global.paused = false
