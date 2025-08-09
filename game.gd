@@ -3,8 +3,7 @@ extends Node2D
 func _ready() -> void:
 	Events.change_scene.connect(on_change_scene)
 
-
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
 		if !Global.paused:
 			Events.menu_push.emit(Global.MENU_TYPE.PAUSE)

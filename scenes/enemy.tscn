@@ -1,0 +1,148 @@
+[gd_scene load_steps=25 format=3 uid="uid://j4p6hrpy0tw6"]
+
+[ext_resource type="Script" uid="uid://bf77dwpf1csby" path="res://scenes/enemy.gd" id="1_6awcb"]
+[ext_resource type="Texture2D" uid="uid://d0i5vefi3rhj2" path="res://assets/combat/enemies/bear/attack/Attack1.png" id="2_wjec0"]
+[ext_resource type="Texture2D" uid="uid://4aeugrdy6wa3" path="res://assets/combat/enemies/bear/attack/Attack2.png" id="3_i4rgx"]
+[ext_resource type="Texture2D" uid="uid://bggff1fwbcmq5" path="res://assets/combat/enemies/bear/attack/Attack3.png" id="4_2mchx"]
+[ext_resource type="Texture2D" uid="uid://cdg6cywawqdtx" path="res://assets/combat/enemies/bear/attack/Attack4.png" id="5_t3vcr"]
+[ext_resource type="Texture2D" uid="uid://c85addncd3512" path="res://assets/combat/enemies/bear/attack/Attack5.png" id="6_qaulx"]
+[ext_resource type="Texture2D" uid="uid://p4023wa5as44" path="res://assets/combat/enemies/bear/death/Death1.png" id="7_1f82d"]
+[ext_resource type="Texture2D" uid="uid://dxupe2j5atfi3" path="res://assets/combat/enemies/bear/death/Death2.png" id="8_lioqc"]
+[ext_resource type="Texture2D" uid="uid://pudutlnbfbef" path="res://assets/combat/enemies/bear/death/Death3.png" id="9_0lg75"]
+[ext_resource type="Texture2D" uid="uid://dj2od1fjl24fy" path="res://assets/combat/enemies/bear/death/Death4.png" id="10_lsnsy"]
+[ext_resource type="Texture2D" uid="uid://bo8ws05egvp5p" path="res://assets/combat/enemies/bear/idle/Idle1.png" id="11_thsr5"]
+[ext_resource type="Texture2D" uid="uid://c7i6fl0nxd24u" path="res://assets/combat/enemies/bear/hurt/Hurt1.png" id="12_ekh6n"]
+[ext_resource type="Texture2D" uid="uid://c17s4654jquvm" path="res://assets/combat/enemies/bear/hurt/Hurt2.png" id="13_2sbpf"]
+[ext_resource type="Texture2D" uid="uid://crsc8sfgsx8eg" path="res://assets/combat/enemies/bear/idle/Idle2.png" id="14_78kod"]
+[ext_resource type="Texture2D" uid="uid://b203r412dackg" path="res://assets/combat/enemies/bear/idle/Idle3.png" id="15_605iw"]
+[ext_resource type="Texture2D" uid="uid://iynfdt8d1ex3" path="res://assets/combat/enemies/bear/walk/Walk1.png" id="16_x6q4o"]
+[ext_resource type="Texture2D" uid="uid://b3nohxq8jke1m" path="res://assets/combat/enemies/bear/walk/Walk2.png" id="17_2tuss"]
+[ext_resource type="Texture2D" uid="uid://bvnmgeryxajmu" path="res://assets/combat/enemies/bear/walk/Walk3.png" id="18_7v6cf"]
+[ext_resource type="Texture2D" uid="uid://wdiys57lmcnm" path="res://assets/combat/enemies/bear/walk/Walk4.png" id="19_vab5u"]
+[ext_resource type="Texture2D" uid="uid://bhdnu3qsi2t4s" path="res://assets/combat/enemies/bear/walk/Walk5.png" id="20_qiusc"]
+[ext_resource type="Texture2D" uid="uid://dack17wqj7ft0" path="res://assets/combat/ui/hp_bar_bg.png" id="21_5ie7m"]
+[ext_resource type="Texture2D" uid="uid://bv18ljwbg0itu" path="res://assets/combat/ui/hp_bar_border.png" id="22_ya47j"]
+[ext_resource type="Texture2D" uid="uid://y15fvyrchlwl" path="res://assets/combat/ui/hp_full.png" id="23_hyejq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j0dkt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_wjec0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_i4rgx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_2mchx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_t3vcr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_qaulx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_thsr5")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_1f82d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_lioqc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_0lg75")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_lsnsy")
+}],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_thsr5")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_ekh6n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_2sbpf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_thsr5")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_thsr5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_78kod")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_605iw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_thsr5")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_x6q4o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_2tuss")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_7v6cf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_vab5u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_qiusc")
+}],
+"loop": false,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Enemy" type="Node2D"]
+script = ExtResource("1_6awcb")
+
+[node name="EnemySprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_j0dkt")
+flip_h = true
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+offset_left = -9.0
+offset_top = -31.0
+offset_right = 118.0
+offset_bottom = 9.0
+scale = Vector2(0.398, 0.21)
+max_value = 1.0
+step = 0.05
+value = 1.0
+nine_patch_stretch = true
+texture_under = ExtResource("21_5ie7m")
+texture_over = ExtResource("22_ya47j")
+texture_progress = ExtResource("23_hyejq")
