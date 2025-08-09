@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcxoscy477k7t"]
+
+[ext_resource type="PackedScene" uid="uid://d11eesvpxlsk2" path="res://menus/menu_base.tscn" id="1_uosjy"]
+
+[node name="MenuCredits" instance=ExtResource("1_uosjy")]
+
+[node name="Label" parent="Modal/MarginContainer/VBoxContainer" index="0"]
+text = "Credits"
+
+[editable path="Modal"]

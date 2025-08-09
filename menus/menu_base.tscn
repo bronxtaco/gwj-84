@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://d11eesvpxlsk2"]
+
+[ext_resource type="PackedScene" uid="uid://diql6m3vls3sh" path="res://menus/modal.tscn" id="1_1wh8h"]
+[ext_resource type="Script" uid="uid://w6qtupmtmhqe" path="res://menus/menu_base.gd" id="1_mbj2q"]
+
+[node name="MenuBase" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_constants/margin_left = 125
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 125
+theme_override_constants/margin_bottom = 100
+script = ExtResource("1_mbj2q")
+
+[node name="Modal" parent="." instance=ExtResource("1_1wh8h")]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer" index="0"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Menu Title"
+horizontal_alignment = 1
+
+[editable path="Modal"]

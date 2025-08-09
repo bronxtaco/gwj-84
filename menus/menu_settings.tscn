@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccpq3kfcw3u8d"]
+
+[ext_resource type="PackedScene" uid="uid://d11eesvpxlsk2" path="res://menus/menu_base.tscn" id="1_wpfnj"]
+[ext_resource type="Script" uid="uid://drsh2qiuoo76i" path="res://menus/menu_settings.gd" id="2_1u13v"]
+
+[node name="MenuSettings" instance=ExtResource("1_wpfnj")]
+script = ExtResource("2_1u13v")
+
+[node name="Label" parent="Modal/MarginContainer/VBoxContainer" index="0"]
+text = "Settings"
+
+[editable path="Modal"]

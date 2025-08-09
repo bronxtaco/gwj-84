@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://diql6m3vls3sh"]
+
+[ext_resource type="PackedScene" uid="uid://ccycekeb7blqm" path="res://menus/menu_background.tscn" id="1_puysy"]
+
+[node name="Modal" type="MarginContainer"]
+offset_right = 24.0
+offset_bottom = 24.0
+
+[node name="MenuBackground" parent="." instance=ExtResource("1_puysy")]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12

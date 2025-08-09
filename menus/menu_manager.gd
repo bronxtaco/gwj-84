@@ -2,9 +2,9 @@ class_name MenuManager
 extends Node2D
 
 @onready var menus := {
-	#Global.MENU_TYPE.PAUSE: preload("res://menus/pause_menu.tscn"),
-	#Global.MENU_TYPE.SETTINGS: preload("res://menus/settings_menu.tscn"),
-	#Global.MENU_TYPE.CREDITS: preload("res://menus/credits_menu.tscn"),
+	Global.MENU_TYPE.PAUSE: preload("res://menus/menu_pause.tscn"),
+	Global.MENU_TYPE.SETTINGS: preload("res://menus/menu_settings.tscn"),
+	Global.MENU_TYPE.CREDITS: preload("res://menus/menu_credits.tscn"),
 }
 
 # ColorRect used for fading behind menus
@@ -31,8 +31,8 @@ func _on_menu_push(menu_type: Global.MENU_TYPE, data: Dictionary = {}):
 	menu.process_mode = PROCESS_MODE_DISABLED
 	menu.setup_menu(data)
 	add_child(menu)
-	menu.global_position = Vector2(0, 180)
-	menu.set_deferred("size", Vector2(320, 180))
+	menu.global_position = Vector2(0, 300)
+	menu.set_deferred("size", Vector2(400, 300))
 
 	if menu_stack.is_empty():
 		if menu.pause_game:
@@ -96,8 +96,8 @@ func _on_menu_pop_all():
 func tween_in_menu(menu) -> Tween:
 	var tween = create_tween()
 	tween.set_parallel()
-	tween.tween_property(fade_rect, "color:a", 0.8, 0.2)
-	tween.tween_property(menu, "global_position", Vector2(menu.global_position.x, 0), 0.25).set_trans(Tween.TRANS_BACK)
+	tween.tween_property(fade_rect, "color:a", 0.8, 0.3)
+	tween.tween_property(menu, "global_position", Vector2(menu.global_position.x, 0), 0.25).set_trans(Tween.TRANS_QUAD)
 	return tween
 
 
@@ -105,6 +105,6 @@ func tween_out_menu(menu) -> Tween:
 	var tween = create_tween()
 	tween.set_parallel()
 	if menu_stack.is_empty():
-		tween.tween_property(fade_rect, "color:a", 0, 0.2)
-	tween.tween_property(menu, "global_position", Vector2(menu.global_position.x, 180), 0.0).set_trans(Tween.TRANS_BACK) 
+		tween.tween_property(fade_rect, "color:a", 0, 0.3)
+	tween.tween_property(menu, "global_position", Vector2(menu.global_position.x, 300), 0.25).set_trans(Tween.TRANS_QUAD) 
 	return tween
