@@ -28,12 +28,10 @@ func _process(delta: float):
 
 func start_pre_attack(preAttackTimeTotal: float):
 	preAttackTimeLeft = preAttackTimeTotal
-	Events.emit_signal("enter_enemy_pre_attack")
 
 func start_attack():
 	isAttacking = true
 	AnimatedSprite.play("attack")
-	Events.emit_signal("enter_enemy_attack")
 
 func apply_damage(damageValue: int):
 	if isDead: return

@@ -16,18 +16,17 @@ enum CombatState {
 }
 var combatState : CombatState = CombatState.Uninitialized
 
-var nextHeroAttackDamage : int = attackDamageDefault
 var nextEnemyAttackDamage : int = attackDamageDefault
 
 func reset():
 	setState(CombatState.HeroPreAttack)
-	nextHeroAttackDamage = attackDamageDefault # TODO: damageAmountDefault will like become randomized in a range 
 	nextEnemyAttackDamage = attackDamageDefault
 
 func _ready():
-	Events.connect("apply_damage_to_enemy", Callable(self, "_on_apply_damage_to_enemy"))
-	Events.connect("apply_damage_to_hero", Callable(self, "_on_apply_damage_to_hero"))
+	Events.apply_damage_to_enemy.connect(_on_apply_damage_to_enemy)
+	Events.apply_damage_to_hero.connect(_on_apply_damage_to_hero)
 	
+	set_random_background()
 	reset()
 
 func _process(delta: float):
@@ -43,8 +42,12 @@ func _process(delta: float):
 	elif combatState == CombatState.EnemyAttack:
 		if !Enemy.is_attacking():
 			setState(CombatState.HeroPreAttack)
-	
-	debug_combat_state()
+
+
+func set_random_background():
+	var randomBackgroudPath = "res://assets/combat/backgrounds/game_background_%d.png" % (randi() % 8 + 1)
+	%RandomBackground.texture = load(randomBackgroudPath)
+
 
 func setState(newState: CombatState):
 	if newState == combatState: return
@@ -52,12 +55,17 @@ func setState(newState: CombatState):
 	match(newState):
 		CombatState.HeroPreAttack:
 			Hero.start_pre_attack(preAttackTimeTotal)
-			DebugDamageText.text = "Upcoming Hero Damage %d" % nextHeroAttackDamage
 		CombatState.HeroAttack:
 			Hero.start_attack()
+			# debug crit boosts for testing, these will be fired off from the actual game bit when the player makes progress
+			var crit = func(_amount):
+				Events.hero_crit_boost.emit(_amount)
+			create_tween().tween_callback(crit.bind(5)).set_delay(3.0)
+			create_tween().tween_callback(crit.bind(15)).set_delay(6.0)
+			create_tween().tween_callback(crit.bind(25)).set_delay(9.0)
+		
 		CombatState.EnemyPreAttack:
 			Enemy.start_pre_attack(preAttackTimeTotal)
-			DebugDamageText.text = "Upcoming Enemy Damage %d" % nextEnemyAttackDamage
 		CombatState.EnemyAttack:
 			Enemy.start_attack()
 	
@@ -70,28 +78,8 @@ func hero_attack_enemy(damageAmount: int):
 func enemy_attack_hero(damageAmount: int):
 	Enemy.apply_damage(damageAmount)
 
-func _on_apply_damage_to_enemy():
-	Enemy.apply_damage(nextHeroAttackDamage)
+func _on_apply_damage_to_enemy(amount: int):
+	Enemy.apply_damage(amount)
 	
 func _on_apply_damage_to_hero():
 	Enemy.apply_damage(nextEnemyAttackDamage)
-
-
-# debug code down here
- # TODO: only for testing. Remove eventually? 
-@onready var DebugDamageText = $DebugDamageText
-@onready var DebugPreAttackProgress = $DebugPreAttackProgress
-
-
-func debug_combat_state():
-	match(combatState):
-		CombatState.HeroPreAttack:
-			DebugDamageText.text = "Upcoming Hero Damage %d" % nextHeroAttackDamage
-			DebugPreAttackProgress.value = Hero.preAttackTimeLeft / preAttackTimeTotal
-		CombatState.HeroAttack:
-			DebugPreAttackProgress.value = 1.0
-		CombatState.EnemyPreAttack:
-			DebugDamageText.text = "Upcoming Enemy Damage %d" % nextEnemyAttackDamage
-			DebugPreAttackProgress.value = Enemy.preAttackTimeLeft / preAttackTimeTotal
-		CombatState.EnemyAttack:
-			DebugPreAttackProgress.value = 1.0

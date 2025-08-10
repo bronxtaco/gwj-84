@@ -32,7 +32,7 @@ func _on_menu_push(menu_type: Global.MENU_TYPE, data: Dictionary = {}):
 	menu.setup_menu(data)
 	add_child(menu)
 	menu.global_position = Vector2(0, 300)
-	menu.set_deferred("size", Vector2(400, 300))
+	menu.set_deferred("size", DisplayServer.window_get_size())
 
 	if menu_stack.is_empty():
 		if menu.pause_game:

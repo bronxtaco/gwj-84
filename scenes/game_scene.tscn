@@ -1,71 +1,50 @@
-[gd_scene load_steps=10 format=3 uid="uid://rfrwfhqcpe6c"]
+[gd_scene load_steps=6 format=3 uid="uid://rfrwfhqcpe6c"]
 
-[ext_resource type="Texture2D" uid="uid://cpd3krtygkj57" path="res://assets/combat/backgrounds/forest_1/bg.png" id="1_b5spy"]
 [ext_resource type="Script" uid="uid://chbdkngrr08m7" path="res://scenes/combat.gd" id="1_utbpp"]
-[ext_resource type="Texture2D" uid="uid://ctrg1qmf0l1xv" path="res://assets/combat/backgrounds/forest_1/trees3.png" id="2_utbpp"]
-[ext_resource type="Texture2D" uid="uid://1o0hvmql64va" path="res://assets/combat/backgrounds/forest_1/trees2.png" id="3_mw25s"]
-[ext_resource type="Texture2D" uid="uid://diw7p6s5sqm7x" path="res://assets/combat/backgrounds/forest_1/trees1.png" id="4_tcjrq"]
-[ext_resource type="Texture2D" uid="uid://d13skjhv6natm" path="res://assets/combat/backgrounds/forest_1/bushes.png" id="5_rvs2r"]
-[ext_resource type="Texture2D" uid="uid://dgmex3wskn7po" path="res://assets/combat/backgrounds/forest_1/grass.png" id="6_tqxxy"]
+[ext_resource type="Texture2D" uid="uid://mgdy1uyfl6i6" path="res://assets/combat/backgrounds/game_background_1.png" id="2_mw25s"]
 [ext_resource type="PackedScene" uid="uid://c8ky2qrq0buds" path="res://scenes/hero.tscn" id="8_utbpp"]
 [ext_resource type="PackedScene" uid="uid://j4p6hrpy0tw6" path="res://scenes/enemy.tscn" id="9_mw25s"]
+[ext_resource type="Texture2D" uid="uid://drkym8j6v6cd1" path="res://assets/combat/ui/ui-frame.png" id="11_tcjrq"]
 
 [node name="GameScene" type="Node2D"]
 
-[node name="Node2D" type="Node2D" parent="."]
-position = Vector2(0, 150)
-scale = Vector2(1, 1.16)
+[node name="Node2D" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 800.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="Node2D"]
-offset_right = 40.0
-offset_bottom = 40.0
-scale = Vector2(10.1119, 3.6968)
-color = Color(0.162066, 0.162066, 0.162066, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.286975, 0.158336, 0.0544555, 1)
 
 [node name="Combat" type="Node2D" parent="."]
-position = Vector2(200, 39)
 script = ExtResource("1_utbpp")
 
-[node name="Background" type="Node2D" parent="Combat"]
+[node name="RandomBackground" type="Sprite2D" parent="Combat"]
+unique_name_in_owner = true
+position = Vector2(-3, -5.84126e-06)
 scale = Vector2(0.21, 0.21)
-
-[node name="Sky" type="Sprite2D" parent="Combat/Background"]
-texture = ExtResource("1_b5spy")
-
-[node name="BackTrees" type="Sprite2D" parent="Combat/Background"]
-texture = ExtResource("2_utbpp")
-
-[node name="MidTrees" type="Sprite2D" parent="Combat/Background"]
-texture = ExtResource("3_mw25s")
-
-[node name="CloseTrees" type="Sprite2D" parent="Combat/Background"]
-texture = ExtResource("4_tcjrq")
-
-[node name="Bushes" type="Sprite2D" parent="Combat/Background"]
-texture = ExtResource("5_rvs2r")
-
-[node name="Grass" type="Sprite2D" parent="Combat/Background"]
-texture = ExtResource("6_tqxxy")
+texture = ExtResource("2_mw25s")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 188.158, 3840, 1224.99)
 
 [node name="Hero" parent="Combat" instance=ExtResource("8_utbpp")]
-position = Vector2(-65, 48)
+position = Vector2(127, 164)
 
 [node name="Enemy" parent="Combat" instance=ExtResource("9_mw25s")]
-position = Vector2(89, 45)
+position = Vector2(680, 162)
 
-[node name="DebugDamageText" type="Label" parent="Combat"]
-offset_left = -77.0
-offset_top = 136.0
-offset_right = 87.0
-offset_bottom = 159.0
-scale = Vector2(1, 1.01277)
-text = "Upcoming Damage: 0"
-
-[node name="DebugPreAttackProgress" type="ProgressBar" parent="Combat"]
-offset_left = -87.0
-offset_top = 122.0
-offset_right = 92.0
-offset_bottom = 135.0
-scale = Vector2(1.04, 1)
-max_value = 1.0
-show_percentage = false
+[node name="UiFrame" type="Sprite2D" parent="."]
+texture = ExtResource("11_tcjrq")
+centered = false

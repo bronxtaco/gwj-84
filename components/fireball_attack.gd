@@ -1,0 +1,29 @@
+extends Path2D
+
+var damage: int = 10:
+	set(_damage):
+		damage = _damage
+		%DamageText.text = str(damage)
+		
+
+func _ready() -> void:
+	Events.hero_crit_boost.connect(_on_hero_crit_boost)
+	
+	%DamageText.text = str(damage)
+
+
+func reset_damage():
+	damage = 10
+
+func _on_hero_crit_boost(boost_amount: int) -> void:
+	damage += boost_amount
+	var boost_text = %DamageText.duplicate()
+	boost_text.text = "+%d" % boost_amount
+	boost_text.add_theme_font_size_override("font_size", 12)
+	%DamageText.get_parent().add_child(boost_text)
+	var tween = create_tween()
+	tween.tween_property(boost_text, "position:y", boost_text.position.y - 20, 0.3)
+	tween.set_parallel(true).tween_property(boost_text, "modulate:a", 0.0, 0.3)
+	await tween.finished
+	boost_text.queue_free()
+	

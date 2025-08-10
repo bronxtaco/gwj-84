@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://8hc8w0lxm0f2"]
+
+[ext_resource type="Texture2D" uid="uid://ct36yetba0h1k" path="res://assets/combat/hero/attack/fire5.png" id="1_j2drl"]
+[ext_resource type="Script" uid="uid://ild780hfbee1" path="res://components/fireball_attack.gd" id="1_s1opf"]
+
+[sub_resource type="Curve2D" id="Curve2D_54d4v"]
+_data = {
+"points": PackedVector2Array(-272.321, 232.583, 272.321, -232.583, 25, 10, 0, 0, 0, 0, 522, 10)
+}
+point_count = 2
+
+[node name="FireballAttack" type="Path2D"]
+z_index = 10
+curve = SubResource("Curve2D_54d4v")
+script = ExtResource("1_s1opf")
+
+[node name="FireballPath" type="PathFollow2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(25, 10)
+rotation = -0.706856
+loop = false
+
+[node name="Fireball" type="Sprite2D" parent="FireballPath"]
+unique_name_in_owner = true
+rotation = -0.801106
+texture = ExtResource("1_j2drl")
+
+[node name="DamageTextPath" type="PathFollow2D" parent="."]
+position = Vector2(25, 10)
+rotates = false
+loop = false
+
+[node name="DamageText" type="Label" parent="DamageTextPath"]
+unique_name_in_owner = true
+offset_left = -12.0
+offset_top = -41.0
+offset_right = 28.0
+offset_bottom = -18.0
+theme_override_colors/font_outline_color = Color(0.369777, 0.139618, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 16
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1

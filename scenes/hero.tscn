@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://c8ky2qrq0buds"]
+[gd_scene load_steps=49 format=3 uid="uid://c8ky2qrq0buds"]
 
 [ext_resource type="Script" uid="uid://d08wrm06fpjwd" path="res://scenes/hero.gd" id="1_6xrt3"]
 [ext_resource type="Texture2D" uid="uid://dyj58vbv7gr40" path="res://assets/combat/hero/attack/attack1.png" id="2_54d4v"]
@@ -46,15 +46,7 @@
 [ext_resource type="Texture2D" uid="uid://dack17wqj7ft0" path="res://assets/combat/ui/hp_bar_bg.png" id="44_5r5he"]
 [ext_resource type="Texture2D" uid="uid://bv18ljwbg0itu" path="res://assets/combat/ui/hp_bar_border.png" id="45_cuxdf"]
 [ext_resource type="Texture2D" uid="uid://y15fvyrchlwl" path="res://assets/combat/ui/hp_full.png" id="46_5wdp5"]
-[ext_resource type="Texture2D" uid="uid://dwhvy542q6emo" path="res://assets/combat/hero/attack/fire1.png" id="47_jjdmo"]
-[ext_resource type="Texture2D" uid="uid://bx1djqwych2dg" path="res://assets/combat/hero/attack/fire2.png" id="48_ffar2"]
-[ext_resource type="Texture2D" uid="uid://b6joapa2j7gxn" path="res://assets/combat/hero/attack/fire3.png" id="49_t0jj8"]
-[ext_resource type="Texture2D" uid="uid://chhs8rkdhgboo" path="res://assets/combat/hero/attack/fire4.png" id="50_bjjcb"]
-[ext_resource type="Texture2D" uid="uid://ct36yetba0h1k" path="res://assets/combat/hero/attack/fire5.png" id="51_1ktsb"]
-[ext_resource type="Texture2D" uid="uid://4lnoa3n7ww2x" path="res://assets/combat/hero/attack/fire6.png" id="52_5gu81"]
-[ext_resource type="Texture2D" uid="uid://cpf2aboqlxrsl" path="res://assets/combat/hero/attack/fire7.png" id="53_ps45g"]
-[ext_resource type="Texture2D" uid="uid://vlsiwhov4300" path="res://assets/combat/hero/attack/fire8.png" id="54_fbll3"]
-[ext_resource type="Texture2D" uid="uid://bryqp6shmuxo4" path="res://assets/combat/hero/attack/fire9.png" id="55_aw3ld"]
+[ext_resource type="PackedScene" uid="uid://8hc8w0lxm0f2" path="res://components/fireball_attack.tscn" id="47_54d4v"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vfeu3"]
 animations = [{
@@ -227,57 +219,20 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_pfjxo"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": null
-}, {
-"duration": 1.0,
-"texture": ExtResource("47_jjdmo")
-}, {
-"duration": 1.0,
-"texture": ExtResource("48_ffar2")
-}, {
-"duration": 1.0,
-"texture": ExtResource("49_t0jj8")
-}, {
-"duration": 1.0,
-"texture": ExtResource("50_bjjcb")
-}, {
-"duration": 1.0,
-"texture": ExtResource("51_1ktsb")
-}, {
-"duration": 1.0,
-"texture": ExtResource("52_5gu81")
-}, {
-"duration": 1.0,
-"texture": ExtResource("53_ps45g")
-}, {
-"duration": 1.0,
-"texture": ExtResource("54_fbll3")
-}, {
-"duration": 1.0,
-"texture": ExtResource("55_aw3ld")
-}],
-"loop": false,
-"name": &"default",
-"speed": 5.0
-}]
-
 [node name="Hero" type="Node2D"]
 script = ExtResource("1_6xrt3")
 
 [node name="HeroSprite" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_vfeu3")
 animation = &"attack_1"
 
 [node name="HealthBar" type="TextureProgressBar" parent="."]
-offset_left = -46.0
-offset_top = -35.0
-offset_right = 81.0
-offset_bottom = 5.0
-scale = Vector2(0.398, 0.21)
+offset_left = -74.0
+offset_top = -40.0
+offset_right = 6.0
+offset_bottom = -20.0
 max_value = 1.0
 step = 0.05
 value = 1.0
@@ -286,8 +241,9 @@ texture_under = ExtResource("44_5r5he")
 texture_over = ExtResource("45_cuxdf")
 texture_progress = ExtResource("46_5wdp5")
 
-[node name="FireBallOrigin" type="Node2D" parent="."]
-position = Vector2(30, 8)
+[node name="FireballAttack" parent="." instance=ExtResource("47_54d4v")]
+unique_name_in_owner = true
+visible = false
+position = Vector2(20, 0)
 
-[node name="FireBall" type="AnimatedSprite2D" parent="FireBallOrigin"]
-sprite_frames = SubResource("SpriteFrames_pfjxo")
+[connection signal="animation_finished" from="HeroSprite" to="." method="_on_hero_sprite_animation_finished"]

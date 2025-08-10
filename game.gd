@@ -2,6 +2,9 @@ extends Node2D
 
 func _ready() -> void:
 	Events.change_scene.connect(on_change_scene)
+	
+	DisplayServer.window_set_size(Vector2i(1600, 1200))
+	get_window().move_to_center()
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
