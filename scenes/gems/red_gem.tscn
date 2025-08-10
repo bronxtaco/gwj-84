@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://pdm0frsbbyh4"]
+
+[ext_resource type="Script" uid="uid://bb07vhwvqenvm" path="res://scenes/gems/gem.gd" id="1_ake40"]
+[ext_resource type="Texture2D" uid="uid://yrt485iejuqj" path="res://assets/critterGame/red_gem.png" id="2_ake40"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5xxwx"]
+radius = 11.0454
+
+[node name="Gem" type="RigidBody2D"]
+script = ExtResource("1_ake40")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ake40")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_5xxwx")

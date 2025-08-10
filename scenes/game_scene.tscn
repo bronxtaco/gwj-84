@@ -1,10 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://rfrwfhqcpe6c"]
+[gd_scene load_steps=13 format=3 uid="uid://rfrwfhqcpe6c"]
 
 [ext_resource type="Script" uid="uid://chbdkngrr08m7" path="res://scenes/combat.gd" id="1_utbpp"]
 [ext_resource type="Texture2D" uid="uid://mgdy1uyfl6i6" path="res://assets/combat/backgrounds/game_background_1.png" id="2_mw25s"]
+[ext_resource type="Script" uid="uid://c4fdc82p08sxj" path="res://scenes/critter_game.gd" id="5_tcjrq"]
+[ext_resource type="PackedScene" uid="uid://cwxf3ipevjip" path="res://scenes/gems/blue_gem.tscn" id="6_utbpp"]
+[ext_resource type="PackedScene" uid="uid://bwbix4ltm861q" path="res://scenes/critter.tscn" id="7_b5spy"]
 [ext_resource type="PackedScene" uid="uid://c8ky2qrq0buds" path="res://scenes/hero.tscn" id="8_utbpp"]
 [ext_resource type="PackedScene" uid="uid://j4p6hrpy0tw6" path="res://scenes/enemy.tscn" id="9_mw25s"]
+[ext_resource type="Texture2D" uid="uid://ni1gr827ywb3" path="res://assets/critterGame/goal.png" id="9_tcjrq"]
 [ext_resource type="Texture2D" uid="uid://drkym8j6v6cd1" path="res://assets/combat/ui/ui-frame.png" id="11_tcjrq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b5spy"]
+size = Vector2(22, 346)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_utbpp"]
+size = Vector2(804, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rvs2r"]
+radius = 29.0172
 
 [node name="GameScene" type="Node2D"]
 
@@ -45,6 +58,45 @@ position = Vector2(127, 164)
 [node name="Enemy" parent="Combat" instance=ExtResource("9_mw25s")]
 position = Vector2(680, 162)
 
+[node name="CritterGame" type="Node2D" parent="."]
+script = ExtResource("5_tcjrq")
+gemScenes = Array[PackedScene]([ExtResource("6_utbpp")])
+
+[node name="Critter" parent="CritterGame" instance=ExtResource("7_b5spy")]
+position = Vector2(247, 450)
+
+[node name="Arena" type="StaticBody2D" parent="CritterGame"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CritterGame/Arena"]
+position = Vector2(8, 424)
+shape = SubResource("RectangleShape2D_b5spy")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="CritterGame/Arena"]
+position = Vector2(794, 424)
+shape = SubResource("RectangleShape2D_b5spy")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="CritterGame/Arena"]
+position = Vector2(399, 593)
+shape = SubResource("RectangleShape2D_utbpp")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="CritterGame/Arena"]
+position = Vector2(399, 257)
+shape = SubResource("RectangleShape2D_utbpp")
+
+[node name="SpawnedGems" type="Node2D" parent="CritterGame"]
+unique_name_in_owner = true
+
+[node name="Goal" type="Area2D" parent="CritterGame"]
+position = Vector2(389, 301)
+
+[node name="Sprite2D" type="Sprite2D" parent="CritterGame/Goal"]
+texture = ExtResource("9_tcjrq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CritterGame/Goal"]
+shape = SubResource("CircleShape2D_rvs2r")
+
 [node name="UiFrame" type="Sprite2D" parent="."]
 texture = ExtResource("11_tcjrq")
 centered = false
+
+[connection signal="body_entered" from="CritterGame/Goal" to="CritterGame" method="_on_goal_body_entered"]

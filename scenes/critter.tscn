@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3 uid="uid://bwbix4ltm861q"]
+
+[ext_resource type="Script" uid="uid://bnn7k8mua5vul" path="res://scenes/critter.gd" id="1_oeans"]
+[ext_resource type="Texture2D" uid="uid://dcbm5was4qtnh" path="res://assets/critterGame/roly_poly-Sheet.png" id="2_qlvc6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oeans"]
+atlas = ExtResource("2_qlvc6")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_utbpp"]
+atlas = ExtResource("2_qlvc6")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mw25s"]
+atlas = ExtResource("2_qlvc6")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tcjrq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oeans")
+}],
+"loop": true,
+"name": &"charge",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_utbpp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mw25s")
+}],
+"loop": true,
+"name": &"roll",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oeans"]
+radius = 17.0
+
+[node name="Critter" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_oeans")
+
+[node name="CritterSprite" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_tcjrq")
+animation = &"charge"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 14)
+shape = SubResource("CircleShape2D_oeans")
