@@ -82,4 +82,7 @@ func _physics_process(delta):
 				print("critter hit gem")
 			rollTime = 0.0 # stop rolling every time you collide
 	
+	var dir_scale = sign(velocity.x)
+	if dir_scale != 0:
+		$CritterSprite.scale.x = dir_scale
 	lastInputDirection = inputDirection
