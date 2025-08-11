@@ -43,7 +43,7 @@ color = Color(0.286975, 0.158336, 0.0544555, 1)
 [node name="Combat" type="Node2D" parent="."]
 script = ExtResource("1_utbpp")
 
-[node name="RandomBackground" type="Sprite2D" parent="Combat"]
+[node name="Background" type="Sprite2D" parent="Combat"]
 unique_name_in_owner = true
 position = Vector2(-3, -5.84126e-06)
 scale = Vector2(0.21, 0.21)

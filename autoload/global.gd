@@ -7,3 +7,5 @@ enum MENU_TYPE {
 }
 
 var paused = false
+
+var current_level := 1
