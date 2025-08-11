@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=4 uid="uid://c5fygb6iji4bt"]
+[gd_scene load_steps=9 format=4 uid="uid://c5fygb6iji4bt"]
 
 [ext_resource type="TileSet" uid="uid://dgol3qg2wql5q" path="res://scenes/overworld.tres" id="1_m1b5j"]
 [ext_resource type="Script" uid="uid://c8uupytpu72uo" path="res://scenes/overworld.gd" id="1_u2ss0"]
@@ -15,6 +15,24 @@ _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 153, 472, 0, 0, 0, 0, 215, 472, 0, 0, 0, 0, 215, 423, 0, 0, 0, 0, 265, 423, 0, 0, 0, 0, 265, 391, 0, 0, 0, 0, 279, 391, 0, 0, 0, 0, 279, 344)
 }
 point_count = 7
+
+[sub_resource type="Curve2D" id="Curve2D_356oe"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 279, 345, 0, 0, 0, 0, 279, 375, 0, 0, 0, 0, 311, 375, 0, 0, 0, 0, 311, 360, 0, 0, 0, 0, 503, 360, 0, 0, 0, 0, 504, 343, 0, 0, 0, 0, 518, 343)
+}
+point_count = 7
+
+[sub_resource type="Curve2D" id="Curve2D_3gvrs"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 518, 343, 0, 0, 0, 0, 503, 343, 0, 0, 0, 0, 503, 328, 0, 0, 0, 0, 392, 328, 0, 0, 0, 0, 324, 233, 0, 0, 0, 0, 231, 262.5, 0, 0, 0, 0, 167.5, 262.5, 0, 0, 0, 0, 118.5, 212.5, 0, 0, 0, 0, 118.5, 152.5, 0, 0, 0, 0, 130.5, 121)
+}
+point_count = 10
+
+[sub_resource type="Curve2D" id="Curve2D_eab5i"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 130.5, 121, 0, 0, 0, 0, 154.5, 121, 0, 0, 0, 0, 201, 148, 0, 0, 0, 0, 282, 167.5, 0, 0, 0, 0, 391, 167, 0, 0, 0, 0, 391, 142.5)
+}
+point_count = 6
 
 [node name="Overworld" type="Node2D"]
 scale = Vector2(2, 2)
@@ -50,6 +68,30 @@ curve = SubResource("Curve2D_u2ss0")
 [node name="LevelPath02" type="PathFollow2D" parent="Path2D2"]
 unique_name_in_owner = true
 position = Vector2(153, 472)
+rotates = false
+
+[node name="Path2D3" type="Path2D" parent="."]
+curve = SubResource("Curve2D_356oe")
+
+[node name="LevelPath03" type="PathFollow2D" parent="Path2D3"]
+unique_name_in_owner = true
+position = Vector2(279, 345)
+rotates = false
+
+[node name="Path2D4" type="Path2D" parent="."]
+curve = SubResource("Curve2D_3gvrs")
+
+[node name="LevelPath04" type="PathFollow2D" parent="Path2D4"]
+unique_name_in_owner = true
+position = Vector2(518, 343)
+rotates = false
+
+[node name="Path2D5" type="Path2D" parent="."]
+curve = SubResource("Curve2D_eab5i")
+
+[node name="LevelPath05" type="PathFollow2D" parent="Path2D5"]
+unique_name_in_owner = true
+position = Vector2(130.5, 121)
 rotates = false
 
 [node name="PathChildren" type="Node2D" parent="."]

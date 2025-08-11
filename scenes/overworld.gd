@@ -9,6 +9,9 @@ func _ready() -> void:
 	var level_path_map = {
 		1: %LevelPath01,
 		2: %LevelPath02,
+		3: %LevelPath03,
+		4: %LevelPath04,
+		5: %LevelPath05,
 	}
 	active_path = level_path_map[Global.current_level]
 	for child in $PathChildren.get_children():
