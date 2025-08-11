@@ -31,8 +31,8 @@ func _on_menu_push(menu_type: Global.MENU_TYPE, data: Dictionary = {}):
 	menu.process_mode = PROCESS_MODE_DISABLED
 	menu.setup_menu(data)
 	add_child(menu)
-	menu.global_position = Vector2(0, 300)
-	menu.set_deferred("size", DisplayServer.window_get_size())
+	menu.global_position = Vector2(0, get_viewport().get_visible_rect().size.y)
+	menu.set_deferred("size", get_viewport().get_visible_rect().size)
 
 	if menu_stack.is_empty():
 		if menu.pause_game:
@@ -106,5 +106,5 @@ func tween_out_menu(menu) -> Tween:
 	tween.set_parallel()
 	if menu_stack.is_empty():
 		tween.tween_property(fade_rect, "color:a", 0, 0.3)
-	tween.tween_property(menu, "global_position", Vector2(menu.global_position.x, 300), 0.25).set_trans(Tween.TRANS_QUAD) 
+	tween.tween_property(menu, "global_position", Vector2(menu.global_position.x, get_viewport().get_visible_rect().size.y), 0.25).set_trans(Tween.TRANS_QUAD) 
 	return tween
