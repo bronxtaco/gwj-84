@@ -25,7 +25,7 @@ func _physics_process(delta):
 		rollTime -= delta
 		if rollTime <= 0:
 			state = State.Idle
-			%CritterSprite.play("default")
+			%CritterSprite.play("walkRight")
 	elif state == State.Charging:
 		chargeTime += delta;
 		if chargeTime >= maxChargeTime || !Input.is_action_pressed("ballCharge"):
@@ -58,9 +58,10 @@ func _physics_process(delta):
 	
 	# free movement in idle
 	if state == State.Idle:
-		var moveSpeed = 200.0
+		var moveSpeed = 8000.0
 		var moveDelta = inputDirection * moveSpeed * delta;
-		move_and_collide(moveDelta)
+		velocity = moveDelta
+		move_and_slide()
 	elif state == State.Rolling:
 		# Add a small influence from input into the rolling.
 		# isolate our inputDirection just into the lateral components, from the roll direction POV 

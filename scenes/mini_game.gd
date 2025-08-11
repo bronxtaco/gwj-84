@@ -49,7 +49,9 @@ func spawn_gem():
 func _on_goal_body_entered(body: Node2D) -> void:
 	if body is RigidBody2D:
 		var gem = body as RigidBody2D
-		#TODO: add to damage here
+		#TODO: gem rules go here. Combine with the current goal color? 
 		print("Gem entered goal!")
+		var fixedDamageIncrease = 20 # TODO: replace with actual game rules 
+		Events.hero_crit_boost.emit(fixedDamageIncrease)
 		gem.queue_free()
 		
