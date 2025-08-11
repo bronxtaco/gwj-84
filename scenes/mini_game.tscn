@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://bmmj4lxj88iwg"]
+
+[ext_resource type="Script" uid="uid://c4fdc82p08sxj" path="res://scenes/mini_game.gd" id="1_0gcsj"]
+[ext_resource type="PackedScene" uid="uid://cwxf3ipevjip" path="res://scenes/gem.tscn" id="2_3kuml"]
+[ext_resource type="Texture2D" uid="uid://04r3r48wqanq" path="res://assets/critterGame/arena.png" id="3_3kuml"]
+[ext_resource type="PackedScene" uid="uid://bwbix4ltm861q" path="res://scenes/critter.tscn" id="3_v2cs6"]
+[ext_resource type="Texture2D" uid="uid://ni1gr827ywb3" path="res://assets/critterGame/goal.png" id="4_burph"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rvs2r"]
+radius = 29.0172
+
+[node name="MiniGame" type="Node2D"]
+script = ExtResource("1_0gcsj")
+gemScene = ExtResource("2_3kuml")
+
+[node name="Arena" type="StaticBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Arena"]
+position = Vector2(405, 170)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("3_3kuml")
+
+[node name="ArenaPolygon" type="CollisionPolygon2D" parent="Arena"]
+unique_name_in_owner = true
+build_mode = 1
+polygon = PackedVector2Array(400, 25, 280, 35, 180, 75, 120, 145, 105, 225, 137, 289, 206, 332, 400, 345, 594, 332, 663, 289, 695, 225, 680, 145, 620, 75, 520, 35)
+
+[node name="Goal" type="Area2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(400, 52)
+
+[node name="Sprite2D" type="Sprite2D" parent="Goal"]
+texture = ExtResource("4_burph")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Goal"]
+shape = SubResource("CircleShape2D_rvs2r")
+
+[node name="SpawnedGems" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Critter" parent="." instance=ExtResource("3_v2cs6")]
+position = Vector2(273, 201)
+
+[connection signal="body_entered" from="Goal" to="." method="_on_goal_body_entered"]

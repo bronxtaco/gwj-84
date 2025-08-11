@@ -28,9 +28,6 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.286975, 0.158336, 0.0544555, 1)
 
-[node name="MiniGame" parent="." instance=ExtResource("5_rurhu")]
-position = Vector2(0, 242)
-
 [node name="Combat" type="Node2D" parent="."]
 script = ExtResource("1_utbpp")
 
@@ -48,6 +45,13 @@ position = Vector2(127, 164)
 
 [node name="Enemy" parent="Combat" instance=ExtResource("9_mw25s")]
 position = Vector2(680, 162)
+
+[node name="MiniGame" parent="." instance=ExtResource("5_rurhu")]
+position = Vector2(0, 242)
+maxSpawnedGems = 8
+gemSpawnTimeInterval = 2.0
+gemSpawnMinBounds = Vector2(50, 300)
+gemSpawnMaxBounds = Vector2(750, 575)
 
 [node name="UiFrame" type="Sprite2D" parent="."]
 texture = ExtResource("11_tcjrq")

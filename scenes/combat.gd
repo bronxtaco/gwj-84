@@ -43,7 +43,7 @@ func _ready():
 	set_level_background()
 	reset()
 
-func _process(delta: float):
+func _process(_delta: float):
 	if combatState == CombatState.HeroPreAttack:
 		if !Hero.in_pre_attack():
 			setState(CombatState.HeroAttack)

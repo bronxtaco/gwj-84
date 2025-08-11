@@ -26,3 +26,6 @@ func _process(delta: float) -> void:
 	active_path.progress_ratio = 1 - (remaining_time / CUTSCENE_TIME)
 	if remaining_time == 0:
 		Events.change_scene.emit(load("res://scenes/game_scene.tscn"))
+	
+	if Input.is_action_pressed("skip"):
+		remaining_time = 0

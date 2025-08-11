@@ -9,3 +9,11 @@ enum MENU_TYPE {
 var paused = false
 
 var current_level := 1
+
+
+enum GemType
+{
+	Blue = 0,
+	Orange,
+	Red
+}
