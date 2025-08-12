@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://g46v3455j5i2"
-path="res://.godot/imported/blue_gem.png-480b142bd310f5ab8bccf6b43f033d13.ctex"
+uid="uid://cvk2ldpl83kv2"
+path="res://.godot/imported/gem.png-708088a6b548f4a544012367c5ff2d44.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/critterGame/blue_gem.png"
-dest_files=["res://.godot/imported/blue_gem.png-480b142bd310f5ab8bccf6b43f033d13.ctex"]
+source_file="res://assets/critterGame/gem.png"
+dest_files=["res://.godot/imported/gem.png-708088a6b548f4a544012367c5ff2d44.ctex"]
 
 [params]
 

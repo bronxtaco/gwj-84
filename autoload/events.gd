@@ -16,3 +16,5 @@ signal hero_died
 signal enemy_died
 
 signal hero_crit_boost(amount: int)
+
+signal gems_collided(initialGemType: Global.GemType, gemA: RigidBody2D, gemB: RigidBody2D)

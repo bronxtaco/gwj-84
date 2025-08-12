@@ -14,6 +14,8 @@ var gemSpawnTimer = gemSpawnTimeInterval
 
 func _ready() -> void:
 	Events.fireball_exploded.connect(_on_fireball_exploded)
+	
+	Events.gems_collided.connect(_on_gems_collided)
 
 func _process(delta: float) -> void:
 	gemSpawnTimer -= delta
@@ -30,6 +32,11 @@ func clear_gems():
 	for gem in %SpawnedGems.get_children():
 		gem.queue_free()
 
+func spawn_gem_type(gemType: Global.GemType, position: Vector2):
+	var gem = gemScene.instantiate() as Node2D
+	gem.setup_gem(gemType, position)
+	%SpawnedGems.add_child(gem)
+
 func spawn_gem():
 	# find point to spawn gem
 	var spawnPos : Vector2
@@ -39,29 +46,45 @@ func spawn_gem():
 		var posY = randf_range(gemSpawnMinBounds.y, gemSpawnMaxBounds.y)
 		var randomPoint = Vector2(posX, posY)
 		
-		var inArena = Geometry2D.is_point_in_polygon( randomPoint, %ArenaPolygon.polygon )
+		var inArena = Geometry2D.is_point_in_polygon(randomPoint, %ArenaPolygon.polygon)
 		var inGoal = Geometry2D.is_point_in_circle(randomPoint, %Goal.position, goalExclusionRadius)	
 		if inArena && !inGoal:
 			spawnPos = randomPoint
 			foundPos = true
 	
 	# random gem type
-	var gemType = Global.GemType.values()[randi() % Global.GemType.size()]
 	
-	var gem = gemScene.instantiate() as Node2D
-	gem.setup_gem(gemType, spawnPos)
+	var highestSpawnableType = min(Global.GemType.DarkBlue + 1, Global.GemType.size())
 	
-	%SpawnedGems.add_child(gem)
+	var gemType = Global.GemType.values()[randi() % highestSpawnableType]
+	spawn_gem_type(gemType, spawnPos)
 
 func _on_goal_body_entered(body: Node2D) -> void:
-	if body is RigidBody2D:
-		var gem = body as RigidBody2D
-		#TODO: gem rules go here. Combine with the current goal color? 
-		print("Gem entered goal!")
-		var fixedDamageIncrease = 20 # TODO: replace with actual game rules 
-		Events.hero_crit_boost.emit(fixedDamageIncrease)
-		gem.queue_free()
-
+	var isRigidBody = body is RigidBody2D
+	if !isRigidBody: return 
+	
+	var rigidBody = body as RigidBody2D
+	var isGem = "gemType" in rigidBody
+	if !isGem: return
+	
+	var gem = rigidBody
+	Events.hero_crit_boost.emit(gem.gemDamage)
+	gem.queue_free()
 
 func _on_fireball_exploded():
 	clear_gems()
+
+func _on_gems_collided(initialGemType: Global.GemType, gemA: RigidBody2D, gemB: RigidBody2D):
+	if gemA.gemType != gemB.gemType:
+		return # if are not the same type, then do not upgrade there color
+	
+	var gemType = gemA.gemType
+	
+	if initialGemType != gemType:
+		# if gem type is different then initial type. Then we have likely already handled these two gems colliding this frame
+		return 
+	
+	var nextGemType = min(gemType + 1, Global.GemType.size() - 1)
+	gemA.setup_gem_type(nextGemType)
+	gemB.setup_gem_type(nextGemType)
+	

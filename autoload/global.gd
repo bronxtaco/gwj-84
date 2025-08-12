@@ -13,7 +13,12 @@ var current_level := 1
 
 enum GemType
 {
-	Blue = 0,
+	Green = 0,
+	LightBlue,
+	DarkBlue,
+	Purple,
+	Pink,
+	Red,
 	Orange,
-	Red
+	Gold
 }

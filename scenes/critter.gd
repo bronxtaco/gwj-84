@@ -4,6 +4,13 @@ extends CharacterBody2D
 @export var chargingMoveSpeed : float = 40.0
 @export var rollMoveSpeed : float = 300
 
+@export var maxChargeTime : float = 2.0
+@export var maxRollTime : float = 2.0
+
+# turn speed number is somewhat ambiguous. If I hold left or right of the current roll direction,
+# 	this value scales how much of that input is added to the roll direction
+@export var rollTurnSpeed : float = 2.0 
+
 enum State
 {
 	Idle = 0,
@@ -12,19 +19,11 @@ enum State
 }
 var state : State
 
-
-
 var chargeTime : float = 0.0
-var maxChargeTime : float = 2.0
-var chargeTimeToRollSpeedRatio : float = 10.0 # holding charge longer increases the speed by this multiplier
+var rollTime : float = 0.0
 
-
-var rollTime : float
-var rollDirection : Vector2
-
+var currentRollDirection : Vector2
 var lastInputDirection : Vector2
-
-
 
 func _physics_process(delta):
 
@@ -38,9 +37,8 @@ func _physics_process(delta):
 		if chargeTime >= maxChargeTime || !Input.is_action_pressed("ballCharge"):
 			# Start rolling if hit max charge or we let go of the input
 			state = State.Rolling
-			# rollSpeed = chargeTime * chargeTimeToRollSpeedRatio # TODO: not sure if I need this. do we want varying roll speeds?
 			rollTime = 2.0
-			rollDirection = lastInputDirection
+			currentRollDirection = lastInputDirection
 	elif state == State.Idle:
 		if Input.is_action_pressed("ballCharge"):
 			# start charging
@@ -61,14 +59,13 @@ func _physics_process(delta):
 	elif state == State.Rolling:
 		# Add a small influence from input into the rolling.
 		# isolate our inputDirection just into the lateral components, from the roll direction POV 
-		var inputOntoRollDir = inputDirection.dot(rollDirection) * rollDirection
+		var inputOntoRollDir = inputDirection.dot(currentRollDirection) * currentRollDirection
 		var inputLateral = inputDirection - inputOntoRollDir
 		
-		var lateralInfluence = 2.0
-		rollDirection += ( inputLateral * lateralInfluence * delta )
-		rollDirection = rollDirection.normalized()
+		currentRollDirection += ( inputLateral * rollTurnSpeed * delta )
+		currentRollDirection = currentRollDirection.normalized()
 		
-		var rollDelta = rollDirection * rollMoveSpeed * delta;
+		var rollDelta = currentRollDirection * rollMoveSpeed * delta;
 		
 		var collision : KinematicCollision2D = move_and_collide(rollDelta)
 		
@@ -80,8 +77,8 @@ func _physics_process(delta):
 				print("critter hit gem")
 			rollTime = 0.0 # stop rolling every time you collide
 	
-	# if we have any velocity, update are sprite direction and anim based of it
 	
+	# if we have any velocity, update are sprite direction and anim based of it
 	var hasVelocity = velocity.length_squared() > 0.0
 	if hasVelocity:
 		var nextAnim = %CritterSprite.animation
@@ -114,5 +111,6 @@ func _physics_process(delta):
 		if state == State.Idle:
 			%CritterSprite.pause()
 	
+	# store the last input direction that isn't zero. Used for roll direction if no input is exists
 	if inputDirection.length_squared() > 0:
 		lastInputDirection = inputDirection
