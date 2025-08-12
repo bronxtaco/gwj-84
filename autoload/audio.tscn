@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://b2waytaxnr4g3"]
+
+[ext_resource type="AudioStream" uid="uid://c8fx1ory5lqeo" path="res://assets/audio/music/overworld.ogg" id="1_rxn34"]
+[ext_resource type="Script" uid="uid://ccg8pewpq407h" path="res://autoload/audio.gd" id="1_uw2yb"]
+[ext_resource type="AudioStream" uid="uid://ctj403yam2tsx" path="res://assets/audio/music/battle_start.ogg" id="2_uw2yb"]
+[ext_resource type="AudioStream" uid="uid://ddfrupvhu4eyv" path="res://assets/audio/music/battle.ogg" id="3_0rit4"]
+
+[node name="Audio" type="Node2D"]
+script = ExtResource("1_uw2yb")
+
+[node name="Music" type="Node" parent="."]
+
+[node name="overworld" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = ExtResource("1_rxn34")
+bus = &"Music"
+
+[node name="battle_start" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = ExtResource("2_uw2yb")
+bus = &"Music"
+
+[node name="battle" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = ExtResource("3_0rit4")
+bus = &"Music"
+
+[connection signal="finished" from="Music/battle_start" to="." method="_on_battle_start_finished"]

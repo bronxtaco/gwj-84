@@ -59,6 +59,7 @@ func _process(_delta: float):
 	
 	if Input.is_action_just_pressed("debug_f6"):
 		Global.current_level += 1
+		Audio.play_overworld()
 		Events.change_scene.emit(load("res://scenes/overworld.tscn"))
 
 

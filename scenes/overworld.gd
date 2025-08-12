@@ -25,4 +25,5 @@ func _process(delta: float) -> void:
 	remaining_time = max(remaining_time - delta, 0)
 	active_path.progress_ratio = 1 - (remaining_time / CUTSCENE_TIME)
 	if remaining_time == 0 or Input.is_action_pressed("skip"):
+		Audio.play_battle()
 		Events.change_scene.emit(load("res://scenes/game_scene.tscn"))

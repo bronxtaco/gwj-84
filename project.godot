@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Global="*res://autoload/global.gd"
 Events="*res://autoload/events.gd"
+Audio="*res://autoload/audio.tscn"
 
 [display]
 
