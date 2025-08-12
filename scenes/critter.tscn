@@ -3,37 +3,29 @@
 [ext_resource type="Script" uid="uid://bnn7k8mua5vul" path="res://scenes/critter.gd" id="1_oeans"]
 [ext_resource type="Texture2D" uid="uid://b0xkxaqnamv7s" path="res://assets/critterGame/critter2.png" id="2_oeans"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qlvc6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fraou"]
 atlas = ExtResource("2_oeans")
 region = Rect2(0, 192, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_35jsl"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5mxoi"]
 atlas = ExtResource("2_oeans")
 region = Rect2(64, 192, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_uunrr"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ty1m"]
 atlas = ExtResource("2_oeans")
 region = Rect2(128, 192, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fraou"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxkvv"]
 atlas = ExtResource("2_oeans")
 region = Rect2(192, 192, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5mxoi"]
-atlas = ExtResource("2_oeans")
-region = Rect2(0, 128, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1ty1m"]
-atlas = ExtResource("2_oeans")
-region = Rect2(64, 128, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bxkvv"]
-atlas = ExtResource("2_oeans")
-region = Rect2(128, 128, 64, 64)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_ochpx"]
 atlas = ExtResource("2_oeans")
-region = Rect2(192, 128, 64, 64)
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yxevx"]
+atlas = ExtResource("2_oeans")
+region = Rect2(64, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mdefu"]
 atlas = ExtResource("2_oeans")
@@ -43,26 +35,20 @@ region = Rect2(0, 0, 64, 64)
 atlas = ExtResource("2_oeans")
 region = Rect2(64, 0, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_1q4pv"]
+atlas = ExtResource("2_oeans")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_14qqu"]
+atlas = ExtResource("2_oeans")
+region = Rect2(64, 128, 64, 64)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_tcjrq"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qlvc6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_35jsl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uunrr")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_fraou")
-}],
-"loop": true,
-"name": &"charge",
-"speed": 5.0
 }, {
-"frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5mxoi")
 }, {
@@ -71,12 +57,54 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bxkvv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ochpx")
 }],
 "loop": true,
-"name": &"roll",
+"name": &"rollDown",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fraou")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5mxoi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ty1m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxkvv")
+}],
+"loop": true,
+"name": &"rollLeftRight",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fraou")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5mxoi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ty1m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxkvv")
+}],
+"loop": true,
+"name": &"rollUp",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ochpx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yxevx")
+}],
+"loop": true,
+"name": &"walkDown",
 "speed": 5.0
 }, {
 "frames": [{
@@ -87,7 +115,18 @@ animations = [{
 "texture": SubResource("AtlasTexture_lfbcv")
 }],
 "loop": true,
-"name": &"walkRight",
+"name": &"walkLeftRight",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1q4pv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_14qqu")
+}],
+"loop": true,
+"name": &"walkUp",
 "speed": 5.0
 }]
 
@@ -100,9 +139,8 @@ script = ExtResource("1_oeans")
 
 [node name="CritterSprite" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(2, 0)
 sprite_frames = SubResource("SpriteFrames_tcjrq")
-animation = &"walkRight"
+animation = &"rollDown"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_oeans")

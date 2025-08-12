@@ -1,5 +1,9 @@
 extends CharacterBody2D
 
+@export var moveSpeed : float = 150.0
+@export var chargingMoveSpeed : float = 40.0
+@export var rollMoveSpeed : float = 300
+
 enum State
 {
 	Idle = 0,
@@ -8,15 +12,18 @@ enum State
 }
 var state : State
 
+
+
 var chargeTime : float = 0.0
 var maxChargeTime : float = 2.0
 var chargeTimeToRollSpeedRatio : float = 10.0 # holding charge longer increases the speed by this multiplier
 
-var rollSpeed : float = 200
+
 var rollTime : float
 var rollDirection : Vector2
 
 var lastInputDirection : Vector2
+
 
 
 func _physics_process(delta):
@@ -25,7 +32,7 @@ func _physics_process(delta):
 		rollTime -= delta
 		if rollTime <= 0:
 			state = State.Idle
-			%CritterSprite.play("walkRight")
+			%CritterSprite.play("walkLeftRight")
 	elif state == State.Charging:
 		chargeTime += delta;
 		if chargeTime >= maxChargeTime || !Input.is_action_pressed("ballCharge"):
@@ -34,33 +41,22 @@ func _physics_process(delta):
 			# rollSpeed = chargeTime * chargeTimeToRollSpeedRatio # TODO: not sure if I need this. do we want varying roll speeds?
 			rollTime = 2.0
 			rollDirection = lastInputDirection
-			%CritterSprite.play("roll")
 	elif state == State.Idle:
 		if Input.is_action_pressed("ballCharge"):
 			# start charging
 			state = State.Charging
 			chargeTime = 0.0
-			%CritterSprite.play("charge")
+			%CritterSprite.play("rollLeftRight")
 	
 	# read input always, so we can store the last input direction for the roll direction
-	var inputDirection : Vector2;
-	if Input.is_action_pressed("moveLeft"):
-		inputDirection.x -= 1.0
-	elif Input.is_action_pressed("moveRight"):
-		inputDirection.x += 1.0
-		
-	if Input.is_action_pressed("moveUp"):
-		inputDirection.y -= 1.0
-	elif Input.is_action_pressed("moveDown"):
-		inputDirection.y += 1.0
+	var inputDirection = Input.get_vector("moveLeft", "moveRight", "moveUp", "moveDown");
 
-	inputDirection = inputDirection.normalized()
-	
 	# free movement in idle
 	if state == State.Idle:
-		var moveSpeed = 8000.0
-		var moveDelta = inputDirection * moveSpeed * delta;
-		velocity = moveDelta
+		velocity = inputDirection * moveSpeed
+		move_and_slide()
+	elif state == State.Charging:
+		velocity = inputDirection * chargingMoveSpeed
 		move_and_slide()
 	elif state == State.Rolling:
 		# Add a small influence from input into the rolling.
@@ -72,17 +68,51 @@ func _physics_process(delta):
 		rollDirection += ( inputLateral * lateralInfluence * delta )
 		rollDirection = rollDirection.normalized()
 		
-		var rollVelocity = rollDirection * rollSpeed * delta;
-		var collision : KinematicCollision2D = move_and_collide(rollVelocity)
+		var rollDelta = rollDirection * rollMoveSpeed * delta;
+		
+		var collision : KinematicCollision2D = move_and_collide(rollDelta)
+		
 		if collision:
 			var otherCollider = collision.get_collider()
 			if otherCollider is RigidBody2D:
-				var impulseSpeed = rollSpeed * 1.1
+				var impulseSpeed = rollMoveSpeed * 1.1
 				otherCollider.apply_central_impulse(-collision.get_normal() * impulseSpeed)
 				print("critter hit gem")
 			rollTime = 0.0 # stop rolling every time you collide
 	
-	var dir_scale = sign(velocity.x)
-	if dir_scale != 0:
-		$CritterSprite.scale.x = dir_scale
-	lastInputDirection = inputDirection
+	# if we have any velocity, update are sprite direction and anim based of it
+	
+	var hasVelocity = velocity.length_squared() > 0.0
+	if hasVelocity:
+		var nextAnim = %CritterSprite.animation
+		
+		var useXAsDirection = abs(velocity.x) >= abs(velocity.y)
+		if useXAsDirection: # x is larger, so use left and right anims
+			$CritterSprite.scale.x = sign(velocity.x) * abs($CritterSprite.scale.x) # Flip the scale to invert
+			if state == State.Idle:
+				nextAnim = "walkLeftRight"
+			elif state == State.Rolling || state == State.Charging:
+				nextAnim = "rollLeftRight"
+			
+		else: # else Y velocity is larger. Use up and down anim directions
+			$CritterSprite.scale.x = abs($CritterSprite.scale.x) # reset to normal x scale
+			
+			if sign(velocity.y) >= 0:
+				if state == State.Idle:
+					nextAnim = "walkDown"
+				elif state == State.Rolling || state == State.Charging:
+					nextAnim = "rollDown"
+			else:
+				if state == State.Idle:
+					nextAnim = "walkUp"
+				elif state == State.Rolling || state == State.Charging:
+					nextAnim = "rollUp"
+		
+		$CritterSprite.play(nextAnim)
+		
+	else: # we have no velocity. Pause anim if in idle
+		if state == State.Idle:
+			%CritterSprite.pause()
+	
+	if inputDirection.length_squared() > 0:
+		lastInputDirection = inputDirection
