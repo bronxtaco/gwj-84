@@ -10,6 +10,7 @@ signal menu_empty
 
 signal apply_damage_to_enemy(amount: int)
 signal apply_damage_to_hero
+signal fireball_exploded
 
 signal hero_died
 signal enemy_died

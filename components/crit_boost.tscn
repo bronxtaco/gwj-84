@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwoa3cw7dieuu"]
+
+[ext_resource type="Script" uid="uid://nxfw2mqik26m" path="res://components/crit_boost.gd" id="1_0sth8"]
+[ext_resource type="Texture2D" uid="uid://vilc72woal5d" path="res://assets/critterGame/orange_gem.png" id="1_k2ouf"]
+
+[node name="CritBoost" type="Node2D"]
+script = ExtResource("1_0sth8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_k2ouf")

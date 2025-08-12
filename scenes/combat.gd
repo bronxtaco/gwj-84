@@ -13,8 +13,6 @@ var level_bg_map = {
 	5: level05_bg,
 }
 
-@export var preAttackTimeTotal: float = 4.0
-
 @export var attackDamageDefault: int = 20
 
 @onready var Hero = $Hero
@@ -77,18 +75,21 @@ func setState(newState: CombatState):
 	
 	match(newState):
 		CombatState.HeroPreAttack:
-			Hero.start_pre_attack(preAttackTimeTotal)
+			Hero.start_pre_attack()
 		CombatState.HeroAttack:
 			Hero.start_attack()
 			# debug crit boosts for testing, these will be fired off from the actual game bit when the player makes progress
 			var crit = func(_amount):
 				Events.hero_crit_boost.emit(_amount)
-			create_tween().tween_callback(crit.bind(5)).set_delay(3.0)
-			create_tween().tween_callback(crit.bind(15)).set_delay(6.0)
-			create_tween().tween_callback(crit.bind(25)).set_delay(9.0)
+			if false:
+				create_tween().tween_callback(crit.bind(5)).set_delay(2.0)
+				create_tween().tween_callback(crit.bind(15)).set_delay(4.0)
+				create_tween().tween_callback(crit.bind(25)).set_delay(6.0)
+				create_tween().tween_callback(crit.bind(25)).set_delay(8.0)
+				create_tween().tween_callback(crit.bind(25)).set_delay(10.0)
 		
 		CombatState.EnemyPreAttack:
-			Enemy.start_pre_attack(preAttackTimeTotal)
+			Enemy.start_pre_attack(1)
 		CombatState.EnemyAttack:
 			Enemy.start_attack()
 	

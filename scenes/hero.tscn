@@ -1,13 +1,9 @@
-[gd_scene load_steps=49 format=3 uid="uid://c8ky2qrq0buds"]
+[gd_scene load_steps=45 format=3 uid="uid://c8ky2qrq0buds"]
 
 [ext_resource type="Script" uid="uid://d08wrm06fpjwd" path="res://scenes/hero.gd" id="1_6xrt3"]
 [ext_resource type="Texture2D" uid="uid://dyj58vbv7gr40" path="res://assets/combat/hero/attack/attack1.png" id="2_54d4v"]
 [ext_resource type="Texture2D" uid="uid://bny51j7vlnxwr" path="res://assets/combat/hero/attack/attack2.png" id="3_m72ym"]
 [ext_resource type="Texture2D" uid="uid://djyglmjq3272p" path="res://assets/combat/hero/attack/attack3.png" id="4_5e70t"]
-[ext_resource type="Texture2D" uid="uid://dk5t6lemu2an1" path="res://assets/combat/hero/attack/attack4.png" id="5_5dxqo"]
-[ext_resource type="Texture2D" uid="uid://bv0tmr2pa4bmp" path="res://assets/combat/hero/attack/attack5.png" id="6_4v2qv"]
-[ext_resource type="Texture2D" uid="uid://dmtti0djcb2k6" path="res://assets/combat/hero/attack/attack6.png" id="7_05r1h"]
-[ext_resource type="Texture2D" uid="uid://c270ffv37cs0a" path="res://assets/combat/hero/attack/attack7.png" id="8_i8in1"]
 [ext_resource type="Texture2D" uid="uid://bghp7d0kjwvrs" path="res://assets/combat/hero/attack_2/attack_extra0.png" id="9_hn7jl"]
 [ext_resource type="Texture2D" uid="uid://cm44boaeqtj78" path="res://assets/combat/hero/attack_2/attack_extra1.png" id="10_jjdmo"]
 [ext_resource type="Texture2D" uid="uid://c77lofp13t1o7" path="res://assets/combat/hero/attack_2/attack_extra2.png" id="11_ffar2"]
@@ -52,35 +48,6 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_54d4v")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_m72ym")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_5e70t")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_5dxqo")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_4v2qv")
-}, {
-"duration": 1.0,
-"texture": ExtResource("7_05r1h")
-}, {
-"duration": 1.0,
-"texture": ExtResource("8_i8in1")
-}, {
-"duration": 1.0,
-"texture": ExtResource("26_d0tjj")
-}],
-"loop": false,
-"name": &"attack_1",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": ExtResource("9_hn7jl")
 }, {
 "duration": 1.0,
@@ -106,6 +73,31 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack_2",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_54d4v")
+}],
+"loop": false,
+"name": &"attack_frame_1",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_m72ym")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_5e70t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_5e70t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_5e70t")
+}],
+"loop": true,
+"name": &"attack_loop",
 "speed": 5.0
 }, {
 "frames": [{
@@ -141,15 +133,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"death",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("26_d0tjj")
-}],
-"loop": false,
-"name": &"default",
-"speed": 5.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -169,7 +153,15 @@ animations = [{
 }],
 "loop": false,
 "name": &"hurt",
-"speed": 5.0
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("26_d0tjj")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -215,8 +207,8 @@ animations = [{
 "texture": ExtResource("43_t1ln6")
 }],
 "loop": false,
-"name": &"idle",
-"speed": 5.0
+"name": &"yawn",
+"speed": 15.0
 }]
 
 [node name="Hero" type="Node2D"]
@@ -226,13 +218,14 @@ script = ExtResource("1_6xrt3")
 unique_name_in_owner = true
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_vfeu3")
-animation = &"attack_1"
+animation = &"idle"
+autoplay = "idle"
 
 [node name="HealthBar" type="TextureProgressBar" parent="."]
 offset_left = -74.0
-offset_top = -40.0
+offset_top = -77.0
 offset_right = 6.0
-offset_bottom = -20.0
+offset_bottom = -57.0
 max_value = 1.0
 step = 0.05
 value = 1.0
@@ -246,4 +239,17 @@ unique_name_in_owner = true
 visible = false
 position = Vector2(20, 0)
 
+[node name="PreAttackTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="YawnTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="StaffPos" type="Marker2D" parent="."]
+position = Vector2(0, -18)
+
 [connection signal="animation_finished" from="HeroSprite" to="." method="_on_hero_sprite_animation_finished"]
+[connection signal="timeout" from="PreAttackTimer" to="." method="_on_pre_attack_timer_timeout"]
+[connection signal="timeout" from="YawnTimer" to="." method="_on_idle_timer_timeout"]

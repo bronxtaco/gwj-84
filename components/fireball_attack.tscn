@@ -1,13 +1,108 @@
-[gd_scene load_steps=4 format=3 uid="uid://8hc8w0lxm0f2"]
+[gd_scene load_steps=19 format=3 uid="uid://8hc8w0lxm0f2"]
 
-[ext_resource type="Texture2D" uid="uid://ct36yetba0h1k" path="res://assets/combat/hero/attack/fire5.png" id="1_j2drl"]
 [ext_resource type="Script" uid="uid://ild780hfbee1" path="res://components/fireball_attack.gd" id="1_s1opf"]
+[ext_resource type="Texture2D" uid="uid://qruohab853c" path="res://assets/combat/fx/fireball_2.png" id="4_jh3wq"]
+[ext_resource type="Texture2D" uid="uid://vpisa0n3hqg" path="res://assets/combat/fx/fireball_3.png" id="5_qpwft"]
+[ext_resource type="Texture2D" uid="uid://dnyifotjyj2e3" path="res://assets/combat/fx/fireball_4.png" id="6_f44dr"]
+[ext_resource type="Texture2D" uid="uid://csiyq13o6wwfh" path="res://assets/combat/fx/fireball_5.png" id="7_kffx5"]
+[ext_resource type="Texture2D" uid="uid://drbtew8b2rjnr" path="res://assets/combat/fx/fireball_6.png" id="8_0fvdc"]
+[ext_resource type="Texture2D" uid="uid://dq7y1aiadv4tq" path="res://assets/combat/fx/fireball_7.png" id="9_5a2id"]
+[ext_resource type="Texture2D" uid="uid://bhldb14ftyfft" path="res://assets/combat/fx/fireball_8.png" id="10_7cggb"]
+[ext_resource type="Texture2D" uid="uid://cb650pheq5h7k" path="res://assets/combat/fx/fireball_9.png" id="11_n8d0x"]
+[ext_resource type="Texture2D" uid="uid://dxohxcnamu003" path="res://assets/combat/fx/fireball_10.png" id="12_2g2rp"]
+[ext_resource type="Texture2D" uid="uid://btstpyu2ony7h" path="res://assets/combat/fx/fireball_11.png" id="13_1uutt"]
+[ext_resource type="Texture2D" uid="uid://cm4mbxk6wdf36" path="res://assets/combat/fx/fireball_12.png" id="14_y48y3"]
+[ext_resource type="Texture2D" uid="uid://c4ynedt116qdx" path="res://assets/combat/fx/fireball_13.png" id="15_n8sca"]
+[ext_resource type="Texture2D" uid="uid://c85m15eii1u7h" path="res://assets/combat/fx/fireball_14.png" id="16_vd78t"]
+[ext_resource type="Texture2D" uid="uid://82a0fyki1rrn" path="res://assets/combat/fx/fireball_15.png" id="17_oru3f"]
 
 [sub_resource type="Curve2D" id="Curve2D_54d4v"]
 _data = {
-"points": PackedVector2Array(-272.321, 232.583, 272.321, -232.583, 25, 10, 0, 0, 0, 0, 522, 10)
+"points": PackedVector2Array(-272.321, 232.583, 272.321, -232.583, 3, -2, 0, 0, 0, 0, 522, 10)
 }
 point_count = 2
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_44k5y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_1uutt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_y48y3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_n8sca")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_vd78t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_oru3f")
+}],
+"loop": false,
+"name": &"explode",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_jh3wq")
+}],
+"loop": true,
+"name": &"size_1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_qpwft")
+}],
+"loop": true,
+"name": &"size_2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_f44dr")
+}],
+"loop": true,
+"name": &"size_3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_kffx5")
+}],
+"loop": true,
+"name": &"size_4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_0fvdc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_0fvdc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_5a2id")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_7cggb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_n8d0x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_2g2rp")
+}],
+"loop": true,
+"name": &"size_5",
+"speed": 10.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_rqysm"]
+offsets = PackedFloat32Array(0, 0.254902, 0.87451, 1)
+colors = PackedColorArray(0.987182, 0.175684, 0, 1, 0.707446, 0.606764, 0, 1, 0, 0, 0, 0.486275, 0, 0, 0, 0)
 
 [node name="FireballAttack" type="Path2D"]
 z_index = 10
@@ -16,29 +111,53 @@ script = ExtResource("1_s1opf")
 
 [node name="FireballPath" type="PathFollow2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(25, 10)
+position = Vector2(3, -2)
 rotation = -0.706856
 loop = false
 
-[node name="Fireball" type="Sprite2D" parent="FireballPath"]
+[node name="Fireball" type="AnimatedSprite2D" parent="FireballPath"]
 unique_name_in_owner = true
-rotation = -0.801106
-texture = ExtResource("1_j2drl")
+sprite_frames = SubResource("SpriteFrames_44k5y")
+animation = &"size_1"
+autoplay = "size_1"
+offset = Vector2(-22.02, -5.85)
+
+[node name="FireballTrail" type="CPUParticles2D" parent="FireballPath"]
+unique_name_in_owner = true
+position = Vector2(-4.1186, 1.74274)
+amount = 50
+lifetime_randomness = 0.27
+emission_shape = 1
+emission_sphere_radius = 10.0
+direction = Vector2(-1, 0)
+spread = 5.0
+gravity = Vector2(0, 50)
+initial_velocity_min = 20.0
+initial_velocity_max = 50.0
+scale_amount_min = 2.0
+scale_amount_max = 3.0
+color_ramp = SubResource("Gradient_rqysm")
+
+[node name="FireballMarker" type="Marker2D" parent="FireballPath"]
+unique_name_in_owner = true
+position = Vector2(5.75038, 0.966009)
 
 [node name="DamageTextPath" type="PathFollow2D" parent="."]
-position = Vector2(25, 10)
+position = Vector2(3, -2)
 rotates = false
 loop = false
 
 [node name="DamageText" type="Label" parent="DamageTextPath"]
 unique_name_in_owner = true
-offset_left = -12.0
-offset_top = -41.0
-offset_right = 28.0
-offset_bottom = -18.0
+offset_left = -30.0
+offset_top = -44.0
+offset_right = 10.0
+offset_bottom = -21.0
 theme_override_colors/font_outline_color = Color(0.369777, 0.139618, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 16
 text = "10"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[connection signal="animation_finished" from="FireballPath/Fireball" to="." method="_on_fireball_animation_finished"]

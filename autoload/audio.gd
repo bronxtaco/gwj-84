@@ -7,7 +7,7 @@ const MUSIC_FADE := 1.0
 func play_overworld():
 	var battle_tween = get_tree().create_tween()
 	battle_tween.tween_property(%battle, "volume_db", SILENT_DB, MUSIC_FADE)
-	await battle_tween.finished 
+	await battle_tween.finished
 	%battle.stop()
 	%overworld.volume_db = ZERO_DB
 	%overworld.play()

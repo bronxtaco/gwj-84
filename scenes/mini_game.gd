@@ -12,6 +12,9 @@ extends Node2D
 
 var gemSpawnTimer = gemSpawnTimeInterval
 
+func _ready() -> void:
+	Events.fireball_exploded.connect(_on_fireball_exploded)
+
 func _process(delta: float) -> void:
 	gemSpawnTimer -= delta
 	
@@ -22,6 +25,10 @@ func _process(delta: float) -> void:
 
 func get_gem_count():
 	return %SpawnedGems.get_child_count()
+
+func clear_gems():
+	for gem in %SpawnedGems.get_children():
+		gem.queue_free()
 
 func spawn_gem():
 	# find point to spawn gem
@@ -54,4 +61,7 @@ func _on_goal_body_entered(body: Node2D) -> void:
 		var fixedDamageIncrease = 20 # TODO: replace with actual game rules 
 		Events.hero_crit_boost.emit(fixedDamageIncrease)
 		gem.queue_free()
-		
+
+
+func _on_fireball_exploded():
+	clear_gems()
