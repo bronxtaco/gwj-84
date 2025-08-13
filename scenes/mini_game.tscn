@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c4fdc82p08sxj" path="res://scenes/mini_game.gd" id="1_0gcsj"]
 [ext_resource type="PackedScene" uid="uid://cwxf3ipevjip" path="res://scenes/gem.tscn" id="2_3kuml"]
-[ext_resource type="Texture2D" uid="uid://04r3r48wqanq" path="res://assets/critterGame/arena.png" id="3_3kuml"]
+[ext_resource type="Texture2D" uid="uid://byjuqfhd2c54v" path="res://assets/combat/ui/staff.png" id="3_3kuml"]
 [ext_resource type="PackedScene" uid="uid://bwbix4ltm861q" path="res://scenes/critter.tscn" id="3_v2cs6"]
 [ext_resource type="Texture2D" uid="uid://ni1gr827ywb3" path="res://assets/critterGame/goal.png" id="4_burph"]
 
@@ -16,18 +16,18 @@ gemScene = ExtResource("2_3kuml")
 [node name="Arena" type="StaticBody2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="Arena"]
-position = Vector2(405, 170)
-scale = Vector2(1.2, 1.2)
 texture = ExtResource("3_3kuml")
+centered = false
 
 [node name="ArenaPolygon" type="CollisionPolygon2D" parent="Arena"]
 unique_name_in_owner = true
+position = Vector2(0, 143)
 build_mode = 1
-polygon = PackedVector2Array(400, 25, 280, 35, 180, 75, 120, 145, 105, 225, 137, 289, 206, 332, 400, 345, 594, 332, 663, 289, 695, 225, 680, 145, 620, 75, 520, 35)
+polygon = PackedVector2Array(502, 100, 423, 95, 378, 106, 338, 95, 291, 113, 260, 109, 225, 133, 188, 130, 153, 168, 131, 180, 107, 216, 101, 246, 91, 260, 106, 291, 114, 335, 152, 370, 154, 402, 240, 409, 291, 421, 351, 417, 376, 427, 431, 417, 486, 428, 524, 421, 544, 400, 577, 399, 650, 357, 668, 324, 694, 303, 702, 242, 683, 220, 678, 194, 636, 168, 596, 130, 545, 127)
 
 [node name="Goal" type="Area2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(400, 52)
+position = Vector2(419, 268)
 
 [node name="Sprite2D" type="Sprite2D" parent="Goal"]
 texture = ExtResource("4_burph")
@@ -39,6 +39,6 @@ shape = SubResource("CircleShape2D_rvs2r")
 unique_name_in_owner = true
 
 [node name="Critter" parent="." instance=ExtResource("3_v2cs6")]
-position = Vector2(273, 201)
+position = Vector2(381, 420)
 
 [connection signal="body_entered" from="Goal" to="." method="_on_goal_body_entered"]

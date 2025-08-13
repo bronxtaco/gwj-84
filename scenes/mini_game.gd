@@ -34,8 +34,8 @@ func clear_gems():
 
 func spawn_gem_type(gemType: Global.GemType, position: Vector2):
 	var gem = gemScene.instantiate() as Node2D
-	gem.setup_gem(gemType, position)
 	%SpawnedGems.add_child(gem)
+	gem.setup_gem(gemType, position)
 
 func spawn_gem():
 	# find point to spawn gem

@@ -28,11 +28,18 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.286975, 0.158336, 0.0544555, 1)
 
-[node name="MiniGame" parent="." instance=ExtResource("5_rurhu")]
-position = Vector2(0, 242)
-
 [node name="Combat" type="Node2D" parent="."]
 script = ExtResource("1_utbpp")
+
+[node name="BackgroundFlipped" type="Sprite2D" parent="Combat"]
+unique_name_in_owner = true
+modulate = Color(0.288518, 0.288518, 0.288518, 1)
+position = Vector2(-3, 744)
+scale = Vector2(0.21, -0.21)
+texture = ExtResource("2_mw25s")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 188.158, 3840, 1972.84)
 
 [node name="Background" type="Sprite2D" parent="Combat"]
 unique_name_in_owner = true
@@ -41,7 +48,7 @@ scale = Vector2(0.21, 0.21)
 texture = ExtResource("2_mw25s")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 188.158, 3840, 1224.99)
+region_rect = Rect2(0, 188.158, 3840, 1972.84)
 
 [node name="Hero" parent="Combat" instance=ExtResource("8_utbpp")]
 position = Vector2(127, 164)
@@ -52,3 +59,5 @@ position = Vector2(680, 162)
 [node name="UiFrame" type="Sprite2D" parent="."]
 texture = ExtResource("11_tcjrq")
 centered = false
+
+[node name="MiniGame" parent="." instance=ExtResource("5_rurhu")]

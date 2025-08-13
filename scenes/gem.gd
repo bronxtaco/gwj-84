@@ -56,7 +56,7 @@ func setup_gem_type(type: Global.GemType):
 	%Sprite.set_self_modulate(gemColor)
 
 func setup_gem(type: Global.GemType, gemPos: Vector2):
-	position = gemPos
+	global_position = gemPos
 	setup_gem_type(type)
 	
 

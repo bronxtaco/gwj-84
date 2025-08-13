@@ -66,8 +66,9 @@ func set_random_background():
 	%RandomBackground.texture = load(randomBackgroudPath)
 
 func set_level_background():
+	%BackgroundFlipped.texture = level_bg_map[Global.current_level]
 	%Background.texture = level_bg_map[Global.current_level]
-			
+	
 
 
 func setState(newState: CombatState):

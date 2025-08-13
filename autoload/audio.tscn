@@ -18,6 +18,7 @@ bus = &"Music"
 [node name="battle_start" type="AudioStreamPlayer" parent="Music"]
 unique_name_in_owner = true
 stream = ExtResource("2_uw2yb")
+volume_db = -8.0
 bus = &"Music"
 
 [node name="battle" type="AudioStreamPlayer" parent="Music"]
