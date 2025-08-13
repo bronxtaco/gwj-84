@@ -4,47 +4,43 @@ extends RigidBody2D
 
 var gemDamage : int = 0
 
-var hasBeenCombined : bool = false # this is required by the combining logic in the minigame script
+var dropOnSpawnTween
+
+var initialCollisionLayers : int = 0
+var initialCollisionMasks : int = 0
+
+func _ready():
+	dropOnSpawnTween = create_tween()
+	initialCollisionLayers = get_collision_layer()
+	initialCollisionMasks = get_collision_mask()
 
 func get_gem_color(type: Global.GemType) -> Color:
 	match(type):
-		Global.GemType.Green:
-			return Color.from_rgba8(0, 182, 77)
-		Global.GemType.LightBlue:
-			return Color.from_rgba8(16, 187, 244)
-		Global.GemType.DarkBlue:
-			return Color.from_rgba8(0, 39, 243)
-		Global.GemType.Purple:
-			return Color.from_rgba8(182, 38, 243)
-		Global.GemType.Pink:
-			return Color.from_rgba8(255, 120, 188)
 		Global.GemType.Red:
 			return Color.from_rgba8(232, 63, 33)
+		Global.GemType.Blue:
+			return Color.from_rgba8(16, 187, 244)
 		Global.GemType.Orange:
 			return Color.from_rgba8(255, 157, 0)
+		Global.GemType.Green:
+			return Color.from_rgba8(0, 223, 38)# Color.from_rgba8(0, 182, 77)
 		Global.GemType.Gold:
-			return Color.from_rgba8(255, 255, 0)
+			return Color.from_rgba8(232, 223, 38)
+		Global.GemType.White:
+			return Color.from_rgba8(0, 39, 243)
+		Global.GemType.Black:
+			return Color.from_rgba8(30, 30, 30)
 		_:
 			return Color(1, 1, 1, 1)
 
 func get_gem_damage(type: Global.GemType) -> int:
 	match(type):
-		Global.GemType.Green:
-			return 5
-		Global.GemType.LightBlue:
+		Global.GemType.Red,Global.GemType.Blue:
 			return 10
-		Global.GemType.DarkBlue:
-			return 25
-		Global.GemType.Purple:
-			return 50
-		Global.GemType.Pink:
-			return 100
-		Global.GemType.Red:
-			return 250
-		Global.GemType.Orange:
-			return 500
+		Global.GemType.Orange, Global.GemType.Green:
+			return 20
 		Global.GemType.Gold:
-			return 1000
+			return 50
 		_:
 			return 0
 
@@ -55,11 +51,44 @@ func setup_gem_type(type: Global.GemType):
 	var gemColor = get_gem_color(type)
 	%Sprite.set_self_modulate(gemColor)
 
-func setup_gem(type: Global.GemType, gemPos: Vector2):
-	global_position = gemPos
-	setup_gem_type(type)
-	
 
+func setup_gem(type: Global.GemType, gemPos: Vector2):
+	global_position = gemPos # set the gem in the right spot, but offset the gem sprite in anim
+	set_collision_layer(0)
+	set_collision_mask(0)
+	
+	var initSpriteYPos = %Sprite.position.y
+	%Sprite.position.y = -300
+	
+	var initShadowScale = $Shadow.scale
+	$Shadow.scale = Vector2(0, 0)
+	
+	var initScale
+	
+	var dropSpawnTime = 0.5
+	
+	dropOnSpawnTween.play()
+	dropOnSpawnTween.tween_property(%Sprite, "position:y", initSpriteYPos, dropSpawnTime)
+	dropOnSpawnTween.parallel().tween_property(%Shadow, "scale", initShadowScale, dropSpawnTime)
+	
+	dropOnSpawnTween.tween_callback(on_tween_end)
+	
+	setup_gem_type(type)
+
+func on_tween_end():
+	set_collision_layer(initialCollisionLayers)
+	set_collision_mask(initialCollisionMasks)
+	
+	# give it some slight random impulse direction on landing
+	var impulseSpeed = 15
+	
+	# my dumb way to get rid of zero length direction. But it works :D 
+	var randDir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0))
+	while randDir.length_squared() == 0:
+		randDir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0))
+		
+	var impulseDirection = randDir.normalized()
+	apply_central_impulse(impulseDirection * impulseSpeed)
 
 func _on_body_entered(body: Node) -> void:
 	var isRigidBody = body is RigidBody2D

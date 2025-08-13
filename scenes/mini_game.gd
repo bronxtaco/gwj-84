@@ -3,7 +3,7 @@ extends Node2D
 @export var gemScene: PackedScene
 
 @export var maxSpawnedGems : int = 8
-@export var gemSpawnTimeInterval : float = 2.0
+@export var gemSpawnTimeInterval : float = 3.0
 
 @export var gemSpawnMinBounds := Vector2(0.0, 0.0)
 @export var gemSpawnMaxBounds := Vector2(800, 600.0)
@@ -14,7 +14,6 @@ var gemSpawnTimer = gemSpawnTimeInterval
 
 func _ready() -> void:
 	Events.fireball_exploded.connect(_on_fireball_exploded)
-	
 	Events.gems_collided.connect(_on_gems_collided)
 
 func _process(delta: float) -> void:
@@ -23,7 +22,10 @@ func _process(delta: float) -> void:
 	if gemSpawnTimer <= 0.0:
 		gemSpawnTimer = gemSpawnTimeInterval
 		if get_gem_count() < maxSpawnedGems:
-			spawn_gem()
+			var spawnCount = randi_range(1, 3)
+			for i in range(spawnCount):
+				spawn_gem()
+			
 
 func get_gem_count():
 	return %SpawnedGems.get_child_count()
@@ -37,11 +39,35 @@ func spawn_gem_type(gemType: Global.GemType, position: Vector2):
 	%SpawnedGems.add_child(gem)
 	gem.setup_gem(gemType, position)
 
+func is_spawn_pos_empty(pos: Vector2, radius: float) -> bool:
+	# TODO: Get gem scene for radius? Shape doesn't exist yet so that isn't an option unless we used a dummy
+	var shape_rid = PhysicsServer2D.circle_shape_create()
+	PhysicsServer2D.shape_set_data(shape_rid, radius)
+
+	var params = PhysicsShapeQueryParameters2D.new()
+	params.shape_rid = shape_rid
+	params.transform.origin = pos
+	params.collide_with_areas = true
+	params.collide_with_bodies = true
+	params.margin = 0
+
+	var space_state = get_world_2d().direct_space_state
+	var intersectResult = space_state.intersect_shape(params, 4)
+	
+	PhysicsServer2D.free_rid(shape_rid) # Release the shape when done with physics queries.
+	
+	var isEmptyPos = intersectResult.size() == 0
+	return isEmptyPos
+
 func spawn_gem():
 	# find point to spawn gem
 	var spawnPos : Vector2
 	var foundPos = false
-	while !foundPos:
+	
+	var maxPosSearches = 64 #
+	while maxPosSearches > 0:
+		maxPosSearches -= 1
+		
 		var posX = randf_range(gemSpawnMinBounds.x, gemSpawnMaxBounds.x)
 		var posY = randf_range(gemSpawnMinBounds.y, gemSpawnMaxBounds.y)
 		var randomPoint = Vector2(posX, posY)
@@ -49,14 +75,14 @@ func spawn_gem():
 		var inArena = Geometry2D.is_point_in_polygon(randomPoint - %ArenaPolygon.position, %ArenaPolygon.polygon)
 		var inGoal = Geometry2D.is_point_in_circle(randomPoint, %Goal.position, goalExclusionRadius)	
 		if inArena && !inGoal:
-			spawnPos = randomPoint
-			foundPos = true
+			var gemRadius = 15 # TODO: is there a way to get this direction for un-instantiated scene?
+			if is_spawn_pos_empty(randomPoint, gemRadius):
+				spawnPos = randomPoint
+				break # break out of while loop, as we found a pos
 	
 	# random gem type
-	
-	var highestSpawnableType = min(Global.GemType.DarkBlue + 1, Global.GemType.size())
-	
-	var gemType = Global.GemType.values()[randi() % highestSpawnableType]
+	var gemType = Global.GemType.Red if (randi() % 2 == 0) else Global.GemType.Blue
+
 	spawn_gem_type(gemType, spawnPos)
 
 func _on_goal_body_entered(body: Node2D) -> void:
@@ -84,7 +110,22 @@ func _on_gems_collided(initialGemType: Global.GemType, gemA: RigidBody2D, gemB: 
 		# if gem type is different then initial type. Then we have likely already handled these two gems colliding this frame
 		return 
 	
-	var nextGemType = min(gemType + 1, Global.GemType.size() - 1)
-	gemA.setup_gem_type(nextGemType)
-	gemB.setup_gem_type(nextGemType)
+	if gemType == Global.GemType.Gold: # if already at max gem, early out
+		return
 	
+	# combining two of the same color generates two seperate colors
+	var nextGemA = gemType
+	var nextGemB = gemType
+	
+	var useNormalOrder = randi() % 2 == 0
+	
+	match(gemType):
+		Global.GemType.Red, Global.GemType.Blue:
+			nextGemA = Global.GemType.Green if useNormalOrder else Global.GemType.Orange
+			nextGemB = Global.GemType.Orange if useNormalOrder else Global.GemType.Green
+		Global.GemType.Orange, Global.GemType.Green: # secondary colors all become gold
+			nextGemA = Global.GemType.Gold
+			nextGemB = Global.GemType.Gold
+	
+	gemA.setup_gem_type(nextGemA)
+	gemB.setup_gem_type(nextGemB)
