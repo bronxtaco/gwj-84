@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cvk2ldpl83kv2" path="res://assets/critterGame/gem.png" id="5_dn3vp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5xxwx"]
-radius = 11.0454
+radius = 15.0
 
 [node name="Gem" type="RigidBody2D"]
 contact_monitor = true
@@ -13,6 +13,7 @@ script = ExtResource("1_kprv0")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("5_dn3vp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -144,6 +144,7 @@ stream_1/stream = ExtResource("5_5mxoi")
 stream_2/stream = ExtResource("6_1ty1m")
 
 [node name="Critter" type="CharacterBody2D"]
+scale = Vector2(1.5, 1.5)
 motion_mode = 1
 script = ExtResource("1_oeans")
 

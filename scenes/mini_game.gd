@@ -5,8 +5,8 @@ extends Node2D
 @export var maxSpawnedGems : int = 8
 @export var gemSpawnTimeInterval : float = 2.0
 
-@export var gemSpawnMinBounds := Vector2(75.0, 0.0)
-@export var gemSpawnMaxBounds := Vector2(725, 350.0)
+@export var gemSpawnMinBounds := Vector2(0.0, 0.0)
+@export var gemSpawnMaxBounds := Vector2(800, 600.0)
 
 @export var goalExclusionRadius : float = 35.0
 
@@ -46,7 +46,7 @@ func spawn_gem():
 		var posY = randf_range(gemSpawnMinBounds.y, gemSpawnMaxBounds.y)
 		var randomPoint = Vector2(posX, posY)
 		
-		var inArena = Geometry2D.is_point_in_polygon(randomPoint, %ArenaPolygon.polygon)
+		var inArena = Geometry2D.is_point_in_polygon(randomPoint - %ArenaPolygon.position, %ArenaPolygon.polygon)
 		var inGoal = Geometry2D.is_point_in_circle(randomPoint, %Goal.position, goalExclusionRadius)	
 		if inArena && !inGoal:
 			spawnPos = randomPoint
