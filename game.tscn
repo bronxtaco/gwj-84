@@ -12,6 +12,10 @@ unique_name_in_owner = true
 
 [node name="TitleScene" parent="ActiveScene" instance=ExtResource("2_feb5d")]
 
+[node name="AudioListener2D" type="AudioListener2D" parent="ActiveScene"]
+position = Vector2(400, 400)
+current = true
+
 [node name="Menus" type="CanvasLayer" parent="."]
 
 [node name="Fade" type="ColorRect" parent="Menus"]

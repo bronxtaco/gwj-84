@@ -1,7 +1,7 @@
 extends Node2D
 
 const SILENT_DB : float = -100
-const ZERO_DB : float = 0
+const MUSIC_DB : float = -8
 const MUSIC_FADE := 1.0
 
 func play_overworld():
@@ -9,7 +9,7 @@ func play_overworld():
 	battle_tween.tween_property(%battle, "volume_db", SILENT_DB, MUSIC_FADE)
 	await battle_tween.finished
 	%battle.stop()
-	%overworld.volume_db = ZERO_DB
+	%overworld.volume_db = MUSIC_DB
 	%overworld.play()
 
 func play_battle():
@@ -17,5 +17,5 @@ func play_battle():
 	%battle_start.play()
 
 func _on_battle_start_finished() -> void:
-	%battle.volume_db = ZERO_DB
+	%battle.volume_db = MUSIC_DB
 	%battle.play()

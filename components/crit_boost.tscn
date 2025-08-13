@@ -1,10 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://bwoa3cw7dieuu"]
+[gd_scene load_steps=8 format=3 uid="uid://bwoa3cw7dieuu"]
 
 [ext_resource type="Script" uid="uid://nxfw2mqik26m" path="res://components/crit_boost.gd" id="1_0sth8"]
 [ext_resource type="Texture2D" uid="uid://vilc72woal5d" path="res://assets/critterGame/orange_gem.png" id="1_k2ouf"]
+[ext_resource type="AudioStream" uid="uid://brgif2tqnucmq" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerA-001.mp3" id="3_nn2tw"]
+[ext_resource type="AudioStream" uid="uid://bgjqcb5gcfs5b" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerA-002.mp3" id="4_2tmcx"]
+[ext_resource type="AudioStream" uid="uid://dvvsdwi6ehqce" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerB-001.mp3" id="5_ii3ke"]
+[ext_resource type="AudioStream" uid="uid://buu5kklbdoiow" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerB-002.mp3" id="6_4kvye"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_baa08"]
+streams_count = 4
+stream_0/stream = ExtResource("3_nn2tw")
+stream_1/stream = ExtResource("4_2tmcx")
+stream_2/stream = ExtResource("5_ii3ke")
+stream_3/stream = ExtResource("6_4kvye")
 
 [node name="CritBoost" type="Node2D"]
 script = ExtResource("1_0sth8")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_k2ouf")
+
+[node name="SFX" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_baa08")
+volume_db = 3.0
+max_distance = 1000.0

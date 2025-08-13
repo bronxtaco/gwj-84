@@ -26,7 +26,8 @@ var currentRollDirection : Vector2
 var lastInputDirection : Vector2
 
 func _physics_process(delta):
-
+	
+	var play_scuttle_sound := false
 	if state == State.Rolling:
 		rollTime -= delta
 		if rollTime <= 0:
@@ -74,6 +75,7 @@ func _physics_process(delta):
 			if otherCollider is RigidBody2D:
 				var impulseSpeed = rollMoveSpeed * 1.1
 				otherCollider.apply_central_impulse(-collision.get_normal() * impulseSpeed)
+				$GemImpactSound.play()
 				print("critter hit gem")
 			rollTime = 0.0 # stop rolling every time you collide
 	
@@ -105,11 +107,23 @@ func _physics_process(delta):
 				elif state == State.Rolling || state == State.Charging:
 					nextAnim = "rollUp"
 		
+		if state == State.Idle:
+			play_scuttle_sound = true
+		
 		$CritterSprite.play(nextAnim)
 		
 	else: # we have no velocity. Pause anim if in idle
 		if state == State.Idle:
 			%CritterSprite.pause()
+	
+	if play_scuttle_sound:
+		if !$ScuttleSound.playing:
+			print("ScuttleSound: Play")
+			$ScuttleSound.play()
+	else:
+		if $ScuttleSound.playing:
+			print("ScuttleSound: Stop")
+			$ScuttleSound.stop()
 	
 	# store the last input direction that isn't zero. Used for roll direction if no input is exists
 	if inputDirection.length_squared() > 0:
