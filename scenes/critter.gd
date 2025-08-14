@@ -1,51 +1,85 @@
 extends CharacterBody2D
 
-@export var moveSpeed : float = 150.0
-@export var chargingMoveSpeed : float = 40.0
-@export var rollMoveSpeed : float = 300
+@export var moveSpeed : float = 150.0 # default move speed
+@export var sprintSpeed : float = 250
 
-@export var maxChargeTime : float = 2.0
-@export var maxRollTime : float = 2.0
+@export var attackMinMoveSpeed : float = 150 # attack min speed when not charged
+@export var attackMaxMoveSpeed : float = 500 # fastest attack speed when fully charged
+
+@export var minAttackTime : float = 0.08 # how long is the attack forward motion 
+@export var maxAttackTime : float = 0.35 # how long is the attack forward motion 
+
+@export var maxChargeTime : float = 1.5 # how long attack charge up can be held
 
 # turn speed number is somewhat ambiguous. If I hold left or right of the current roll direction,
 # 	this value scales how much of that input is added to the roll direction
-@export var rollTurnSpeed : float = 2.0 
+@export var rollTurnSpeed : float = 2.5 
+
+@export var aimLineMinLength : float = 20
+@export var aimLineMaxLength : float = 60
 
 enum State
 {
 	Idle = 0,
 	Charging,
-	Rolling
+	Attack,
+	Sprint,
+	Rolling # not in use
 }
 var state : State
 
 var chargeTime : float = 0.0
-var rollTime : float = 0.0
+var attackTimeRemaining : float = maxAttackTime
 
-var currentRollDirection : Vector2
-var lastInputDirection : Vector2
+var attackMoveSpeed : float = attackMaxMoveSpeed # calculated by the amount of time attack is charged
+
+var rollDirection : Vector2 # used by the roll/sprint. Travels in this direction and updates with sidewards input
+var lastFaceDirection := Vector2(1.0, 0.0)
+
+func _ready() -> void:
+	%ChargingSprite.visible = false
+	%ChargingSprite.play()
 
 func _physics_process(delta):
 	
+	var sprintInputHeld = Input.is_action_pressed("sprint")
+	
 	var play_scuttle_sound := false
-	if state == State.Rolling:
-		rollTime -= delta
-		if rollTime <= 0:
+	if state == State.Sprint:
+		if !sprintInputHeld:
 			state = State.Idle
-			%CritterSprite.play("walkLeftRight")
 	elif state == State.Charging:
 		chargeTime += delta;
 		if chargeTime >= maxChargeTime || !Input.is_action_pressed("ballCharge"):
-			# Start rolling if hit max charge or we let go of the input
-			state = State.Rolling
-			rollTime = 2.0
-			currentRollDirection = lastInputDirection
+			state = State.Attack
+			attackMoveSpeed = remap(chargeTime, 0, maxChargeTime, attackMinMoveSpeed, attackMaxMoveSpeed) 
+			attackTimeRemaining = remap(chargeTime, 0, maxChargeTime, minAttackTime, maxAttackTime )
+			%ChargingSprite.visible = false
+			%AimingLine.visible = false
+	elif state == State.Attack:
+		attackTimeRemaining -= delta;
+		if attackTimeRemaining <= 0:
+			state = State.Idle
+			%CritterSprite.play("walkLeftRight")
 	elif state == State.Idle:
 		if Input.is_action_pressed("ballCharge"):
 			# start charging
 			state = State.Charging
-			chargeTime = 0.0
+			rollDirection = lastFaceDirection
+			chargeTime = 0
+			%ChargingSprite.visible = true
 			%CritterSprite.play("rollLeftRight")
+		elif sprintInputHeld:
+			state = State.Sprint
+			#%CritterSprite.play("rollLeftRight")
+	
+	# update aiming particles
+	if state == State.Charging:
+		#%AimingLine.visible = true # TODO Disabled for now, not sure about it
+		
+		var lineLength = remap(chargeTime, 0, maxChargeTime, aimLineMinLength, aimLineMaxLength )
+		%AimingLine.points[1] = rollDirection * lineLength
+
 	
 	# read input always, so we can store the last input direction for the roll direction
 	var inputDirection = Input.get_vector("moveLeft", "moveRight", "moveUp", "moveDown");
@@ -54,30 +88,43 @@ func _physics_process(delta):
 	if state == State.Idle:
 		velocity = inputDirection * moveSpeed
 		move_and_slide()
-	elif state == State.Charging:
-		velocity = inputDirection * chargingMoveSpeed
+	elif state == State.Sprint:
+		velocity = inputDirection * sprintSpeed
 		move_and_slide()
-	elif state == State.Rolling:
+	if state == State.Rolling: # not in use
 		# Add a small influence from input into the rolling.
-		# isolate our inputDirection just into the lateral components, from the roll direction POV 
-		var inputOntoRollDir = inputDirection.dot(currentRollDirection) * currentRollDirection
-		var inputLateral = inputDirection - inputOntoRollDir
+		var inputLateral = get_lateral_input(inputDirection, rollDirection)
+		rollDirection += ( inputLateral * rollTurnSpeed * delta )
+		rollDirection = rollDirection.normalized()
 		
-		currentRollDirection += ( inputLateral * rollTurnSpeed * delta )
-		currentRollDirection = currentRollDirection.normalized()
+		var rollMoveSpeed = sprintSpeed
+		velocity = rollDirection * rollMoveSpeed
+		move_and_slide()
+	elif state == State.Charging:
 		
-		var rollDelta = currentRollDirection * rollMoveSpeed * delta;
+		var inputLateral = get_lateral_input(inputDirection, rollDirection)
+		rollDirection += ( inputLateral * rollTurnSpeed * delta )
+		rollDirection = rollDirection.normalized()
 		
-		var collision : KinematicCollision2D = move_and_collide(rollDelta)
+		var attackMoveDelta = -rollDirection * 20 * delta;
+		
+		var collision : KinematicCollision2D = move_and_collide(attackMoveDelta)
+
+		
+
+	elif state == State.Attack:
+		var attackMoveDelta = rollDirection * attackMoveSpeed * delta;
+		
+		var collision : KinematicCollision2D = move_and_collide(attackMoveDelta)
 		
 		if collision:
 			var otherCollider = collision.get_collider()
 			if otherCollider is RigidBody2D:
-				var impulseSpeed = rollMoveSpeed * 1.1
+				var impulseSpeed = attackMoveSpeed * 1.1
 				otherCollider.apply_central_impulse(-collision.get_normal() * impulseSpeed)
 				$GemImpactSound.play()
 				print("critter hit gem")
-			rollTime = 0.0 # stop rolling every time you collide
+			attackTimeRemaining = 0.0 # stop rolling every time you collide
 	
 	
 	# if we have any velocity, update are sprite direction and anim based of it
@@ -88,7 +135,7 @@ func _physics_process(delta):
 		var useXAsDirection = abs(velocity.x) >= abs(velocity.y)
 		if useXAsDirection: # x is larger, so use left and right anims
 			$CritterSprite.scale.x = sign(velocity.x) * abs($CritterSprite.scale.x) # Flip the scale to invert
-			if state == State.Idle:
+			if state == State.Idle || state == State.Sprint:
 				nextAnim = "walkLeftRight"
 			elif state == State.Rolling || state == State.Charging:
 				nextAnim = "rollLeftRight"
@@ -97,23 +144,26 @@ func _physics_process(delta):
 			$CritterSprite.scale.x = abs($CritterSprite.scale.x) # reset to normal x scale
 			
 			if sign(velocity.y) >= 0:
-				if state == State.Idle:
+				if state == State.Idle || state == State.Sprint:
 					nextAnim = "walkDown"
 				elif state == State.Rolling || state == State.Charging:
 					nextAnim = "rollDown"
 			else:
-				if state == State.Idle:
+				if state == State.Idle || state == State.Sprint:
 					nextAnim = "walkUp"
 				elif state == State.Rolling || state == State.Charging:
 					nextAnim = "rollUp"
 		
-		if state == State.Idle:
+		if state == State.Idle || state == State.Sprint:
 			play_scuttle_sound = true
 		
 		$CritterSprite.play(nextAnim)
 		
+		# store the last input direction that isn't zero. Used for roll direction if no input is exists
+		lastFaceDirection = velocity.normalized()
+		
 	else: # we have no velocity. Pause anim if in idle
-		if state == State.Idle:
+		if state == State.Idle || state == State.Sprint:
 			%CritterSprite.pause()
 	
 	if play_scuttle_sound:
@@ -124,7 +174,9 @@ func _physics_process(delta):
 		if $ScuttleSound.playing:
 			print("ScuttleSound: Stop")
 			$ScuttleSound.stop()
-	
-	# store the last input direction that isn't zero. Used for roll direction if no input is exists
-	if inputDirection.length_squared() > 0:
-		lastInputDirection = inputDirection
+
+func get_lateral_input(inputDirection: Vector2, moveDirection: Vector2) -> Vector2:
+	# isolate our inputDirection just into the lateral components, from the roll direction POV 
+	var inputOntoRollDir = inputDirection.dot(moveDirection) * moveDirection
+	var inputLateral = inputDirection - inputOntoRollDir
+	return inputLateral

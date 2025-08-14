@@ -17,18 +17,32 @@ radius = 29.0172
 script = ExtResource("1_0gcsj")
 gemScene = ExtResource("2_3kuml")
 
-[node name="Arena" type="StaticBody2D" parent="."]
+[node name="Arena" type="Node2D" parent="."]
+
+[node name="ArenaEdge" type="StaticBody2D" parent="Arena"]
 physics_material_override = SubResource("PhysicsMaterial_3kuml")
 
-[node name="Sprite2D" type="Sprite2D" parent="Arena"]
+[node name="Sprite2D" type="Sprite2D" parent="Arena/ArenaEdge"]
 texture = ExtResource("3_3kuml")
 centered = false
 
-[node name="ArenaPolygon" type="CollisionPolygon2D" parent="Arena"]
+[node name="ArenaPolygon" type="CollisionPolygon2D" parent="Arena/ArenaEdge"]
 unique_name_in_owner = true
 position = Vector2(0, 143)
 build_mode = 1
-polygon = PackedVector2Array(502, 100, 423, 95, 378, 106, 338, 95, 291, 113, 260, 109, 225, 133, 188, 130, 153, 168, 131, 180, 107, 216, 101, 246, 91, 260, 106, 291, 114, 335, 152, 370, 154, 402, 240, 409, 291, 421, 351, 417, 376, 427, 431, 417, 486, 428, 524, 421, 544, 400, 577, 399, 650, 357, 668, 324, 694, 303, 702, 242, 683, 220, 678, 194, 636, 168, 596, 130, 545, 127)
+polygon = PackedVector2Array(495, 106, 438, 101, 379, 104, 337, 103, 292, 111, 258, 117, 224, 130, 188, 144, 153, 168, 129, 186, 109, 217, 101, 246, 100, 270, 108, 301, 116, 334, 149, 365, 192, 389, 240, 405, 291, 417, 342, 418, 382, 419, 431, 417, 476, 418, 517, 412, 550, 401, 604, 380, 645, 356, 666, 328, 684, 298, 690, 257, 683, 220, 666, 188, 636, 168, 590, 141, 545, 127)
+
+[node name="ArenaCenterArea" type="Area2D" parent="Arena"]
+
+[node name="ArenaCenterPolygon" type="CollisionPolygon2D" parent="Arena/ArenaCenterArea"]
+unique_name_in_owner = true
+position = Vector2(13, 144)
+build_mode = 1
+polygon = PackedVector2Array(376, 134, 440, 131, 510, 150, 563, 169, 607, 203, 632, 237, 634, 300, 602, 339, 548, 369, 480, 386, 402, 390, 331, 388, 257, 380, 196, 355, 149, 320, 125, 287, 121, 255, 137, 215, 173, 182, 218, 157, 273, 146, 321, 137)
+
+[node name="ArenaCenter" type="Marker2D" parent="Arena"]
+unique_name_in_owner = true
+position = Vector2(405, 394)
 
 [node name="Critter" parent="." instance=ExtResource("3_v2cs6")]
 position = Vector2(381, 420)
@@ -38,7 +52,7 @@ unique_name_in_owner = true
 
 [node name="Goal" type="Area2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(419, 268)
+position = Vector2(534, 268)
 
 [node name="Sprite2D" type="Sprite2D" parent="Goal"]
 texture = ExtResource("4_burph")

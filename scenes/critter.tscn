@@ -1,11 +1,54 @@
-[gd_scene load_steps=20 format=3 uid="uid://bwbix4ltm861q"]
+[gd_scene load_steps=28 format=3 uid="uid://bwbix4ltm861q"]
 
 [ext_resource type="Script" uid="uid://bnn7k8mua5vul" path="res://scenes/critter.gd" id="1_oeans"]
+[ext_resource type="Texture2D" uid="uid://b23bt0dis3ppr" path="res://assets/critterGame/critter_charging.png" id="2_5mxoi"]
 [ext_resource type="Texture2D" uid="uid://b0xkxaqnamv7s" path="res://assets/critterGame/critter2.png" id="2_oeans"]
 [ext_resource type="AudioStream" uid="uid://c5lqchp87dc8g" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_Movement_Loop.mp3" id="3_qlvc6"]
 [ext_resource type="AudioStream" uid="uid://cr6xg5w7lahgo" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-001.mp3" id="4_fraou"]
 [ext_resource type="AudioStream" uid="uid://ufdqd2b0i3i5" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-002.mp3" id="5_5mxoi"]
 [ext_resource type="AudioStream" uid="uid://doouonmd43w7r" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-003.mp3" id="6_1ty1m"]
+
+[sub_resource type="Curve" id="Curve_5mxoi"]
+_data = [Vector2(0.308707, 0.98002), 0.0, 0.0, 0, 0, Vector2(0.897098, 0.067623), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_5mxoi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahx24"]
+atlas = ExtResource("2_5mxoi")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8h34e"]
+atlas = ExtResource("2_5mxoi")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1c8tl"]
+atlas = ExtResource("2_5mxoi")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxgol"]
+atlas = ExtResource("2_5mxoi")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_re4ka"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahx24")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8h34e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1c8tl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vxgol")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fraou"]
 atlas = ExtResource("2_oeans")
@@ -147,6 +190,19 @@ stream_2/stream = ExtResource("6_1ty1m")
 scale = Vector2(1.5, 1.5)
 motion_mode = 1
 script = ExtResource("1_oeans")
+
+[node name="AimingLine" type="Line2D" parent="."]
+unique_name_in_owner = true
+visible = false
+points = PackedVector2Array(0, 0, 68.6667, -17.3333)
+width = 3.0
+width_curve = SubResource("Curve_5mxoi")
+default_color = Color(0, 0, 0, 1)
+texture = SubResource("ViewportTexture_5mxoi")
+
+[node name="ChargingSprite" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_re4ka")
 
 [node name="CritterSprite" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

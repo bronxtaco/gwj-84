@@ -25,6 +25,18 @@ func _process(delta: float) -> void:
 			var spawnCount = randi_range(1, 3)
 			for i in range(spawnCount):
 				spawn_gem()
+
+func _physics_process(delta: float) -> void:
+	# loop over all gems and if they are outside the arena center polygon, nudge them back inside
+	for gemNode in %SpawnedGems.get_children():
+		var gem = gemNode as RigidBody2D
+		var inCenter = Geometry2D.is_point_in_polygon(gem.position - %ArenaCenterPolygon.position, %ArenaCenterPolygon.polygon)
+		if !inCenter:
+			var toCenterDir = (%ArenaCenter.position - gem.position).normalized()
+			
+			var centeringSpeed = 15
+			var force = toCenterDir * centeringSpeed
+			gem.apply_force(force)
 			
 
 func get_gem_count():

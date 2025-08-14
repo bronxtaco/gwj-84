@@ -80,7 +80,7 @@ func on_tween_end():
 	set_collision_mask(initialCollisionMasks)
 	
 	# give it some slight random impulse direction on landing
-	var impulseSpeed = 15
+	var impulseSpeed = 9
 	
 	# my dumb way to get rid of zero length direction. But it works :D 
 	var randDir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0))
