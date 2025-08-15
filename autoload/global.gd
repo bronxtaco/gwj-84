@@ -1,5 +1,6 @@
 extends Node
 
+# Menus
 enum MENU_TYPE {
 	PAUSE,
 	SETTINGS,

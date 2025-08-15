@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://cwnobe4bv4vu4"]
+
+[ext_resource type="Script" uid="uid://chbdkngrr08m7" path="res://scenes/combat.gd" id="1_a2e2y"]
+[ext_resource type="Texture2D" uid="uid://mgdy1uyfl6i6" path="res://assets/combat/backgrounds/game_background_1.png" id="2_m2d54"]
+[ext_resource type="PackedScene" uid="uid://c8ky2qrq0buds" path="res://scenes/hero.tscn" id="3_ikfks"]
+[ext_resource type="PackedScene" uid="uid://j4p6hrpy0tw6" path="res://scenes/enemy.tscn" id="4_0vylu"]
+[ext_resource type="Texture2D" uid="uid://drkym8j6v6cd1" path="res://assets/combat/ui/ui-frame.png" id="5_ikfks"]
+[ext_resource type="PackedScene" uid="uid://bmmj4lxj88iwg" path="res://scenes/mini_game.tscn" id="6_0vylu"]
+
+[node name="Combat" type="Node2D"]
+script = ExtResource("1_a2e2y")
+
+[node name="BackgroundFlipped" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+modulate = Color(0.288518, 0.288518, 0.288518, 1)
+position = Vector2(-3, 744)
+scale = Vector2(0.21, -0.21)
+texture = ExtResource("2_m2d54")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 188.158, 3840, 1972.84)
+
+[node name="Background" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-3, -5.84126e-06)
+scale = Vector2(0.21, 0.21)
+texture = ExtResource("2_m2d54")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 188.158, 3840, 1972.84)
+
+[node name="Hero" parent="." instance=ExtResource("3_ikfks")]
+position = Vector2(127, 164)
+
+[node name="Enemy" parent="." instance=ExtResource("4_0vylu")]
+position = Vector2(680, 162)
+
+[node name="UiFrame" type="Sprite2D" parent="."]
+texture = ExtResource("5_ikfks")
+centered = false
+
+[node name="MiniGame" parent="." instance=ExtResource("6_0vylu")]
