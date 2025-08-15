@@ -52,11 +52,9 @@ class AttackingState extends FSM.State:
 			return
 		
 		var progress_seconds = min(seconds_active, STATE_TIME)
-		for pathFollow in obj.FireballAttack.get_children():
-			pathFollow.progress_ratio = progress_seconds / STATE_TIME
-		if progress_seconds == STATE_TIME:
+		var progress_normalized = progress_seconds / STATE_TIME
+		if obj.FireballAttack.update_progress(progress_normalized):
 			done = true
-			obj.FireballAttack.explode()
 			Events.apply_damage_to_hero.emit(obj.FireballAttack.damage)
 
 

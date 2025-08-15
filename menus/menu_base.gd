@@ -22,7 +22,7 @@ func _process(_delta):
 	reset_default_focused_node()
 
 	if dismissable and Input.is_action_just_pressed("ui_cancel"):
-		#Audio.play_sound("menu-back")
+		Audio.play_menu_back()
 		Events.menu_pop.emit()
 		_on_dismiss()
 
@@ -59,7 +59,7 @@ func default_focus_entered(_node):
 		_first_ignored = true
 		return
 	
-	#Audio.play_sound("menu-scroll")
+	Audio.play_menu_scroll()
 
 
 func default_mouse_entered(node):

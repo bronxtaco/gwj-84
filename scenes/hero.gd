@@ -3,7 +3,9 @@ extends Node2D
 @export var maxHealth : int = 100
 
 @onready var Sprite := %Sprite
+@onready var AttackSound := %AttackSound
 @onready var FireballAttack := %FireballAttack
+@onready var HealthBar := $HealthBar
 
 var currentHealth : int = maxHealth;
 
@@ -45,6 +47,7 @@ class AttackingState extends FSM.State:
 	func on_enter(_prev_state):
 		done = false
 		obj.Sprite.play("attack_loop")
+		obj.AttackSound.play()
 		obj.FireballAttack.launch_new(10)
 	
 	func physics_process(_delta):
@@ -52,15 +55,11 @@ class AttackingState extends FSM.State:
 			return
 		
 		var progress_seconds = min(seconds_active, STATE_TIME)
-		for pathFollow in obj.FireballAttack.get_children():
-			pathFollow.progress_ratio = progress_seconds / STATE_TIME
-		if progress_seconds == STATE_TIME:
+		var progress_normalized = progress_seconds / STATE_TIME
+		if obj.FireballAttack.update_progress(progress_normalized):
 			done = true
-			obj.FireballAttack.explode()
 			Events.apply_damage_to_enemy.emit(obj.FireballAttack.damage)
 
-
-@onready var HealthBar : TextureProgressBar = $HealthBar
 
 func _ready():
 	fsm.debug = true # enables logging for state changes

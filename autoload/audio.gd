@@ -19,3 +19,16 @@ func play_battle():
 func _on_battle_start_finished() -> void:
 	%battle.volume_db = MUSIC_DB
 	%battle.play()
+	
+
+func play_menu_pause():
+	%pause.play()
+	
+func play_menu_select():
+	%select.play()
+
+func play_menu_back():
+	%back.play()
+
+func play_menu_scroll():
+	%scroll.play()

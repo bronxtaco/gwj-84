@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://c8ky2qrq0buds"]
+[gd_scene load_steps=48 format=3 uid="uid://c8ky2qrq0buds"]
 
 [ext_resource type="Script" uid="uid://d08wrm06fpjwd" path="res://scenes/hero.gd" id="1_6xrt3"]
 [ext_resource type="Texture2D" uid="uid://dyj58vbv7gr40" path="res://assets/combat/hero/attack/attack1.png" id="2_54d4v"]
@@ -40,6 +40,8 @@
 [ext_resource type="Texture2D" uid="uid://cnyp6l1ayrdhe" path="res://assets/combat/hero/idle/idle13.png" id="42_cupsh"]
 [ext_resource type="Texture2D" uid="uid://bc5sy0koubq5x" path="res://assets/combat/hero/idle/idle14.png" id="43_t1ln6"]
 [ext_resource type="Texture2D" uid="uid://dack17wqj7ft0" path="res://assets/combat/ui/hp_bar_bg.png" id="44_5r5he"]
+[ext_resource type="AudioStream" uid="uid://dufdyf1q68ek6" path="res://assets/audio/sfx/GWJ84_SFX_Exert_Player_Attack-001.mp3" id="44_tsxnk"]
+[ext_resource type="AudioStream" uid="uid://4wyt8asd132s" path="res://assets/audio/sfx/GWJ84_SFX_Exert_Player_Attack-002.mp3" id="45_6xrt3"]
 [ext_resource type="Texture2D" uid="uid://bv18ljwbg0itu" path="res://assets/combat/ui/hp_bar_border.png" id="45_cuxdf"]
 [ext_resource type="Texture2D" uid="uid://y15fvyrchlwl" path="res://assets/combat/ui/hp_full.png" id="46_5wdp5"]
 [ext_resource type="PackedScene" uid="uid://8hc8w0lxm0f2" path="res://components/fireball_attack.tscn" id="47_54d4v"]
@@ -211,6 +213,11 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_54d4v"]
+streams_count = 2
+stream_0/stream = ExtResource("44_tsxnk")
+stream_1/stream = ExtResource("45_6xrt3")
+
 [node name="Hero" type="Node2D"]
 script = ExtResource("1_6xrt3")
 
@@ -245,5 +252,11 @@ autostart = true
 
 [node name="StaffPos" type="Marker2D" parent="."]
 position = Vector2(0, -18)
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_54d4v")
+panning_strength = 2.0
+bus = &"Arena"
 
 [connection signal="timeout" from="YawnTimer" to="." method="_on_idle_timer_timeout"]

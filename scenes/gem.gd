@@ -71,6 +71,12 @@ func on_tween_end():
 	var impulseDirection = randDir.normalized()
 	apply_central_impulse(impulseDirection * impulseSpeed)
 
+func play_collide_sound():
+	%CollideSound.play()
+
+func play_upgrade_sound():
+	%UpgradeSound.play()
+
 func _on_body_entered(body: Node) -> void:
 	var isRigidBody = body is RigidBody2D
 	if !isRigidBody: return 

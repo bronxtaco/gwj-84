@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://b2waytaxnr4g3"]
+[gd_scene load_steps=9 format=3 uid="uid://b2waytaxnr4g3"]
 
 [ext_resource type="AudioStream" uid="uid://c8fx1ory5lqeo" path="res://assets/audio/music/overworld.ogg" id="1_rxn34"]
 [ext_resource type="Script" uid="uid://ccg8pewpq407h" path="res://autoload/audio.gd" id="1_uw2yb"]
 [ext_resource type="AudioStream" uid="uid://ctj403yam2tsx" path="res://assets/audio/music/battle_start.ogg" id="2_uw2yb"]
-[ext_resource type="AudioStream" uid="uid://ddfrupvhu4eyv" path="res://assets/audio/music/battle.ogg" id="3_0rit4"]
+[ext_resource type="AudioStream" uid="uid://do5ibpv4fqxmk" path="res://assets/audio/music/GWJ84_Music_Battle_roughidea_v3.mp3" id="4_uw2yb"]
+[ext_resource type="AudioStream" uid="uid://cngo5ugc4tudq" path="res://assets/audio/sfx/GWJ84_SFX_UI_Accept_Option-002.mp3" id="5_d3qhs"]
+[ext_resource type="AudioStream" uid="uid://cpoct8yc5wjht" path="res://assets/audio/sfx/GWJ84_SFX_UI_Accept_Option-001.mp3" id="5_lx04d"]
+[ext_resource type="AudioStream" uid="uid://dyptdijdxcx61" path="res://assets/audio/sfx/GWJ84_SFX_UI_Back.mp3" id="6_lx04d"]
+[ext_resource type="AudioStream" uid="uid://da3rb7nej7al0" path="res://assets/audio/sfx/GWJ84_SFX_UI_Scroll.mp3" id="7_k0ge0"]
 
 [node name="Audio" type="Node2D"]
 script = ExtResource("1_uw2yb")
@@ -23,7 +27,33 @@ bus = &"Music"
 
 [node name="battle" type="AudioStreamPlayer" parent="Music"]
 unique_name_in_owner = true
-stream = ExtResource("3_0rit4")
+stream = ExtResource("4_uw2yb")
 bus = &"Music"
+
+[node name="Menu" type="Node" parent="."]
+
+[node name="pause" type="AudioStreamPlayer" parent="Menu"]
+unique_name_in_owner = true
+stream = ExtResource("5_lx04d")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="select" type="AudioStreamPlayer" parent="Menu"]
+unique_name_in_owner = true
+stream = ExtResource("5_d3qhs")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="back" type="AudioStreamPlayer" parent="Menu"]
+unique_name_in_owner = true
+stream = ExtResource("6_lx04d")
+max_polyphony = 3
+bus = &"SFX"
+
+[node name="scroll" type="AudioStreamPlayer" parent="Menu"]
+unique_name_in_owner = true
+stream = ExtResource("7_k0ge0")
+max_polyphony = 3
+bus = &"SFX"
 
 [connection signal="finished" from="Music/battle_start" to="." method="_on_battle_start_finished"]

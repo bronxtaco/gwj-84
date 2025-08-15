@@ -216,11 +216,11 @@ shape = SubResource("CircleShape2D_oeans")
 stream = ExtResource("3_qlvc6")
 volume_db = 4.0
 max_distance = 400.0
-bus = &"SFX"
+bus = &"Minigame"
 
 [node name="GemImpactSound" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_bxkvv")
 volume_db = 4.0
 max_distance = 800.0
 max_polyphony = 4
-bus = &"SFX"
+bus = &"Minigame"

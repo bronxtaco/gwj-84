@@ -1,6 +1,7 @@
 extends Path2D
 
 @export var gets_boosted := true # true for player fireball, false for enemy. might change this later depending on minigame design
+@export var explode_audio: Array[AudioStream] = []
 
 const SizeTable = [ # size = index where damage less than value
 	0, # damage can't be zero so size can't be zero
@@ -36,10 +37,21 @@ func _ready() -> void:
 func get_fireball_pos():
 	return %FireballMarker.global_position
 
+
 func launch_new(damage_: int):
 	visible = true
 	active = true
 	damage = damage_
+	%LaunchSound.play()
+
+
+func update_progress(progress: float) -> bool:
+	for pathFollow in get_children():
+		if pathFollow is PathFollow2D:
+			pathFollow.progress_ratio = progress
+	if progress == 1:
+		explode()
+	return progress == 1
 
 
 func get_size_from_damage(damage):
@@ -49,11 +61,15 @@ func get_size_from_damage(damage):
 		if damage <= SizeTable[i]:
 			break
 	return size
-	
+
+
 func explode():
 	active = false
 	%Fireball.play("explode")
+	%ExplodeSound.stream = explode_audio[size-1]
+	%ExplodeSound.play()
 	Events.fireball_exploded.emit()
+
 
 func _on_crit_boost(gem_type: Global.GemType, boost_amount: int) -> void:
 	if !active:

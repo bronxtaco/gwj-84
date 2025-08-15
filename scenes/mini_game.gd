@@ -106,6 +106,7 @@ func _on_goal_body_entered(body: Node2D) -> void:
 	if !isGem: return
 	
 	var gem = rigidBody
+	%SuccessAudio.play()
 	Events.crit_boost.emit(gem.gemType, gem.gemDamage)
 	gem.queue_free()
 
@@ -113,17 +114,24 @@ func _on_fireball_exploded():
 	clear_gems()
 
 func _on_gems_collided(initialGemType: Global.GemType, gemA: RigidBody2D, gemB: RigidBody2D):
+	var no_upgrade = false
 	if gemA.gemType != gemB.gemType:
-		return # if are not the same type, then do not upgrade there color
+		no_upgrade = true # if are not the same type, then do not upgrade there color
 	
 	var gemType = gemA.gemType
 	
 	if initialGemType != gemType:
 		# if gem type is different then initial type. Then we have likely already handled these two gems colliding this frame
-		return 
+		no_upgrade = true
 	
 	if gemType == Global.GemType.Gold: # if already at max gem, early out
+		no_upgrade = true
+	
+	if no_upgrade:
+		gemA.play_collide_sound() # only need to play 1 sound
 		return
+	
+	gemA.play_upgrade_sound() # only need to play 1 sound
 	
 	# combining two of the same color generates two seperate colors
 	var nextGemA = gemType

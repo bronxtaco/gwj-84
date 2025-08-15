@@ -13,7 +13,8 @@ func _ready() -> void:
 	%Sprite.modulate = gemColor
 
 func start(dest_pos: Vector2) -> void:
-	get_tree().create_tween().tween_property(self, "global_position", dest_pos, travel_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+	create_tween().tween_property(self, "global_position", dest_pos, travel_time).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_EXPO)
+	await get_tree().create_timer(0.2).timeout
 	$SFX.play()
 
 func _process(delta: float) -> void:

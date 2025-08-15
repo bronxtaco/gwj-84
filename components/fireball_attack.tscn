@@ -1,6 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://8hc8w0lxm0f2"]
+[gd_scene load_steps=26 format=3 uid="uid://8hc8w0lxm0f2"]
 
 [ext_resource type="Script" uid="uid://ild780hfbee1" path="res://components/fireball_attack.gd" id="1_s1opf"]
+[ext_resource type="AudioStream" uid="uid://bovtg3pw8hfu1" path="res://assets/audio/sfx/GWJ84_SFX_Player_Fireblast Impact_Small.mp3" id="2_f44dr"]
+[ext_resource type="AudioStream" uid="uid://5wcr58t21v0u" path="res://assets/audio/sfx/GWJ84_SFX_Player_Fireblast Impact_Med.mp3" id="3_kffx5"]
+[ext_resource type="AudioStream" uid="uid://grbnnrdban8h" path="res://assets/audio/sfx/GWJ84_SFX_Player_Fireblast Impact_Large.mp3" id="4_0fvdc"]
 [ext_resource type="Texture2D" uid="uid://qruohab853c" path="res://assets/combat/fx/fireball_2.png" id="4_jh3wq"]
 [ext_resource type="Texture2D" uid="uid://vpisa0n3hqg" path="res://assets/combat/fx/fireball_3.png" id="5_qpwft"]
 [ext_resource type="Texture2D" uid="uid://dnyifotjyj2e3" path="res://assets/combat/fx/fireball_4.png" id="6_f44dr"]
@@ -13,7 +16,9 @@
 [ext_resource type="Texture2D" uid="uid://btstpyu2ony7h" path="res://assets/combat/fx/fireball_11.png" id="13_1uutt"]
 [ext_resource type="Texture2D" uid="uid://cm4mbxk6wdf36" path="res://assets/combat/fx/fireball_12.png" id="14_y48y3"]
 [ext_resource type="Texture2D" uid="uid://c4ynedt116qdx" path="res://assets/combat/fx/fireball_13.png" id="15_n8sca"]
+[ext_resource type="AudioStream" uid="uid://bllwvfs8ouikd" path="res://assets/audio/sfx/GWJ84_SFX_Player_Fireblast Cast-001.mp3" id="16_u53df"]
 [ext_resource type="Texture2D" uid="uid://c85m15eii1u7h" path="res://assets/combat/fx/fireball_14.png" id="16_vd78t"]
+[ext_resource type="AudioStream" uid="uid://bv388tdu7h367" path="res://assets/audio/sfx/GWJ84_SFX_Player_Fireblast Cast-002.mp3" id="17_jh3wq"]
 [ext_resource type="Texture2D" uid="uid://82a0fyki1rrn" path="res://assets/combat/fx/fireball_15.png" id="17_oru3f"]
 
 [sub_resource type="Curve2D" id="Curve2D_54d4v"]
@@ -104,10 +109,18 @@ animations = [{
 offsets = PackedFloat32Array(0, 0.254902, 0.87451, 1)
 colors = PackedColorArray(0.987182, 0.175684, 0, 1, 0.707446, 0.606764, 0, 1, 0, 0, 0, 0.486275, 0, 0, 0, 0)
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_qpwft"]
+streams_count = 2
+stream_0/stream = ExtResource("16_u53df")
+stream_1/stream = ExtResource("17_jh3wq")
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_u53df"]
+
 [node name="FireballAttack" type="Path2D"]
 z_index = 10
 curve = SubResource("Curve2D_54d4v")
 script = ExtResource("1_s1opf")
+explode_audio = Array[AudioStream]([ExtResource("2_f44dr"), ExtResource("2_f44dr"), ExtResource("3_kffx5"), ExtResource("3_kffx5"), ExtResource("4_0fvdc")])
 
 [node name="FireballPath" type="PathFollow2D" parent="."]
 unique_name_in_owner = true
@@ -159,5 +172,18 @@ theme_override_font_sizes/font_size = 16
 text = "10"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="LaunchSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_qpwft")
+volume_db = 3.0
+bus = &"Arena"
+
+[node name="ExplodeSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(521, 6)
+stream = SubResource("AudioStreamInteractive_u53df")
+volume_db = 3.0
+bus = &"Arena"
 
 [connection signal="animation_finished" from="FireballPath/Fireball" to="." method="_on_fireball_animation_finished"]

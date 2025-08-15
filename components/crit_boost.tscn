@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://nxfw2mqik26m" path="res://components/crit_boost.gd" id="1_0sth8"]
 [ext_resource type="Texture2D" uid="uid://cvk2ldpl83kv2" path="res://assets/critterGame/gem.png" id="2_nn2tw"]
-[ext_resource type="AudioStream" uid="uid://brgif2tqnucmq" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerA-001.mp3" id="3_nn2tw"]
-[ext_resource type="AudioStream" uid="uid://bgjqcb5gcfs5b" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerA-002.mp3" id="4_2tmcx"]
-[ext_resource type="AudioStream" uid="uid://dvvsdwi6ehqce" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerB-001.mp3" id="5_ii3ke"]
-[ext_resource type="AudioStream" uid="uid://buu5kklbdoiow" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerB-002.mp3" id="6_4kvye"]
+[ext_resource type="AudioStream" uid="uid://d6wwalkugix4" path="res://assets/audio/sfx/GWJ84_SFX_Gem_CastToFireball-001.mp3" id="3_nn2tw"]
+[ext_resource type="AudioStream" uid="uid://cfc5jdy54c7he" path="res://assets/audio/sfx/GWJ84_SFX_Gem_CastToFireball-002.mp3" id="4_2tmcx"]
+[ext_resource type="AudioStream" uid="uid://dmcgoww7wnjyc" path="res://assets/audio/sfx/GWJ84_SFX_Gem_CastToFireball-003.mp3" id="5_ii3ke"]
+[ext_resource type="AudioStream" uid="uid://lvc0kgsjb86n" path="res://assets/audio/sfx/GWJ84_SFX_Gem_CastToFireball-004.mp3" id="6_4kvye"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_baa08"]
 streams_count = 4
@@ -25,3 +25,4 @@ texture = ExtResource("2_nn2tw")
 stream = SubResource("AudioStreamRandomizer_baa08")
 volume_db = 3.0
 max_distance = 1000.0
+bus = &"Arena"
