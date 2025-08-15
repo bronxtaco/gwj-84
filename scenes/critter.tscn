@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bwbix4ltm861q"]
+[gd_scene load_steps=27 format=3 uid="uid://bwbix4ltm861q"]
 
 [ext_resource type="Script" uid="uid://bnn7k8mua5vul" path="res://scenes/critter.gd" id="1_oeans"]
 [ext_resource type="Texture2D" uid="uid://b23bt0dis3ppr" path="res://assets/critterGame/critter_charging.png" id="2_5mxoi"]
@@ -7,48 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://cr6xg5w7lahgo" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-001.mp3" id="4_fraou"]
 [ext_resource type="AudioStream" uid="uid://ufdqd2b0i3i5" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-002.mp3" id="5_5mxoi"]
 [ext_resource type="AudioStream" uid="uid://doouonmd43w7r" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-003.mp3" id="6_1ty1m"]
-
-[sub_resource type="Curve" id="Curve_5mxoi"]
-_data = [Vector2(0.308707, 0.98002), 0.0, 0.0, 0, 0, Vector2(0.897098, 0.067623), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_5mxoi"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ahx24"]
-atlas = ExtResource("2_5mxoi")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8h34e"]
-atlas = ExtResource("2_5mxoi")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1c8tl"]
-atlas = ExtResource("2_5mxoi")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vxgol"]
-atlas = ExtResource("2_5mxoi")
-region = Rect2(192, 0, 64, 64)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_re4ka"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ahx24")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8h34e")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1c8tl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vxgol")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
+[ext_resource type="Texture2D" uid="uid://bxak1x6d3dkc7" path="res://assets/critterGame/charging_line.png" id="8_1ty1m"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fraou"]
 atlas = ExtResource("2_oeans")
@@ -177,6 +136,42 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahx24"]
+atlas = ExtResource("2_5mxoi")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8h34e"]
+atlas = ExtResource("2_5mxoi")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1c8tl"]
+atlas = ExtResource("2_5mxoi")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxgol"]
+atlas = ExtResource("2_5mxoi")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_re4ka"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahx24")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8h34e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1c8tl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vxgol")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_oeans"]
 radius = 17.0
 
@@ -190,25 +185,30 @@ stream_2/stream = ExtResource("6_1ty1m")
 scale = Vector2(1.5, 1.5)
 motion_mode = 1
 script = ExtResource("1_oeans")
-
-[node name="AimingLine" type="Line2D" parent="."]
-unique_name_in_owner = true
-visible = false
-points = PackedVector2Array(0, 0, 68.6667, -17.3333)
-width = 3.0
-width_curve = SubResource("Curve_5mxoi")
-default_color = Color(0, 0, 0, 1)
-texture = SubResource("ViewportTexture_5mxoi")
-
-[node name="ChargingSprite" type="AnimatedSprite2D" parent="."]
-unique_name_in_owner = true
-sprite_frames = SubResource("SpriteFrames_re4ka")
+sprintSpeed = 200.0
+walkSpeed = 100.0
+chargeBackSpeed = 300.0
+attackMinMoveSpeed = 250.0
+minAttackTime = 0.25
+maxChargeTime = 0.5
 
 [node name="CritterSprite" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_tcjrq")
 animation = &"walkLeftRight"
 autoplay = "walkLeftRight"
+
+[node name="AimingLine" type="Line2D" parent="CritterSprite"]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(3.315, 3.315)
+points = PackedVector2Array(4, 0, 23, 0)
+texture = ExtResource("8_1ty1m")
+texture_mode = 1
+
+[node name="ChargingSprite" type="AnimatedSprite2D" parent="CritterSprite"]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_re4ka")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_oeans")

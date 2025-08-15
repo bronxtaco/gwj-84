@@ -21,8 +21,10 @@ func _process(delta: float) -> void:
 	
 	if gemSpawnTimer <= 0.0:
 		gemSpawnTimer = gemSpawnTimeInterval
-		if get_gem_count() < maxSpawnedGems:
-			var spawnCount = randi_range(1, 3)
+		
+		var gemCount = get_gem_count()
+		if gemCount < maxSpawnedGems:
+			var spawnCount = min(randi_range(1, 3), maxSpawnedGems - gemCount)
 			for i in range(spawnCount):
 				spawn_gem()
 

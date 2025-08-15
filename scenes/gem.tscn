@@ -52,7 +52,6 @@ bus = &"Minigame"
 [node name="UpgradeSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = SubResource("AudioStreamRandomizer_eaa7k")
-stream_paused = true
 bus = &"Minigame"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
