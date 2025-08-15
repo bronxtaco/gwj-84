@@ -36,7 +36,7 @@ func _physics_process(delta: float) -> void:
 		if !inCenter:
 			var toCenterDir = (%ArenaCenter.position - gem.position).normalized()
 			
-			var centeringSpeed = 15
+			var centeringSpeed = 20
 			var force = toCenterDir * centeringSpeed
 			gem.apply_force(force)
 			

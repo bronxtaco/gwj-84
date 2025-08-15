@@ -1,17 +1,17 @@
 [gd_scene load_steps=13 format=3 uid="uid://cwxf3ipevjip"]
 
 [ext_resource type="Script" uid="uid://bb07vhwvqenvm" path="res://scenes/gem.gd" id="1_kprv0"]
-[ext_resource type="Texture2D" uid="uid://2yh6eycm3mj0" path="res://assets/critterGame/gem_shadow.png" id="2_bhq7q"]
+[ext_resource type="Texture2D" uid="uid://b76w3h0o4qcxp" path="res://assets/critterGame/gem_shadow2.png" id="2_eaa7k"]
+[ext_resource type="Texture2D" uid="uid://4ou5xxdejjep" path="res://assets/critterGame/gem2.png" id="3_eaa7k"]
 [ext_resource type="AudioStream" uid="uid://dit00as3nx1wt" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerC-001.mp3" id="4_dhpy3"]
 [ext_resource type="AudioStream" uid="uid://cr6xg5w7lahgo" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-001.mp3" id="4_eaa7k"]
-[ext_resource type="Texture2D" uid="uid://cvk2ldpl83kv2" path="res://assets/critterGame/gem.png" id="5_dn3vp"]
 [ext_resource type="AudioStream" uid="uid://ufdqd2b0i3i5" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-002.mp3" id="5_hqa1t"]
 [ext_resource type="AudioStream" uid="uid://ck7sxdfhg5npc" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerC-002.mp3" id="5_o6gnd"]
 [ext_resource type="AudioStream" uid="uid://ou4qr33nqoob" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerC-003.mp3" id="6_35lcq"]
 [ext_resource type="AudioStream" uid="uid://doouonmd43w7r" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-003.mp3" id="6_qgn10"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5xxwx"]
-radius = 15.0
+radius = 17.25
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_xtt15"]
 streams_count = 3
@@ -26,22 +26,24 @@ stream_1/stream = ExtResource("5_o6gnd")
 stream_2/stream = ExtResource("6_35lcq")
 
 [node name="Gem" type="RigidBody2D"]
+lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 8
+linear_damp = 0.32
 script = ExtResource("1_kprv0")
 
 [node name="Shadow" type="Sprite2D" parent="."]
 unique_name_in_owner = true
-texture = ExtResource("2_bhq7q")
+modulate = Color(1, 1, 1, 0.541176)
+texture = ExtResource("2_eaa7k")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("5_dn3vp")
+texture = ExtResource("3_eaa7k")
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(0, 1)
+position = Vector2(0.5, 0)
 shape = SubResource("CircleShape2D_5xxwx")
 
 [node name="CollideSound" type="AudioStreamPlayer2D" parent="."]

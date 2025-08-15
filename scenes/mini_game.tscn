@@ -12,7 +12,7 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3kuml"]
 friction = 0.43
-bounce = 0.44
+bounce = 0.46
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rvs2r"]
 radius = 29.0172
@@ -50,7 +50,7 @@ polygon = PackedVector2Array(495, 106, 438, 101, 379, 104, 337, 103, 292, 111, 2
 unique_name_in_owner = true
 position = Vector2(13, 144)
 build_mode = 1
-polygon = PackedVector2Array(376, 134, 440, 131, 510, 150, 563, 169, 607, 203, 632, 237, 634, 300, 602, 339, 548, 369, 480, 386, 402, 390, 331, 388, 257, 380, 196, 355, 149, 320, 125, 287, 121, 255, 137, 215, 173, 182, 218, 157, 273, 146, 321, 137)
+polygon = PackedVector2Array(376, 138, 437, 142, 504, 154, 558, 173, 599, 203, 623, 246, 620, 300, 586, 342, 537, 363, 470, 381, 399, 384, 331, 382, 259, 372, 197, 348, 155, 321, 134, 286, 133, 252, 149, 213, 180, 189, 225, 163, 275, 150, 327, 141)
 
 [node name="ArenaCenter" type="Marker2D" parent="Arena"]
 unique_name_in_owner = true
@@ -65,6 +65,20 @@ unique_name_in_owner = true
 [node name="Goal" type="Area2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(534, 268)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Goal"]
+amount = 32
+texture = ExtResource("4_burph")
+randomness = 1.0
+emission_shape = 2
+emission_sphere_radius = 30.0
+gravity = Vector2(0, 0)
+orbit_velocity_min = 1.0
+orbit_velocity_max = 1.5
+scale_amount_min = 0.04
+scale_amount_max = 0.1
+hue_variation_min = 0.64
+hue_variation_max = 0.64
 
 [node name="Sprite2D" type="Sprite2D" parent="Goal"]
 texture = ExtResource("4_burph")
