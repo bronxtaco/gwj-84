@@ -1,68 +1,91 @@
 extends Node2D
 
-const ATTACK_TIME : float = 15.0 # TODO: different attack options could have different times?
-
 @export var maxHealth : int = 100
 
-enum HeroState {
-	Idle,
-	PreAttack,
-	Attacking,
-}
-var state := HeroState.Idle:
-	set(_state):
-		state = _state
-		if state == HeroState.Idle:
-			%HeroSprite.play("idle")
-		elif state == HeroState.PreAttack:
-			$PreAttackTimer.start()
-		elif state == HeroState.Attacking:
-			attackTimeLeft = ATTACK_TIME
-			%HeroSprite.play("attack_loop")
-			%FireballAttack.reset_damage()
-			%FireballAttack.visible = true
+@onready var HeroSprite := %HeroSprite
+@onready var FireballAttack := %FireballAttack
 
 var currentHealth : int = maxHealth;
 
 var isDead : bool = false
-var isIdle: bool = true
-var isInPreAttack : bool = false
-var isAttacking : bool = false; # TODO: thought here is I can track wait until an anim is ended
-#var preAttackTimeLeft : float = 0.0
-var attackTimeLeft : float = ATTACK_TIME
+
+#StateMachine
+enum STATE {
+	Idle,
+	PreAttack,
+	Attacking,
+}
+var fsm := FSM.StateMachine.new(STATE, STATE.Idle, self, "Hero")
+
+class IdleState extends FSM.State:
+	func get_next_state():
+		pass # combat class decides when the hero changes out of idle
+
+	func on_enter(_prev_state):
+		obj.HeroSprite.play("idle")
+
+class PreAttackState extends FSM.State:
+	const STATE_TIME := 0.2
+	
+	func get_next_state():
+		if seconds_active > STATE_TIME:
+			return STATE.Attacking
+
+	func on_enter(_prev_state):
+		obj.HeroSprite.play("attack_frame_1")
+
+class AttackingState extends FSM.State:
+	const STATE_TIME: float = 25.0 # TODO: different attack options could have different times?
+	var done := false
+	
+	func get_next_state():
+		if done:
+			return STATE.Idle
+
+	func on_enter(_prev_state):
+		done = false
+		obj.HeroSprite.play("attack_loop")
+		obj.FireballAttack.reset_damage()
+		obj.FireballAttack.visible = true
+	
+	func physics_process(_delta):
+		if done:
+			return
+		
+		var progress_seconds = min(seconds_active, STATE_TIME)
+		for pathFollow in obj.FireballAttack.get_children():
+			pathFollow.progress_ratio = progress_seconds / STATE_TIME
+		if progress_seconds == STATE_TIME:
+			done = true
+			obj.FireballAttack.explode()
+			Events.apply_damage_to_enemy.emit(obj.FireballAttack.damage)
+
 
 func reset():
 	%HeroSprite.play("idle")
 	isDead = false
-	state = HeroState.Idle
 	set_health(maxHealth)
 
 @onready var AnimatedSprite : AnimatedSprite2D = $HeroSprite
 @onready var HealthBar : TextureProgressBar = $HealthBar
 
 func _ready():
+	fsm.debug = true # enables logging for state changes
+	fsm.register_state(STATE.Idle, IdleState)
+	fsm.register_state(STATE.PreAttack, PreAttackState)
+	fsm.register_state(STATE.Attacking, AttackingState)
+	
 	reset()
 	%FireballAttack.set_staff_pos($StaffPos.global_position)
 
-func _process(delta: float):
-	if is_attacking():
-		attackTimeLeft = max(attackTimeLeft - delta, 0)
-		for pathFollow in %FireballAttack.get_children():
-			pathFollow.progress_ratio = 1 - (attackTimeLeft / ATTACK_TIME)
-		if attackTimeLeft <= 0:
-			start_idle()
-			%FireballAttack.explode()
-			Events.apply_damage_to_enemy.emit(%FireballAttack.damage)
+func _physics_process(delta: float) -> void:
+	fsm.physics_process(delta)
+	
+func is_idle() -> bool:
+	return fsm.current_state == STATE.Idle
 
-
-func start_idle():
-	state = HeroState.Idle
-
-func start_pre_attack():
-	state = HeroState.PreAttack
-
-func start_attack():
-	state = HeroState.Attacking
+func start_attack() -> void:
+	fsm.force_change(STATE.PreAttack)
 
 func apply_damage(damageValue: int):
 	if isDead: return
@@ -87,25 +110,11 @@ func set_health(healthValue: int):
 		Events.emit_signal("hero_died")
 
 
-func in_pre_attack() -> bool:
-	return state == HeroState.PreAttack
-
-
-func is_attacking() -> bool:
-	return state == HeroState.Attacking
-	
-
 func _on_hero_sprite_animation_finished() -> void:
-	if %HeroSprite.animation == &"attack_frame_1":
-		state = HeroState.Attacking
-	else:
 		%HeroSprite.play("idle")
 
 
 func _on_idle_timer_timeout() -> void:
-	if state == HeroState.Idle:
-		%HeroSprite.play("yawn")
-
-
-func _on_pre_attack_timer_timeout() -> void:
-	%HeroSprite.play("attack_frame_1")
+	pass
+	'''if state == HeroState.Idle:
+		%HeroSprite.play("yawn")'''

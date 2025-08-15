@@ -21,6 +21,7 @@ Global="*res://autoload/global.gd"
 Events="*res://autoload/events.gd"
 Audio="*res://autoload/audio.tscn"
 Scenes="*res://autoload/scene_manager.gd"
+FSM="*res://autoload/fsm.gd"
 
 [display]
 
