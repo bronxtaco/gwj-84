@@ -207,7 +207,8 @@ sprite_frames = SubResource("SpriteFrames_re4ka")
 [node name="CritterSprite" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_tcjrq")
-animation = &"rollDown"
+animation = &"walkLeftRight"
+autoplay = "walkLeftRight"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_oeans")

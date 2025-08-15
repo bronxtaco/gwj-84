@@ -91,7 +91,7 @@ func _on_crit_boost(gem_type: Global.GemType, boost_amount: int) -> void:
 		crit_boost.queue_free()
 		
 		if active:
-			damage += boost_amount
+			damage = max(damage + boost_amount, 0)
 			var boost_text = %DamageText.duplicate()
 			boost_text.text = "%s%d" % [ mod_prefix, boost_amount ]
 			boost_text.add_theme_font_size_override("font_size", 12)

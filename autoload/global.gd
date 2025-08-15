@@ -1,5 +1,7 @@
 extends Node
 
+const HERO_HEALTH := 200
+
 # Menus
 enum MENU_TYPE {
 	PAUSE,
@@ -10,8 +12,15 @@ enum MENU_TYPE {
 var paused = false
 
 var current_level := 1
+var hero_health := HERO_HEALTH
 
 var staff_pos := Vector2.ZERO
+
+
+func reset_game() -> void:
+	Global.current_level = 1
+	Global.hero_health = HERO_HEALTH
+	Scenes.change(Scenes.Enum.Title)
 
 
 enum GemType

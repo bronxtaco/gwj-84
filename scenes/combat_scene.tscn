@@ -40,3 +40,12 @@ texture = ExtResource("5_ikfks")
 centered = false
 
 [node name="MiniGame" parent="." instance=ExtResource("6_0vylu")]
+
+[node name="BattleEndText" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = 341.0
+offset_top = 206.0
+offset_right = 473.0
+offset_bottom = 229.0
+text = "Enemy Defeated!"

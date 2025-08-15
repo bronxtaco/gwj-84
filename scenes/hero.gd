@@ -1,21 +1,17 @@
 extends Node2D
 
-@export var maxHealth : int = 100
-
 @onready var Sprite := %Sprite
 @onready var AttackSound := %AttackSound
 @onready var FireballAttack := %FireballAttack
 @onready var HealthBar := $HealthBar
-
-var currentHealth : int = maxHealth;
-
-var isDead : bool = false
 
 #StateMachine
 enum STATE {
 	Idle,
 	PreAttack,
 	Attacking,
+	Hurt,
+	Dead,
 }
 var fsm := FSM.StateMachine.new(STATE, STATE.Idle, self, "Hero")
 
@@ -26,6 +22,7 @@ class IdleState extends FSM.State:
 	func on_enter(_prev_state):
 		obj.Sprite.play("idle")
 
+
 class PreAttackState extends FSM.State:
 	const STATE_TIME := 0.2
 	
@@ -35,6 +32,7 @@ class PreAttackState extends FSM.State:
 
 	func on_enter(_prev_state):
 		obj.Sprite.play("attack_frame_1")
+
 
 class AttackingState extends FSM.State:
 	const STATE_TIME: float = 25.0 # TODO: different attack options could have different times?
@@ -61,11 +59,34 @@ class AttackingState extends FSM.State:
 			Events.apply_damage_to_enemy.emit(obj.FireballAttack.damage)
 
 
+class HurtState extends FSM.State:
+	const STATE_TIME: float = 0.5
+	func on_enter(_prev_state):
+		obj.Sprite.play("hurt")
+	
+	func get_next_state():
+		if seconds_active > STATE_TIME:
+			return STATE.Idle
+
+
+class DeadState extends FSM.State:
+	func on_enter(_prev_state):
+		print("Hero Died!")
+		obj.Sprite.play("death")
+	
+	func force_state_change():
+		return Global.hero_health <= 0
+
+
 func _ready():
 	fsm.debug = true # enables logging for state changes
 	fsm.register_state(STATE.Idle, IdleState)
 	fsm.register_state(STATE.PreAttack, PreAttackState)
 	fsm.register_state(STATE.Attacking, AttackingState)
+	fsm.register_state(STATE.Hurt, HurtState)
+	fsm.register_state(STATE.Dead, DeadState)
+	
+	update_health_bar()
 	
 	Global.staff_pos = $StaffPos.global_position
 
@@ -79,28 +100,20 @@ func start_attack() -> void:
 	fsm.force_change(STATE.PreAttack)
 
 func apply_damage(damageValue: int):
-	if isDead: return
+	if fsm.current_state == STATE.Dead:
+		return
 	
-	var prevHealth = currentHealth
-	var newHealth = max(currentHealth - damageValue, 0);
-	set_health(newHealth)
+	var prevHealth = Global.hero_health
+	var newHealth = max(prevHealth - damageValue, 0);
+	Global.hero_health = newHealth
 	
-	print("%d damage to hero. Health: %d -> %d" % [damageValue, prevHealth, newHealth])
-
-
-func set_health(healthValue: int):
-	currentHealth = max(healthValue, 0)
+	print("%d damage to hero. Health: %d -> %d" % [ damageValue, prevHealth, newHealth ])
 	
-	var healthNormalized = float(currentHealth) / maxHealth
-	HealthBar.value = healthNormalized;
+	update_health_bar()
 	
-	# check if dead
-	if !isDead && currentHealth <= 0:
-		isDead = true
-		print("Hero Died!")
+	if newHealth > 0:
+		fsm.force_change(STATE.Hurt)
 
-
-func _on_idle_timer_timeout() -> void:
-	pass
-	'''if state == HeroState.Idle:
-		%HeroSprite.play("yawn")'''
+func update_health_bar():
+	var healthNormalized = float(Global.hero_health) / Global.HERO_HEALTH
+	HealthBar.value = healthNormalized

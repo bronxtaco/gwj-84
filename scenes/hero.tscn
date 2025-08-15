@@ -155,7 +155,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hurt",
-"speed": 15.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -225,7 +225,7 @@ script = ExtResource("1_6xrt3")
 unique_name_in_owner = true
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_vfeu3")
-animation = &"attack_frame_1"
+animation = &"hurt"
 autoplay = "idle"
 
 [node name="HealthBar" type="TextureProgressBar" parent="."]
@@ -246,10 +246,6 @@ unique_name_in_owner = true
 visible = false
 position = Vector2(20, 0)
 
-[node name="YawnTimer" type="Timer" parent="."]
-wait_time = 5.0
-autostart = true
-
 [node name="StaffPos" type="Marker2D" parent="."]
 position = Vector2(0, -18)
 
@@ -258,5 +254,3 @@ unique_name_in_owner = true
 stream = SubResource("AudioStreamRandomizer_54d4v")
 panning_strength = 2.0
 bus = &"Arena"
-
-[connection signal="timeout" from="YawnTimer" to="." method="_on_idle_timer_timeout"]
