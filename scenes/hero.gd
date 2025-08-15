@@ -2,7 +2,7 @@ extends Node2D
 
 @export var maxHealth : int = 100
 
-@onready var HeroSprite := %HeroSprite
+@onready var Sprite := %Sprite
 @onready var FireballAttack := %FireballAttack
 
 var currentHealth : int = maxHealth;
@@ -22,7 +22,7 @@ class IdleState extends FSM.State:
 		pass # combat class decides when the hero changes out of idle
 
 	func on_enter(_prev_state):
-		obj.HeroSprite.play("idle")
+		obj.Sprite.play("idle")
 
 class PreAttackState extends FSM.State:
 	const STATE_TIME := 0.2
@@ -32,7 +32,7 @@ class PreAttackState extends FSM.State:
 			return STATE.Attacking
 
 	func on_enter(_prev_state):
-		obj.HeroSprite.play("attack_frame_1")
+		obj.Sprite.play("attack_frame_1")
 
 class AttackingState extends FSM.State:
 	const STATE_TIME: float = 25.0 # TODO: different attack options could have different times?
@@ -44,9 +44,8 @@ class AttackingState extends FSM.State:
 
 	func on_enter(_prev_state):
 		done = false
-		obj.HeroSprite.play("attack_loop")
-		obj.FireballAttack.reset_damage()
-		obj.FireballAttack.visible = true
+		obj.Sprite.play("attack_loop")
+		obj.FireballAttack.launch_new(10)
 	
 	func physics_process(_delta):
 		if done:
@@ -61,12 +60,6 @@ class AttackingState extends FSM.State:
 			Events.apply_damage_to_enemy.emit(obj.FireballAttack.damage)
 
 
-func reset():
-	%HeroSprite.play("idle")
-	isDead = false
-	set_health(maxHealth)
-
-@onready var AnimatedSprite : AnimatedSprite2D = $HeroSprite
 @onready var HealthBar : TextureProgressBar = $HealthBar
 
 func _ready():
@@ -75,8 +68,7 @@ func _ready():
 	fsm.register_state(STATE.PreAttack, PreAttackState)
 	fsm.register_state(STATE.Attacking, AttackingState)
 	
-	reset()
-	%FireballAttack.set_staff_pos($StaffPos.global_position)
+	Global.staff_pos = $StaffPos.global_position
 
 func _physics_process(delta: float) -> void:
 	fsm.physics_process(delta)
@@ -107,11 +99,6 @@ func set_health(healthValue: int):
 	if !isDead && currentHealth <= 0:
 		isDead = true
 		print("Hero Died!")
-		Events.emit_signal("hero_died")
-
-
-func _on_hero_sprite_animation_finished() -> void:
-		%HeroSprite.play("idle")
 
 
 func _on_idle_timer_timeout() -> void:

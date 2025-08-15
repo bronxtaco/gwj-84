@@ -12,9 +12,6 @@ signal apply_damage_to_enemy(amount: int)
 signal apply_damage_to_hero
 signal fireball_exploded
 
-signal hero_died
-signal enemy_died
-
-signal hero_crit_boost(amount: int)
+signal crit_boost(gem_type: Global.GemType, amount: int)
 
 signal gems_collided(initialGemType: Global.GemType, gemA: RigidBody2D, gemB: RigidBody2D)

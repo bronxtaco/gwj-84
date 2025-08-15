@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://j4p6hrpy0tw6"]
+[gd_scene load_steps=27 format=3 uid="uid://j4p6hrpy0tw6"]
 
 [ext_resource type="Script" uid="uid://bf77dwpf1csby" path="res://scenes/enemy.gd" id="1_6awcb"]
 [ext_resource type="Texture2D" uid="uid://d0i5vefi3rhj2" path="res://assets/combat/enemies/bear/attack/Attack1.png" id="2_wjec0"]
@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://dack17wqj7ft0" path="res://assets/combat/ui/hp_bar_bg.png" id="21_5ie7m"]
 [ext_resource type="Texture2D" uid="uid://bv18ljwbg0itu" path="res://assets/combat/ui/hp_bar_border.png" id="22_ya47j"]
 [ext_resource type="Texture2D" uid="uid://y15fvyrchlwl" path="res://assets/combat/ui/hp_full.png" id="23_hyejq"]
+[ext_resource type="PackedScene" uid="uid://8hc8w0lxm0f2" path="res://components/fireball_attack.tscn" id="24_wjec0"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_j0dkt"]
 animations = [{
@@ -44,10 +45,25 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("11_thsr5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_thsr5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_thsr5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_thsr5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_thsr5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_thsr5")
 }],
-"loop": false,
+"loop": true,
 "name": &"attack",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -126,10 +142,17 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Curve2D" id="Curve2D_i4rgx"]
+_data = {
+"points": PackedVector2Array(-272.321, 232.583, -272.321, -232.583, -3, -2, 0, 0, 0, 0, -522, 10)
+}
+point_count = 2
+
 [node name="Enemy" type="Node2D"]
 script = ExtResource("1_6awcb")
 
-[node name="EnemySprite" type="AnimatedSprite2D" parent="."]
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_j0dkt")
 flip_h = true
@@ -146,3 +169,22 @@ nine_patch_stretch = true
 texture_under = ExtResource("21_5ie7m")
 texture_over = ExtResource("22_ya47j")
 texture_progress = ExtResource("23_hyejq")
+
+[node name="FireballAttack" parent="." instance=ExtResource("24_wjec0")]
+unique_name_in_owner = true
+visible = false
+curve = SubResource("Curve2D_i4rgx")
+gets_boosted = false
+
+[node name="FireballPath" parent="FireballAttack" index="0"]
+modulate = Color(0, 1, 0, 1)
+position = Vector2(-3, -2)
+rotation = -2.43474
+
+[node name="DamageTextPath" parent="FireballAttack" index="1"]
+position = Vector2(-3, -2)
+
+[node name="DamageText" parent="FireballAttack/DamageTextPath" index="0"]
+theme_override_colors/font_outline_color = Color(1.26343e-07, 0.273369, 0.000259208, 1)
+
+[editable path="FireballAttack"]

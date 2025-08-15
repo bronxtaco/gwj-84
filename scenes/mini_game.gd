@@ -106,7 +106,7 @@ func _on_goal_body_entered(body: Node2D) -> void:
 	if !isGem: return
 	
 	var gem = rigidBody
-	Events.hero_crit_boost.emit(gem.gemDamage)
+	Events.crit_boost.emit(gem.gemType, gem.gemDamage)
 	gem.queue_free()
 
 func _on_fireball_exploded():

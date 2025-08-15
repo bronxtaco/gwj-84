@@ -14,25 +14,6 @@ func _ready():
 	initialCollisionLayers = get_collision_layer()
 	initialCollisionMasks = get_collision_mask()
 
-func get_gem_color(type: Global.GemType) -> Color:
-	match(type):
-		Global.GemType.Red:
-			return Color.from_rgba8(232, 63, 33)
-		Global.GemType.Blue:
-			return Color.from_rgba8(16, 187, 244)
-		Global.GemType.Orange:
-			return Color.from_rgba8(255, 157, 0)
-		Global.GemType.Green:
-			return Color.from_rgba8(0, 223, 38)# Color.from_rgba8(0, 182, 77)
-		Global.GemType.Gold:
-			return Color.from_rgba8(232, 223, 38)
-		Global.GemType.White:
-			return Color.from_rgba8(0, 39, 243)
-		Global.GemType.Black:
-			return Color.from_rgba8(30, 30, 30)
-		_:
-			return Color(1, 1, 1, 1)
-
 func get_gem_damage(type: Global.GemType) -> int:
 	match(type):
 		Global.GemType.Red,Global.GemType.Blue:
@@ -48,7 +29,7 @@ func setup_gem_type(type: Global.GemType):
 	gemType = type
 	gemDamage = get_gem_damage(type)
 	
-	var gemColor = get_gem_color(type)
+	var gemColor = Global.get_gem_color(type)
 	%Sprite.set_self_modulate(gemColor)
 
 

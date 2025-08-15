@@ -47,11 +47,11 @@ class HeroAttackState extends FSM.State:
 
 class HeroDefenceState extends FSM.State:
 	func get_next_state():
-		if seconds_active > 2.0:
+		if obj.Enemy.is_idle():
 			return STATE.Idle
 
 	func on_enter(prev_state):
-		pass
+		obj.Enemy.start_attack()
 
 
 func _ready():

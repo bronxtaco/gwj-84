@@ -2,36 +2,82 @@ extends Node2D
 
 @export var maxHealth : int = 100
 
+@onready var Sprite := %Sprite
+@onready var FireballAttack := %FireballAttack
+
 var currentHealth : int = maxHealth;
 
 var isDead : bool = false
-var isAttacking : bool = false; # TODO: thought here is I can track wait until an anim is ended
-var preAttackTimeLeft : float = 0.0
 
-func reset():
-	isDead = false
-	isAttacking = false
-	preAttackTimeLeft = 0.0
-	set_health(maxHealth)
+#StateMachine
+enum STATE {
+	Idle,
+	PreAttack,
+	Attacking,
+}
+var fsm := FSM.StateMachine.new(STATE, STATE.Idle, self, "Enemy")
 
-@onready var AnimatedSprite : AnimatedSprite2D = $EnemySprite
+class IdleState extends FSM.State:
+	func get_next_state():
+		pass # combat class decides when the hero changes out of idle
+
+	func on_enter(_prev_state):
+		obj.Sprite.play("idle")
+
+class PreAttackState extends FSM.State:
+	const STATE_TIME := 0.2
+	
+	func get_next_state():
+		if seconds_active > STATE_TIME:
+			return STATE.Attacking
+
+	func on_enter(_prev_state):
+		obj.Sprite.play("default")
+
+class AttackingState extends FSM.State:
+	const STATE_TIME: float = 25.0 # TODO: different attack options could have different times?
+	var done := false
+	
+	func get_next_state():
+		if done:
+			return STATE.Idle
+
+	func on_enter(_prev_state):
+		done = false
+		obj.Sprite.play("attack")
+		obj.FireballAttack.launch_new(100)
+	
+	func physics_process(_delta):
+		if done:
+			return
+		
+		var progress_seconds = min(seconds_active, STATE_TIME)
+		for pathFollow in obj.FireballAttack.get_children():
+			pathFollow.progress_ratio = progress_seconds / STATE_TIME
+		if progress_seconds == STATE_TIME:
+			done = true
+			obj.FireballAttack.explode()
+			Events.apply_damage_to_hero.emit(obj.FireballAttack.damage)
+
+
 @onready var HealthBar : TextureProgressBar = $HealthBar
 
 func _ready():
-	reset()
+	fsm.debug = true # enables logging for state changes
+	fsm.register_state(STATE.Idle, IdleState)
+	fsm.register_state(STATE.PreAttack, PreAttackState)
+	fsm.register_state(STATE.Attacking, AttackingState)
 
-func _process(delta: float):
-	if in_pre_attack():
-		preAttackTimeLeft -= delta
-	elif is_attacking():
-		isAttacking = AnimatedSprite.is_playing()
 
-func start_pre_attack(preAttackTimeTotal: float):
-	preAttackTimeLeft = preAttackTimeTotal
+func _physics_process(delta: float) -> void:
+	fsm.physics_process(delta)
 
-func start_attack():
-	isAttacking = true
-	AnimatedSprite.play("attack")
+
+func is_idle() -> bool:
+	return fsm.current_state == STATE.Idle
+
+func start_attack() -> void:
+	fsm.force_change(STATE.PreAttack)
 
 func apply_damage(damageValue: int):
 	if isDead: return
@@ -41,6 +87,7 @@ func apply_damage(damageValue: int):
 	set_health(newHealth)
 	
 	print("%d damage to enemy. Health: %d -> %d" % [damageValue, prevHealth, newHealth])
+
 
 func set_health(healthValue: int):
 	currentHealth = max(healthValue, 0)
@@ -52,10 +99,3 @@ func set_health(healthValue: int):
 	if !isDead && currentHealth <= 0:
 		isDead = true
 		print("Enemy Died!")
-		Events.emit_signal("enemy_died")
-
-func in_pre_attack() -> bool:
-	return preAttackTimeLeft > 0.0
-
-func is_attacking() -> bool:
-	return isAttacking
