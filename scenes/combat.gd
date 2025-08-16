@@ -65,10 +65,10 @@ class HeroDefenceState extends FSM.State:
 
 
 class DefeatState extends FSM.State:
-	const STATE_TIME := 4.0
 	var exit_triggered := false
 	func on_enter(prev_state):
 		exit_triggered = false
+		Audio.play_gameover()
 		obj.BattleEndText.text = "Your owner died!"
 		obj.BattleEndText.visible = true
 		print("Hero has been defeated!")
@@ -78,7 +78,7 @@ class DefeatState extends FSM.State:
 		return Global.hero_health <= 0
 	
 	func physics_process(_delta):
-		if !exit_triggered and seconds_active >= STATE_TIME:
+		if !exit_triggered and Input.is_action_just_pressed("ui_accept"):
 			exit_triggered = true
 			obj.level_fail()
 

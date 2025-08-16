@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b2waytaxnr4g3"]
+[gd_scene load_steps=11 format=3 uid="uid://b2waytaxnr4g3"]
 
 [ext_resource type="AudioStream" uid="uid://c8fx1ory5lqeo" path="res://assets/audio/music/overworld.ogg" id="1_rxn34"]
 [ext_resource type="Script" uid="uid://ccg8pewpq407h" path="res://autoload/audio.gd" id="1_uw2yb"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://cngo5ugc4tudq" path="res://assets/audio/sfx/GWJ84_SFX_UI_Accept_Option-002.mp3" id="5_d3qhs"]
 [ext_resource type="AudioStream" uid="uid://b0euxx8hce7ef" path="res://assets/audio/sfx/GWJ84_SFX_BattleVictory.mp3" id="5_k0ge0"]
 [ext_resource type="AudioStream" uid="uid://cpoct8yc5wjht" path="res://assets/audio/sfx/GWJ84_SFX_UI_Accept_Option-001.mp3" id="5_lx04d"]
+[ext_resource type="AudioStream" uid="uid://c7ac3gcx6mr42" path="res://assets/audio/sfx/GWJ84_SFX_BattleDefeat.mp3" id="6_at2qi"]
 [ext_resource type="AudioStream" uid="uid://dyptdijdxcx61" path="res://assets/audio/sfx/GWJ84_SFX_UI_Back.mp3" id="6_lx04d"]
 [ext_resource type="AudioStream" uid="uid://da3rb7nej7al0" path="res://assets/audio/sfx/GWJ84_SFX_UI_Scroll.mp3" id="7_k0ge0"]
 
@@ -34,6 +35,11 @@ bus = &"Music"
 [node name="victory" type="AudioStreamPlayer" parent="Music"]
 unique_name_in_owner = true
 stream = ExtResource("5_k0ge0")
+bus = &"Music"
+
+[node name="gameover" type="AudioStreamPlayer" parent="Music"]
+unique_name_in_owner = true
+stream = ExtResource("6_at2qi")
 bus = &"Music"
 
 [node name="Menu" type="Node" parent="."]

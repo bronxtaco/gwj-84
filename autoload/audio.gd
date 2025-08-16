@@ -20,6 +20,10 @@ func play_victory():
 	%battle.stop()
 	%victory.play()
 
+func play_gameover():
+	%battle.stop()
+	%gameover.play()
+
 func _on_battle_start_finished() -> void:
 	%battle.volume_db = MUSIC_DB
 	%battle.play()

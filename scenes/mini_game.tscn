@@ -1,14 +1,16 @@
-[gd_scene load_steps=13 format=3 uid="uid://bmmj4lxj88iwg"]
+[gd_scene load_steps=15 format=3 uid="uid://bmmj4lxj88iwg"]
 
 [ext_resource type="Script" uid="uid://c4fdc82p08sxj" path="res://scenes/mini_game.gd" id="1_0gcsj"]
 [ext_resource type="PackedScene" uid="uid://cwxf3ipevjip" path="res://scenes/gem.tscn" id="2_3kuml"]
-[ext_resource type="Texture2D" uid="uid://byjuqfhd2c54v" path="res://assets/combat/ui/staff.png" id="3_3kuml"]
+[ext_resource type="Texture2D" uid="uid://6igh883d6aw" path="res://assets/combat/ui/staff_bg.png" id="3_eps0w"]
 [ext_resource type="PackedScene" uid="uid://bwbix4ltm861q" path="res://scenes/critter.tscn" id="3_v2cs6"]
 [ext_resource type="Texture2D" uid="uid://ni1gr827ywb3" path="res://assets/critterGame/goal.png" id="4_burph"]
 [ext_resource type="AudioStream" uid="uid://brgif2tqnucmq" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerA-001.mp3" id="6_svrvl"]
 [ext_resource type="AudioStream" uid="uid://bgjqcb5gcfs5b" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerA-002.mp3" id="7_2sn1h"]
 [ext_resource type="AudioStream" uid="uid://dvvsdwi6ehqce" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerB-001.mp3" id="8_eps0w"]
 [ext_resource type="AudioStream" uid="uid://buu5kklbdoiow" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerB-002.mp3" id="9_4ovyi"]
+[ext_resource type="Texture2D" uid="uid://cx2b8u82m1of2" path="res://assets/combat/ui/staff_fg.png" id="10_4ovyi"]
+[ext_resource type="Texture2D" uid="uid://clpommyb1q642" path="res://assets/combat/ui/staff_outline.png" id="11_o1hth"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3kuml"]
 friction = 0.43
@@ -29,20 +31,20 @@ script = ExtResource("1_0gcsj")
 gemScene = ExtResource("2_3kuml")
 maxSpawnedGems = 5
 
+[node name="StaffBackground" type="Sprite2D" parent="."]
+texture = ExtResource("3_eps0w")
+centered = false
+
 [node name="Arena" type="Node2D" parent="."]
 
 [node name="ArenaEdge" type="StaticBody2D" parent="Arena"]
 physics_material_override = SubResource("PhysicsMaterial_3kuml")
 
-[node name="Sprite2D" type="Sprite2D" parent="Arena/ArenaEdge"]
-texture = ExtResource("3_3kuml")
-centered = false
-
 [node name="ArenaPolygon" type="CollisionPolygon2D" parent="Arena/ArenaEdge"]
 unique_name_in_owner = true
 position = Vector2(0, 143)
 build_mode = 1
-polygon = PackedVector2Array(495, 106, 438, 101, 379, 104, 337, 103, 292, 111, 258, 117, 224, 130, 188, 144, 153, 168, 129, 186, 109, 217, 101, 246, 100, 270, 108, 301, 116, 334, 149, 365, 192, 389, 240, 405, 291, 417, 342, 418, 382, 419, 431, 417, 476, 418, 517, 412, 550, 401, 604, 380, 645, 356, 666, 328, 684, 298, 690, 257, 683, 220, 666, 188, 636, 168, 590, 141, 545, 127)
+polygon = PackedVector2Array(492, 80, 434, 76, 377, 75, 324, 78, 282, 85, 249, 94, 212, 106, 169, 122, 132, 146, 104, 172, 77, 206, 67, 250, 73, 288, 96, 327, 122, 353, 158, 376, 200, 396, 250, 413, 295, 420, 349, 430, 400, 431, 439, 428, 485, 422, 524, 415, 570, 403, 623, 379, 660, 358, 695, 322, 717, 285, 720, 242, 702, 196, 670, 158, 635, 131, 590, 108, 542, 94)
 
 [node name="ArenaCenterArea" type="Area2D" parent="Arena"]
 
@@ -50,7 +52,7 @@ polygon = PackedVector2Array(495, 106, 438, 101, 379, 104, 337, 103, 292, 111, 2
 unique_name_in_owner = true
 position = Vector2(13, 144)
 build_mode = 1
-polygon = PackedVector2Array(376, 138, 437, 142, 504, 154, 558, 173, 599, 203, 623, 246, 620, 300, 586, 342, 537, 363, 470, 381, 399, 384, 331, 382, 259, 372, 197, 348, 155, 321, 134, 286, 133, 252, 149, 213, 180, 189, 225, 163, 275, 150, 327, 141)
+polygon = PackedVector2Array(355, 107, 419, 105, 499, 118, 566, 147, 628, 192, 658, 245, 651, 295, 616, 333, 556, 366, 500, 383, 428, 393, 356, 398, 289, 388, 220, 367, 171, 345, 136, 316, 107, 270, 106, 218, 145, 169, 204, 140, 258, 126, 305, 115)
 
 [node name="ArenaCenter" type="Marker2D" parent="Arena"]
 unique_name_in_owner = true
@@ -64,9 +66,14 @@ unique_name_in_owner = true
 
 [node name="Goal" type="Area2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(534, 268)
+position = Vector2(538, 261)
+
+[node name="Sprite2D" type="Sprite2D" parent="Goal"]
+modulate = Color(0.211111, 0.0839982, 0.475798, 1)
+texture = ExtResource("4_burph")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Goal"]
+modulate = Color(0.956805, 0.369249, 0.779267, 1)
 amount = 32
 texture = ExtResource("4_burph")
 randomness = 1.0
@@ -80,9 +87,6 @@ scale_amount_max = 0.1
 hue_variation_min = 0.64
 hue_variation_max = 0.64
 
-[node name="Sprite2D" type="Sprite2D" parent="Goal"]
-texture = ExtResource("4_burph")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Goal"]
 shape = SubResource("CircleShape2D_rvs2r")
 
@@ -91,5 +95,14 @@ unique_name_in_owner = true
 stream = SubResource("AudioStreamRandomizer_o1hth")
 max_polyphony = 6
 bus = &"Minigame"
+
+[node name="StaffTransparent" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.465)
+texture = ExtResource("10_4ovyi")
+centered = false
+
+[node name="StaffForeground" type="Sprite2D" parent="."]
+texture = ExtResource("11_o1hth")
+centered = false
 
 [connection signal="body_entered" from="Goal" to="." method="_on_goal_body_entered"]
