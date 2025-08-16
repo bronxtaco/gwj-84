@@ -15,13 +15,25 @@ var dropOnSpawnTween
 var initialCollisionLayers : int = 0
 var initialCollisionMasks : int = 0
 
-
-
 func _ready():
 	dropOnSpawnTween = create_tween()
 	initialCollisionLayers = get_collision_layer()
 	initialCollisionMasks = get_collision_mask()
 
+func set_gem_visuals(type: Global.GemType):
+	# update visibily of the different sprites or text labels
+	%MultiplyIcon.visible = type == Global.GemType.Multiply
+	%DivideIcon.visible = type == Global.GemType.Divide
+	%DamageNumberLabel.visible = !%MultiplyIcon.visible && !%DivideIcon.visible
+	
+	apply_gem_color(Global.get_gem_color(type))
+	
+	%DamageNumber.scale = Vector2(1.0, 1.0) # damage number will set the scale. Just put to default each time
+	
+	var isDamageNumber = type != Global.GemType.Multiply && type != Global.GemType.Divide
+	if isDamageNumber:
+		set_damage_number(type)
+	
 func set_damage_number(type: Global.GemType):
 	gemDamage = Global.get_gem_damage(type)
 	
@@ -45,17 +57,22 @@ func set_damage_number(type: Global.GemType):
 			scaleVal = 0.55
 	%DamageNumber.scale = Vector2(scaleVal, scaleVal)
 
+func apply_gem_color(color : Color):
+	%Sprite.set_self_modulate(color)
+	%DamageNumberLabel.set_self_modulate(color)
+	%MultiplyIcon.set_self_modulate(color)
+	%DivideIcon.set_self_modulate(color)
+	%CollideParticle.color = color
+	
+
 func setup_gem(type: Global.GemType, gemPos: Vector2, spawnImpulse: Vector2, useDropSpawn: bool):
 	global_position = gemPos # set the gem in the right spot, but offset the gem sprite in anim
 	
 	gemType = type
+	set_gem_visuals(type)
 	
-	set_damage_number(type)
 	
-	
-	%Sprite.set_self_modulate(Global.get_gem_color(type))
-	%DamageNumberLabel.set_self_modulate(Global.get_gem_color(type))
-	%CollideParticle.color = Global.get_gem_color(type)
+
 	self.useDropSpawn = useDropSpawn
 	self.spawnImpulse = spawnImpulse
 	

@@ -23,19 +23,25 @@ func _ready() -> void:
 	%Goal.position = goalPosMarker.position
 
 func _process(delta: float) -> void:
-	gemSpawnTimer -= delta
+	# reserve spawn positions in a single group of spawns. So if 3 spawns are made, non of them overlap	
+	var reservedSpawnPositions : Array[Vector2]
 	
+	gemSpawnTimer -= delta
 	if gemSpawnTimer <= 0.0:
 		gemSpawnTimer = gemSpawnTimeInterval
 		
-		# reserve spawn positions in a single group of spawns. So if 3 spawns are made, non of them overlap	
-		var reservedPositions : Array[Vector2]
-	
+		var gemType = Global.GemType.Blue
+		
 		var gemCount = get_gem_count()
 		if gemCount < maxSpawnedGems:
 			var spawnCount = min(randi_range(1, 3), maxSpawnedGems - gemCount)
 			for i in range(spawnCount):
-				spawn_gem(reservedPositions)
+				spawn_gem(gemType, reservedSpawnPositions)
+	
+	if Input.is_action_just_pressed("debug_f3"):
+		spawn_gem(Global.GemType.Multiply, reservedSpawnPositions)
+	if Input.is_action_just_pressed("debug_f4"):
+		spawn_gem(Global.GemType.Divide, reservedSpawnPositions)
 
 func _physics_process(delta: float) -> void:
 	# loop over all gems and if they are outside the arena center polygon, nudge them back inside
@@ -90,7 +96,7 @@ func spawn_pos_reserved(reservedPositions: Array[Vector2], testPos: Vector2, gem
 			return true
 	return false
 
-func spawn_gem(reservedPositions: Array[Vector2]):
+func spawn_gem(gemType: Global.GemType, reservedPositions: Array[Vector2]):
 	# find point to spawn gem
 	var spawnPos : Vector2
 	var foundPos = false
@@ -116,7 +122,6 @@ func spawn_gem(reservedPositions: Array[Vector2]):
 	var spawnImpulse = dropSpawnImpulseAmount * gen_random_direction()
 	
 	# random gem type
-	var gemType = Global.GemType.Blue
 	spawn_gem_type(gemType, spawnPos, spawnImpulse, true)
 	
 	reservedPositions.append(spawnPos)
