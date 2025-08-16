@@ -68,6 +68,7 @@ func _physics_process(delta):
 	elif state == State.Idle:
 		if chargeInputHeld && !wasChargeHeld:
 			# start charging
+			%ChargeSound.play()
 			state = State.Charging
 			rollDirection = lastFaceDirection
 			chargeTime = 0

@@ -10,9 +10,10 @@ config_version=5
 
 [application]
 
-config/name="gwj-84"
+config/name="Crystal Critter"
 run/main_scene="uid://dl87g6v073ake"
 config/features=PackedStringArray("4.4", "Mobile")
+boot_splash/bg_color=Color(0.0784314, 0.133333, 0.25098, 1)
 config/icon="res://icon.svg"
 
 [autoload]
@@ -141,6 +142,10 @@ debug_f6={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_8="Relic"
+
 [physics]
 
 2d/default_gravity_vector=Vector2(0, 0)
@@ -149,4 +154,3 @@ debug_f6={
 
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
-environment/defaults/default_clear_color=Color(0, 0, 0, 1)

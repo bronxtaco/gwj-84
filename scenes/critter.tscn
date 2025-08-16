@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bwbix4ltm861q"]
+[gd_scene load_steps=28 format=3 uid="uid://bwbix4ltm861q"]
 
 [ext_resource type="Script" uid="uid://bnn7k8mua5vul" path="res://scenes/critter.gd" id="1_oeans"]
 [ext_resource type="Texture2D" uid="uid://b23bt0dis3ppr" path="res://assets/critterGame/critter_charging.png" id="2_5mxoi"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://ufdqd2b0i3i5" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-002.mp3" id="5_5mxoi"]
 [ext_resource type="AudioStream" uid="uid://doouonmd43w7r" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-003.mp3" id="6_1ty1m"]
 [ext_resource type="Texture2D" uid="uid://bxak1x6d3dkc7" path="res://assets/critterGame/charging_line.png" id="8_1ty1m"]
+[ext_resource type="AudioStream" uid="uid://c0drv8dlb5c2o" path="res://assets/audio/sfx/GWJ84_SFX_Player_PowerUp(Roll).mp3" id="9_bxkvv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fraou"]
 atlas = ExtResource("2_oeans")
@@ -221,6 +222,14 @@ bus = &"Minigame"
 
 [node name="GemImpactSound" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_bxkvv")
+volume_db = 4.0
+max_distance = 800.0
+max_polyphony = 4
+bus = &"Minigame"
+
+[node name="ChargeSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("9_bxkvv")
 volume_db = 4.0
 max_distance = 800.0
 max_polyphony = 4
