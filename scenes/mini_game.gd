@@ -17,6 +17,10 @@ var gemSpawnTimer = gemSpawnTimeInterval
 func _ready() -> void:
 	Events.fireball_exploded.connect(_on_fireball_exploded)
 	Events.gems_collided.connect(_on_gems_collided)
+	
+	var randChildIndex = randi_range(0,  %GoalPositionOptions.get_child_count() - 1)
+	var goalPosMarker = %GoalPositionOptions.get_children()[randChildIndex] as Marker2D
+	%Goal.position = goalPosMarker.position
 
 func _process(delta: float) -> void:
 	gemSpawnTimer -= delta
@@ -44,18 +48,6 @@ func _physics_process(delta: float) -> void:
 				var speedToAdd = max( arenaSideCenteringSpeed - gemSpeed, 0.0)
 				var toCenterDir = (%ArenaCenter.position - gem.position).normalized()
 				gem.apply_force(toCenterDir * speedToAdd)
-
-	# Goal repulse area works in the opposite way. Use it to get the overlapping bodies and then apply for force to it
-	for overlapBody in %GoalRepulseArea.get_overlapping_bodies():
-		var gem = overlapBody as RigidBody2D
-		
-		var repulseSpeed = 35
-		
-		var gemSpeed = gem.linear_velocity.length()
-		if gemSpeed < repulseSpeed:
-			var speedToAdd = max( repulseSpeed - gemSpeed, 0.0)
-			var pushDirection = (gem.position - %GoalRepulseArea.position ).normalized()
-			gem.apply_force(pushDirection * speedToAdd)
 
 func get_gem_count():
 	return %SpawnedGems.get_child_count()
@@ -128,19 +120,6 @@ func spawn_gem(reservedPositions: Array[Vector2]):
 	spawn_gem_type(gemType, spawnPos, spawnImpulse, true)
 	
 	reservedPositions.append(spawnPos)
-
-func _on_goal_body_entered(body: Node2D) -> void:
-	var isRigidBody = body is RigidBody2D
-	if !isRigidBody: return 
-	
-	var rigidBody = body as RigidBody2D
-	var isGem = "gemType" in rigidBody
-	if !isGem: return
-	
-	var gem = rigidBody
-	%SuccessAudio.play()
-	Events.crit_boost.emit(gem.gemType, gem.gemDamage)
-	gem.queue_free()
 
 func _on_fireball_exploded():
 	clear_gems()

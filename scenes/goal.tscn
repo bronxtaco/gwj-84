@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=3 uid="uid://biup80na4prc0"]
+
+[ext_resource type="Texture2D" uid="uid://ni1gr827ywb3" path="res://assets/critterGame/goal.png" id="1_aqdrf"]
+[ext_resource type="Script" uid="uid://c8c8853ouvdj0" path="res://scenes/goal.gd" id="1_jo0vh"]
+[ext_resource type="AudioStream" uid="uid://brgif2tqnucmq" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerA-001.mp3" id="2_jo0vh"]
+[ext_resource type="AudioStream" uid="uid://bgjqcb5gcfs5b" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerA-002.mp3" id="3_cc8po"]
+[ext_resource type="AudioStream" uid="uid://dvvsdwi6ehqce" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerB-001.mp3" id="4_s262x"]
+[ext_resource type="AudioStream" uid="uid://buu5kklbdoiow" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerB-002.mp3" id="5_71tl1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rvs2r"]
+radius = 29.0172
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_o1hth"]
+streams_count = 4
+stream_0/stream = ExtResource("2_jo0vh")
+stream_1/stream = ExtResource("3_cc8po")
+stream_2/stream = ExtResource("4_s262x")
+stream_3/stream = ExtResource("5_71tl1")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eps0w"]
+radius = 64.0
+
+[node name="Goal" type="Area2D"]
+script = ExtResource("1_jo0vh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.211111, 0.0839982, 0.475798, 1)
+texture = ExtResource("1_aqdrf")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+modulate = Color(0.956805, 0.369249, 0.779267, 1)
+amount = 32
+texture = ExtResource("1_aqdrf")
+randomness = 1.0
+emission_shape = 2
+emission_sphere_radius = 30.0
+gravity = Vector2(0, 0)
+orbit_velocity_min = 1.0
+orbit_velocity_max = 1.5
+scale_amount_min = 0.04
+scale_amount_max = 0.1
+hue_variation_min = 0.64
+hue_variation_max = 0.64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_rvs2r")
+
+[node name="SuccessAudio" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_o1hth")
+max_polyphony = 6
+bus = &"Minigame"
+
+[node name="GoalRepulseArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="GoalRepulseShape2D" type="CollisionShape2D" parent="GoalRepulseArea"]
+shape = SubResource("CircleShape2D_eps0w")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
