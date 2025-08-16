@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cwxf3ipevjip"]
+[gd_scene load_steps=16 format=3 uid="uid://cwxf3ipevjip"]
 
 [ext_resource type="Script" uid="uid://bb07vhwvqenvm" path="res://scenes/gem.gd" id="1_kprv0"]
 [ext_resource type="Texture2D" uid="uid://b76w3h0o4qcxp" path="res://assets/critterGame/gem_shadow2.png" id="2_eaa7k"]
@@ -10,9 +10,13 @@
 [ext_resource type="AudioStream" uid="uid://ou4qr33nqoob" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerC-003.mp3" id="6_35lcq"]
 [ext_resource type="AudioStream" uid="uid://doouonmd43w7r" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-003.mp3" id="6_qgn10"]
 [ext_resource type="Texture2D" uid="uid://p2e6eskb3s1d" path="res://assets/critterGame/collision_particle.png" id="10_hqa1t"]
+[ext_resource type="Theme" uid="uid://cxygi6sxk02d2" path="res://default_theme.tres" id="11_qgn10"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hqa1t"]
+bounce = 0.12
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5xxwx"]
-radius = 17.25
+radius = 24.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_xtt15"]
 streams_count = 3
@@ -27,6 +31,7 @@ stream_1/stream = ExtResource("5_o6gnd")
 stream_2/stream = ExtResource("6_35lcq")
 
 [node name="Gem" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_hqa1t")
 lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 8
@@ -35,6 +40,7 @@ script = ExtResource("1_kprv0")
 
 [node name="CollideParticle" type="CPUParticles2D" parent="."]
 unique_name_in_owner = true
+scale = Vector2(1.4, 1.4)
 emitting = false
 amount = 26
 texture = ExtResource("10_hqa1t")
@@ -63,7 +69,34 @@ texture = ExtResource("2_eaa7k")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
+scale = Vector2(1.4, 1.4)
 texture = ExtResource("3_eaa7k")
+
+[node name="DamageNumber" type="Node2D" parent="Sprite"]
+unique_name_in_owner = true
+position = Vector2(0, -6)
+scale = Vector2(0.55, 0.55)
+
+[node name="DamageNumberLabel" type="Label" parent="Sprite/DamageNumber"]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+theme = ExtResource("11_qgn10")
+theme_override_colors/font_color = Color(0.442911, 0.442911, 0.442911, 1)
+theme_override_font_sizes/font_size = 7
+text = "88888"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true

@@ -55,7 +55,7 @@ func get_gem_color(type: Global.GemType) -> Color:
 		Global.GemType.Blue:
 			return Color.from_rgba8(16, 187, 244)
 		Global.GemType.Green:
-			return Color.from_rgba8(0, 223, 38)# Color.from_rgba8(0, 182, 77)
+			return Color.from_rgba8(0, 223, 38)
 		Global.GemType.Yellow:
 			return Color.from_rgba8(255, 249, 87)
 		Global.GemType.Orange:
@@ -71,12 +71,16 @@ func get_gem_color(type: Global.GemType) -> Color:
 
 func get_gem_damage(type: Global.GemType) -> int:
 	match(type):
-		Global.GemType.Red,Global.GemType.Blue:
-			return 10
-		Global.GemType.Orange, Global.GemType.Green:
-			return 20
+		Global.GemType.Blue:
+			return 8
+		Global.GemType.Green:
+			return 16
+		Global.GemType.Yellow:
+			return 32
+		Global.GemType.Orange:
+			return 64
 		Global.GemType.Red:
-			return 50
+			return 128
 		_:
 			return 0
 

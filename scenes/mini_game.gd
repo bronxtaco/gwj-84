@@ -24,11 +24,14 @@ func _process(delta: float) -> void:
 	if gemSpawnTimer <= 0.0:
 		gemSpawnTimer = gemSpawnTimeInterval
 		
+		# reserve spawn positions in a single group of spawns. So if 3 spawns are made, non of them overlap	
+		var reservedPositions : Array[Vector2]
+	
 		var gemCount = get_gem_count()
 		if gemCount < maxSpawnedGems:
 			var spawnCount = min(randi_range(1, 3), maxSpawnedGems - gemCount)
 			for i in range(spawnCount):
-				spawn_gem()
+				spawn_gem(reservedPositions)
 
 func _physics_process(delta: float) -> void:
 	# loop over all gems and if they are outside the arena center polygon, nudge them back inside
@@ -72,10 +75,21 @@ func is_spawn_pos_empty(pos: Vector2, radius: float) -> bool:
 	var isEmptyPos = intersectResult.size() == 0
 	return isEmptyPos
 
-func spawn_gem():
+func spawn_pos_reserved(reservedPositions: Array[Vector2], testPos: Vector2, gemRadius: float) -> bool:
+	var gemDiameter = gemRadius * 2.0
+	var gemDiameterSqr = gemDiameter * gemDiameter
+	
+	for pos in reservedPositions:
+		if pos.distance_squared_to(testPos) <= gemDiameterSqr:
+			return true
+	return false
+
+func spawn_gem(reservedPositions: Array[Vector2]):
 	# find point to spawn gem
 	var spawnPos : Vector2
 	var foundPos = false
+	
+	var gemRadius = 24 # TODO: is there a way to get this direction for un-instantiated scene?
 	
 	var maxPosSearches = 64 #
 	while maxPosSearches > 0:
@@ -88,8 +102,7 @@ func spawn_gem():
 		var inArena = Geometry2D.is_point_in_polygon(randomPoint - %ArenaPolygon.position, %ArenaPolygon.polygon)
 		var inGoal = Geometry2D.is_point_in_circle(randomPoint, %Goal.position, goalExclusionRadius)	
 		if inArena && !inGoal:
-			var gemRadius = 15 # TODO: is there a way to get this direction for un-instantiated scene?
-			if is_spawn_pos_empty(randomPoint, gemRadius):
+			if !spawn_pos_reserved(reservedPositions, randomPoint, gemRadius) && is_spawn_pos_empty(randomPoint, gemRadius):
 				spawnPos = randomPoint
 				break # break out of while loop, as we found a pos
 	
@@ -99,6 +112,8 @@ func spawn_gem():
 	# random gem type
 	var gemType = Global.GemType.Blue
 	spawn_gem_type(gemType, spawnPos, spawnImpulse, true)
+	
+	reservedPositions.append(spawnPos)
 
 func _on_goal_body_entered(body: Node2D) -> void:
 	var isRigidBody = body is RigidBody2D
@@ -146,7 +161,6 @@ func _on_gems_collided(initialGemType: Global.GemType, gemA: RigidBody2D, gemB: 
 	
 	gemA.remove_gem()
 	gemB.remove_gem()
-	
 
 func gen_random_direction() -> Vector2:
 	# my dumb way to get rid of zero length direction. But it works :D 
@@ -159,7 +173,7 @@ func calc_combined_gem_impulse(gemA: RigidBody2D, gemB: RigidBody2D) -> Vector2:
 	# give the new gem some velocity. Combine both A and B and clamp within a sensible range.
 	# if perfectly against each other, just use a 90 degree angle
 	var minCombinedImpulseSpeed = 10
-	var maxCombinedImpulseSpeed = 40
+	var maxCombinedImpulseSpeed = 150
 	
 	var resultImpulse := Vector2()
 	
@@ -169,20 +183,21 @@ func calc_combined_gem_impulse(gemA: RigidBody2D, gemB: RigidBody2D) -> Vector2:
 	var speedASquared = velA.length_squared()
 	var speedBSquared = velB.length_squared()
 	
+	var largerVel = velA if (speedASquared >= speedBSquared) else velB
+	
 	var hasMovingGems = speedASquared > 0 || speedBSquared > 0
 	if !hasMovingGems: # if no movement somehow, just give random direction and min speed
 		resultImpulse = minCombinedImpulseSpeed * gen_random_direction() 
 	else:
 		var combinedVelocity = velA + velB
-		var combinedSpeed = combinedVelocity.length_squared()
-		if combinedSpeed <= 0.0: # no velocity after coliding. Use the tangent
-			var largerVel = velA if (speedASquared >= speedBSquared) else velB
+		var combinedSpeedSqr = combinedVelocity.length_squared()
+		if combinedSpeedSqr <= 0.0: # no velocity after coliding. Use the tangent
 			var tangentDir = Vector2(-largerVel.y, largerVel.x).normalized()
 			var impulseDir = tangentDir if (randi() % 2 == 0) else -tangentDir
 			resultImpulse = minCombinedImpulseSpeed * impulseDir
 		else:
 			# clamp impulse speed
-			var impulseSpeed = clamp(combinedSpeed, minCombinedImpulseSpeed, maxCombinedImpulseSpeed )
+			var impulseSpeed = clamp(largerVel.length(), minCombinedImpulseSpeed, maxCombinedImpulseSpeed )
 			resultImpulse = impulseSpeed * combinedVelocity.normalized()
 	
 	return resultImpulse

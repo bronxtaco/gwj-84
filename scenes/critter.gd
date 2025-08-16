@@ -105,18 +105,23 @@ func _physics_process(delta):
 	elif state == State.Charging:
 		pass
 	elif state == State.Attack:
-		var attackMoveDelta = rollDirection * attackMoveSpeed * delta;
+		velocity = rollDirection * attackMoveSpeed
+		move_and_slide()
 		
-		var collision : KinematicCollision2D = move_and_collide(attackMoveDelta)
+		var collision : KinematicCollision2D = get_last_slide_collision()
 		if collision:
 			var otherCollider = collision.get_collider()
-			if otherCollider is RigidBody2D:
-				var impulseSpeed = attackMoveSpeed * 1.1
-				otherCollider.apply_central_impulse(-collision.get_normal() * impulseSpeed)
-				$GemImpactSound.play()
-				print("critter hit gem")
-			attackTimeRemaining = 0.0 # stop rolling every time you collide
-	
+			var isRigidBody = otherCollider is RigidBody2D
+			if isRigidBody:  
+				var otherRigidBody = otherCollider as RigidBody2D
+				var isGem = "gemType" in otherRigidBody
+				if isGem: 
+					var impulseSpeed = attackMoveSpeed * 1.1
+					otherCollider.apply_central_impulse(-collision.get_normal() * impulseSpeed)
+					$GemImpactSound.play()
+				
+				attackTimeRemaining = 0.0 # stop rolling every time you collide with a rigid body
+			
 	# if we have any velocity, update are sprite direction and anim based of it
 	var hasVelocity = velocity.length_squared() > 0.0
 	if hasVelocity:
