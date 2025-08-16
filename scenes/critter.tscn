@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bwbix4ltm861q"]
+[gd_scene load_steps=32 format=3 uid="uid://bwbix4ltm861q"]
 
 [ext_resource type="Script" uid="uid://bnn7k8mua5vul" path="res://scenes/critter.gd" id="1_oeans"]
 [ext_resource type="Texture2D" uid="uid://b23bt0dis3ppr" path="res://assets/critterGame/critter_charging.png" id="2_5mxoi"]
@@ -9,6 +9,14 @@
 [ext_resource type="AudioStream" uid="uid://doouonmd43w7r" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-003.mp3" id="6_1ty1m"]
 [ext_resource type="Texture2D" uid="uid://bxak1x6d3dkc7" path="res://assets/critterGame/charging_line.png" id="8_1ty1m"]
 [ext_resource type="AudioStream" uid="uid://c0drv8dlb5c2o" path="res://assets/audio/sfx/GWJ84_SFX_Player_PowerUp(Roll).mp3" id="9_bxkvv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_re4ka"]
+atlas = ExtResource("2_oeans")
+region = Rect2(0, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ebvj6"]
+atlas = ExtResource("2_oeans")
+region = Rect2(64, 256, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fraou"]
 atlas = ExtResource("2_oeans")
@@ -25,6 +33,14 @@ region = Rect2(128, 192, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_bxkvv"]
 atlas = ExtResource("2_oeans")
 region = Rect2(192, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mu8wl"]
+atlas = ExtResource("2_oeans")
+region = Rect2(0, 320, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hly7v"]
+atlas = ExtResource("2_oeans")
+region = Rect2(64, 320, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ochpx"]
 atlas = ExtResource("2_oeans")
@@ -54,16 +70,10 @@ region = Rect2(64, 128, 64, 64)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fraou")
+"texture": SubResource("AtlasTexture_re4ka")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5mxoi")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1ty1m")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bxkvv")
+"texture": SubResource("AtlasTexture_ebvj6")
 }],
 "loop": true,
 "name": &"rollDown",
@@ -88,16 +98,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fraou")
+"texture": SubResource("AtlasTexture_mu8wl")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5mxoi")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1ty1m")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bxkvv")
+"texture": SubResource("AtlasTexture_hly7v")
 }],
 "loop": true,
 "name": &"rollUp",
@@ -196,7 +200,7 @@ maxChargeTime = 0.5
 [node name="CritterSprite" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_tcjrq")
-animation = &"walkLeftRight"
+animation = &"rollUp"
 autoplay = "walkLeftRight"
 
 [node name="AimingLine" type="Line2D" parent="CritterSprite"]

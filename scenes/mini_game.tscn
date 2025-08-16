@@ -52,7 +52,7 @@ unique_name_in_owner = true
 
 [node name="Goal" parent="." instance=ExtResource("5_burph")]
 unique_name_in_owner = true
-position = Vector2(538, 261)
+position = Vector2(539, 256)
 
 [node name="StaffTransparent" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.465)
@@ -67,19 +67,19 @@ centered = false
 unique_name_in_owner = true
 
 [node name="Marker2D" type="Marker2D" parent="GoalPositionOptions"]
-position = Vector2(538, 261)
+position = Vector2(539, 256)
 
 [node name="Marker2D2" type="Marker2D" parent="GoalPositionOptions"]
-position = Vector2(315, 252)
+position = Vector2(313, 244)
 
 [node name="Marker2D3" type="Marker2D" parent="GoalPositionOptions"]
-position = Vector2(171, 301)
+position = Vector2(172, 288)
 
 [node name="Marker2D4" type="Marker2D" parent="GoalPositionOptions"]
-position = Vector2(122, 411)
+position = Vector2(108, 392)
 
 [node name="Marker2D5" type="Marker2D" parent="GoalPositionOptions"]
-position = Vector2(663, 346)
+position = Vector2(663, 338)
 
 [node name="Marker2D6" type="Marker2D" parent="GoalPositionOptions"]
-position = Vector2(654, 455)
+position = Vector2(659, 443)

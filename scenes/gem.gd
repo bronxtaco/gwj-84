@@ -32,11 +32,9 @@ func set_gem_visuals(type: Global.GemType):
 	
 	var isDamageNumber = type != Global.GemType.Multiply && type != Global.GemType.Divide
 	if isDamageNumber:
-		set_damage_number(type)
+		set_damage_number_text(gemDamage)
 	
-func set_damage_number(type: Global.GemType):
-	gemDamage = Global.get_gem_damage(type)
-	
+func set_damage_number_text(gemDamage: int):
 	var gemDamageText = str(gemDamage)
 	%DamageNumberLabel.text = gemDamageText
 	
@@ -63,16 +61,15 @@ func apply_gem_color(color : Color):
 	%MultiplyIcon.set_self_modulate(color)
 	%DivideIcon.set_self_modulate(color)
 	%CollideParticle.color = color
-	
 
 func setup_gem(type: Global.GemType, gemPos: Vector2, spawnImpulse: Vector2, useDropSpawn: bool):
 	global_position = gemPos # set the gem in the right spot, but offset the gem sprite in anim
 	
 	gemType = type
+	gemDamage = Global.get_gem_damage(type)
+	
 	set_gem_visuals(type)
 	
-	
-
 	self.useDropSpawn = useDropSpawn
 	self.spawnImpulse = spawnImpulse
 	
