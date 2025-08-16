@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bmmj4lxj88iwg"]
+[gd_scene load_steps=16 format=3 uid="uid://bmmj4lxj88iwg"]
 
 [ext_resource type="Script" uid="uid://c4fdc82p08sxj" path="res://scenes/mini_game.gd" id="1_0gcsj"]
 [ext_resource type="PackedScene" uid="uid://cwxf3ipevjip" path="res://scenes/gem.tscn" id="2_3kuml"]
@@ -13,8 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://clpommyb1q642" path="res://assets/combat/ui/staff_outline.png" id="11_o1hth"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3kuml"]
-friction = 0.43
-bounce = 0.16
+friction = 0.34
+bounce = 0.19
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rvs2r"]
 radius = 29.0172
@@ -25,6 +25,9 @@ stream_0/stream = ExtResource("6_svrvl")
 stream_1/stream = ExtResource("7_2sn1h")
 stream_2/stream = ExtResource("8_eps0w")
 stream_3/stream = ExtResource("9_4ovyi")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eps0w"]
+radius = 64.0
 
 [node name="MiniGame" type="Node2D"]
 script = ExtResource("1_0gcsj")
@@ -56,7 +59,7 @@ polygon = PackedVector2Array(355, 107, 419, 105, 499, 118, 566, 147, 628, 192, 6
 
 [node name="ArenaCenter" type="Marker2D" parent="Arena"]
 unique_name_in_owner = true
-position = Vector2(405, 394)
+position = Vector2(404, 381)
 
 [node name="Critter" parent="." instance=ExtResource("3_v2cs6")]
 position = Vector2(381, 420)
@@ -95,6 +98,12 @@ unique_name_in_owner = true
 stream = SubResource("AudioStreamRandomizer_o1hth")
 max_polyphony = 6
 bus = &"Minigame"
+
+[node name="GoalRepulseArea" type="Area2D" parent="Goal"]
+unique_name_in_owner = true
+
+[node name="GoalRepulseShape2D" type="CollisionShape2D" parent="Goal/GoalRepulseArea"]
+shape = SubResource("CircleShape2D_eps0w")
 
 [node name="StaffTransparent" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.465)

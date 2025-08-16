@@ -37,11 +37,25 @@ func _physics_process(delta: float) -> void:
 	# loop over all gems and if they are outside the arena center polygon, nudge them back inside
 	for gemNode in %SpawnedGems.get_children():
 		var gem = gemNode as RigidBody2D
-		var inCenter = Geometry2D.is_point_in_polygon(gem.position - %ArenaCenterPolygon.position, %ArenaCenterPolygon.polygon)
-		if !inCenter:
-			var toCenterDir = (%ArenaCenter.position - gem.position).normalized()
-			var force = toCenterDir * arenaSideCenteringSpeed
-			gem.apply_force(force)
+		var inCenterPlaySpace = Geometry2D.is_point_in_polygon(gem.position - %ArenaCenterPolygon.position, %ArenaCenterPolygon.polygon)
+		if !inCenterPlaySpace:
+			var gemSpeed = gem.linear_velocity.length()
+			if gemSpeed < arenaSideCenteringSpeed:
+				var speedToAdd = max( arenaSideCenteringSpeed - gemSpeed, 0.0)
+				var toCenterDir = (%ArenaCenter.position - gem.position).normalized()
+				gem.apply_force(toCenterDir * speedToAdd)
+
+	# Goal repulse area works in the opposite way. Use it to get the overlapping bodies and then apply for force to it
+	for overlapBody in %GoalRepulseArea.get_overlapping_bodies():
+		var gem = overlapBody as RigidBody2D
+		
+		var repulseSpeed = 35
+		
+		var gemSpeed = gem.linear_velocity.length()
+		if gemSpeed < repulseSpeed:
+			var speedToAdd = max( repulseSpeed - gemSpeed, 0.0)
+			var pushDirection = (gem.position - %GoalRepulseArea.position ).normalized()
+			gem.apply_force(pushDirection * speedToAdd)
 
 func get_gem_count():
 	return %SpawnedGems.get_child_count()
