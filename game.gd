@@ -5,6 +5,7 @@ func _ready() -> void:
 	
 	DisplayServer.window_set_size(Vector2i(1600, 1200))
 	get_window().move_to_center()
+	Scenes.change(Scenes.Enum.Splash)
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):

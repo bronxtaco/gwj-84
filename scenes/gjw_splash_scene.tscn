@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://bw3l6a0181gtx"]
+
+[ext_resource type="Script" uid="uid://djmkhwps48ffr" path="res://scenes/gjw_splash_scene.gd" id="1_3816g"]
+[ext_resource type="Texture2D" uid="uid://bprrewuhjocns" path="res://assets/gwj/GWJ-Full-Logo-tag-Orange2.svg" id="2_1nbts"]
+
+[node name="gjw_splash_scene" type="Node2D"]
+script = ExtResource("1_3816g")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 800.0
+offset_bottom = 600.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0784314, 0.133333, 0.25098, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(400, 300)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("2_1nbts")
