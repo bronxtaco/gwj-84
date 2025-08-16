@@ -157,7 +157,9 @@ func level_fail() -> void:
 
 
 func _on_apply_damage_to_enemy(amount: int):
-	Enemy.apply_damage(amount)
+	if amount > 0:
+		Enemy.apply_damage(amount)
 	
 func _on_apply_damage_to_hero(amount: int):
-	Hero.apply_damage(amount)
+	if amount > 0:
+		Hero.apply_damage(amount)

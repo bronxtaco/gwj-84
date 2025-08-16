@@ -39,6 +39,7 @@ func get_fireball_pos():
 
 
 func launch_new(damage_: int):
+	%FireballPath.scale = Vector2.ONE
 	visible = true
 	active = true
 	damage = damage_
@@ -51,7 +52,7 @@ func update_progress(progress: float) -> bool:
 			pathFollow.progress_ratio = progress
 	if progress == 1:
 		explode()
-	return progress == 1
+	return !active
 
 
 func get_size_from_damage(damage):
@@ -60,7 +61,7 @@ func get_size_from_damage(damage):
 		size = i
 		if damage <= SizeTable[i]:
 			break
-	return size
+	return clamp(size, 1, 5)
 
 
 func explode():
@@ -92,6 +93,8 @@ func _on_crit_boost(gem_type: Global.GemType, boost_amount: int) -> void:
 		
 		if active:
 			damage = max(damage + boost_amount, 0)
+			if damage == 0: # attack has been neutralized
+				create_tween().tween_property(%FireballPath, "scale", Vector2.ZERO, 0.8)
 			var boost_text = %DamageText.duplicate()
 			boost_text.text = "%s%d" % [ mod_prefix, boost_amount ]
 			boost_text.add_theme_font_size_override("font_size", 12)
@@ -101,6 +104,11 @@ func _on_crit_boost(gem_type: Global.GemType, boost_amount: int) -> void:
 			tween.set_parallel(true).tween_property(boost_text, "modulate:a", 0.0, 0.3)
 			await tween.finished
 			boost_text.queue_free()
+			
+			await get_tree().create_timer(0.5).timeout
+			if damage == 0:
+				active = false # attack has been neutralized
+				visible = false
 	
 	deferred_fn.call_deferred()
 
