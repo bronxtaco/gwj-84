@@ -16,6 +16,10 @@ func play_battle():
 	%overworld.stop()
 	%battle_start.play()
 
+func play_victory():
+	%battle.stop()
+	%victory.play()
+
 func _on_battle_start_finished() -> void:
 	%battle.volume_db = MUSIC_DB
 	%battle.play()

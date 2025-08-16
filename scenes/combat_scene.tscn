@@ -48,3 +48,40 @@ offset_top = 206.0
 offset_right = 473.0
 offset_bottom = 229.0
 text = "Enemy Defeated!"
+
+[node name="GameWinText1" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = 278.0
+offset_top = 286.0
+offset_right = 540.0
+offset_bottom = 335.0
+theme_override_constants/outline_size = 6
+text = "Congratulations!!!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameWinText2" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = 278.0
+offset_top = 342.0
+offset_right = 540.0
+offset_bottom = 391.0
+theme_override_constants/outline_size = 6
+text = "You have helped your hero defeat
+the evil in this land!!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameWinText3" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = 278.0
+offset_top = 400.0
+offset_right = 540.0
+offset_bottom = 449.0
+theme_override_constants/outline_size = 6
+text = "Run time: 5:00.00"
+horizontal_alignment = 1
+vertical_alignment = 1

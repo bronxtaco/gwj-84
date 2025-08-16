@@ -157,14 +157,14 @@ func _physics_process(delta):
 		if state == State.Idle || state == State.Walk:
 			%CritterSprite.pause()
 	
-	if play_scuttle_sound:
+	'''if play_scuttle_sound:
 		if !$ScuttleSound.playing:
 			print("ScuttleSound: Play")
 			$ScuttleSound.play()
 	else:
 		if $ScuttleSound.playing:
 			print("ScuttleSound: Stop")
-			$ScuttleSound.stop()
+			$ScuttleSound.stop()'''
 
 func get_lateral_input(inputDirection: Vector2, moveDirection: Vector2) -> Vector2:
 	# isolate our inputDirection just into the lateral components, from the roll direction POV 

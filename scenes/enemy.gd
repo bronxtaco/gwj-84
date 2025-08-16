@@ -1,5 +1,7 @@
 extends Node2D
 
+var debug_low_health := false
+
 @export var maxHealth : int = 100
 @export var base_attack : int = 80
 
@@ -91,7 +93,10 @@ func _ready():
 	fsm.register_state(STATE.Hurt, HurtState)
 	fsm.register_state(STATE.Dead, DeadState)
 	
-	currentHealth = maxHealth
+	if debug_low_health:
+		currentHealth = 10
+	else:
+		currentHealth = maxHealth
 
 
 func _physics_process(delta: float) -> void:

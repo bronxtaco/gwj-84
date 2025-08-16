@@ -11,6 +11,8 @@ enum MENU_TYPE {
 
 var paused = false
 
+var game_active := false
+var total_run_time := 0.0
 var current_level := 1
 var hero_health := HERO_HEALTH
 
@@ -18,8 +20,10 @@ var staff_pos := Vector2.ZERO
 
 
 func reset_game() -> void:
-	Global.current_level = 1
-	Global.hero_health = HERO_HEALTH
+	game_active = false
+	total_run_time = 0.0
+	current_level = 1
+	hero_health = HERO_HEALTH
 	Scenes.change(Scenes.Enum.Title)
 
 
@@ -65,3 +69,13 @@ var Enemies = {
 	4: preload("res://scenes/enemy_knight.tscn"),
 	5: preload("res://scenes/enemy_orc.tscn"),
 }
+
+func get_formatted_time(time_seconds: float, with_ms: bool = false) -> String:
+	var ms = floor(fmod(time_seconds * 1000.0, 1000.0))
+	var seconds = floor(fmod(time_seconds, 60.0))
+	var minutes = floor(time_seconds / 60.0)
+
+	if with_ms:
+		return "%02d:%02d.%03d" % [minutes, seconds, ms]
+
+	return "%02d:%02d" % [minutes, seconds]

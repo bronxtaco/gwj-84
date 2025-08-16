@@ -15,6 +15,10 @@ var level_bg_map = {
 
 @onready var Hero = $Hero
 @onready var BattleEndText = %BattleEndText
+@onready var GameWinText1 = %GameWinText1
+@onready var GameWinText2 = %GameWinText2
+@onready var GameWinText3 = %GameWinText3
+
 
 var Enemy # set on ready
 
@@ -68,6 +72,7 @@ class DefeatState extends FSM.State:
 		obj.BattleEndText.text = "Your owner died!"
 		obj.BattleEndText.visible = true
 		print("Hero has been defeated!")
+		Global.game_active = false
 	
 	func force_state_change():
 		return Global.hero_health <= 0
@@ -83,18 +88,35 @@ class VictoryState extends FSM.State:
 	var exit_triggered := false
 	func on_enter(prev_state):
 		exit_triggered = false
-		obj.BattleEndText.text = "Enemy Defeated!"
-		obj.BattleEndText.visible = true
 		obj.Hero.battle_victory()
+		Audio.play_victory()
+		if Global.current_level == 5: # game has been won
+			Global.game_active = false
+			var run_time = Global.get_formatted_time(Global.total_run_time, true)
+			obj.GameWinText3.text = "Run time: %s" % run_time
+			obj.GameWinText1.visible = true
+			obj.GameWinText2.visible = true
+			obj.GameWinText3.visible = true
+		else:
+			obj.BattleEndText.text = "Enemy Defeated!"
+			obj.BattleEndText.visible = true
 		print("Hero has slain the enemy!")
 	
 	func force_state_change():
 		return obj.Enemy.currentHealth <= 0
 	
 	func physics_process(_delta):
-		if !exit_triggered and seconds_active >= STATE_TIME:
-			exit_triggered = true
-			obj.level_success()
+		if exit_triggered:
+			return
+		
+		if Global.current_level < 5:
+			if seconds_active >= STATE_TIME:
+				exit_triggered = true
+				obj.level_success()
+		else:
+			if Input.is_action_just_pressed("ui_accept"):
+				exit_triggered = true
+				obj.level_success()
 
 
 func _ready():
@@ -123,9 +145,12 @@ func _physics_process(delta: float):
 
 
 func level_success() -> void:
-	Global.current_level += 1
-	Audio.play_overworld()
-	Scenes.change(Scenes.Enum.Overworld)
+	if Global.current_level < 5:
+		Global.current_level += 1
+		Audio.play_overworld()
+		Scenes.change(Scenes.Enum.Overworld)
+	else:
+		Scenes.change(Scenes.Enum.Title)
 
 func level_fail() -> void:
 	Global.reset_game()

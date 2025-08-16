@@ -6,10 +6,13 @@ func _ready() -> void:
 	DisplayServer.window_set_size(Vector2i(1600, 1200))
 	get_window().move_to_center()
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
 		if !Global.paused:
 			Events.menu_push.emit(Global.MENU_TYPE.PAUSE)
+	
+	if !Global.paused and Global.game_active:
+		Global.total_run_time += delta
 
 func on_change_scene(new_scene:PackedScene):
 
