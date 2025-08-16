@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var gemScene: PackedScene
+@export var obstacleScene: PackedScene
 
 @export var maxSpawnedGems : int = 8
 @export var gemSpawnTimeInterval : float = 3.0
@@ -14,13 +15,25 @@ extends Node2D
 
 var gemSpawnTimer = gemSpawnTimeInterval
 
+func spawn_obstacle(spawnPosition: Vector2):
+	var obstacle = obstacleScene.instantiate() as Node2D
+	%SpawnedObstacles.add_child(obstacle)
+	obstacle.position = spawnPosition
+
 func _ready() -> void:
 	Events.fireball_exploded.connect(_on_fireball_exploded)
 	Events.gems_collided.connect(_on_gems_collided)
 	
-	var randChildIndex = randi_range(0,  %GoalPositionOptions.get_child_count() - 1)
-	var goalPosMarker = %GoalPositionOptions.get_children()[randChildIndex] as Marker2D
+	var randChildIndex = randi_range(0,  %GoalPositions.get_child_count() - 1)
+	var goalPosMarker = %GoalPositions.get_children()[randChildIndex] as Marker2D
 	%Goal.position = goalPosMarker.position
+	
+	var obstacleCount = 4
+	for i in range(obstacleCount):
+		var obstacleMarkerIndex = randi_range(0,  %ObstaclePositions.get_child_count() - 1)
+		var obstacleMarker = %ObstaclePositions.get_children()[obstacleMarkerIndex] as Marker2D
+		spawn_obstacle(obstacleMarker.position)
+		
 
 func _process(delta: float) -> void:
 	# reserve spawn positions in a single group of spawns. So if 3 spawns are made, non of them overlap	

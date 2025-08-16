@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8cocldkynsj"]
+
+[ext_resource type="Texture2D" uid="uid://bev3y5jubmqm4" path="res://assets/critterGame/obstacle.png" id="1_7ukg5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_svrvl"]
+radius = 9.0
+
+[node name="Obstacle" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_7ukg5")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 12)
+shape = SubResource("CircleShape2D_svrvl")
