@@ -233,7 +233,7 @@ position = Vector2(103, 177)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_fcpdo")
 autoplay = "default"
-frame_progress = 0.161076
+frame_progress = 0.666691
 
 [node name="StaffBackground" type="Sprite2D" parent="CanvasLayer"]
 texture = ExtResource("4_s8xmt")

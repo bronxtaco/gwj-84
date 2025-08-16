@@ -10,7 +10,7 @@ enum MusicPlaying {
 	Overworld,
 	Battle,
 }
-var music_playing
+var music_playing := MusicPlaying.None
 
 func play_overworld():
 	if music_playing == MusicPlaying.Overworld:

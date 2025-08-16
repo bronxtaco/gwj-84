@@ -69,7 +69,8 @@ class DefeatState extends FSM.State:
 	func on_enter(prev_state):
 		exit_triggered = false
 		Audio.play_gameover()
-		obj.BattleEndText.text = "Your owner died!"
+		obj.BattleEndText.text = "Noooooooooooo!"
+		await obj.get_tree().create_timer(0.25).timeout
 		obj.BattleEndText.visible = true
 		print("Hero has been defeated!")
 		Global.game_active = false
@@ -94,8 +95,11 @@ class VictoryState extends FSM.State:
 			Global.game_active = false
 			var run_time = Global.get_formatted_time(Global.total_run_time, true)
 			obj.GameWinText3.text = "Run time: %s" % run_time
+			await obj.get_tree().create_timer(0.25).timeout
 			obj.GameWinText1.visible = true
+			await obj.get_tree().create_timer(1).timeout
 			obj.GameWinText2.visible = true
+			await obj.get_tree().create_timer(1).timeout
 			obj.GameWinText3.visible = true
 		else:
 			obj.BattleEndText.text = "Enemy Defeated!"

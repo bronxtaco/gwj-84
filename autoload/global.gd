@@ -1,6 +1,6 @@
 extends Node
 
-const HERO_HEALTH := 20
+const HERO_HEALTH := 200
 
 # Menus
 enum MENU_TYPE {

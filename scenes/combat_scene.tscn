@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cwnobe4bv4vu4"]
+[gd_scene load_steps=7 format=3 uid="uid://cwnobe4bv4vu4"]
 
 [ext_resource type="Script" uid="uid://chbdkngrr08m7" path="res://scenes/combat.gd" id="1_a2e2y"]
 [ext_resource type="Texture2D" uid="uid://mgdy1uyfl6i6" path="res://assets/combat/backgrounds/game_background_1.png" id="2_m2d54"]
 [ext_resource type="PackedScene" uid="uid://c8ky2qrq0buds" path="res://scenes/hero.tscn" id="3_ikfks"]
 [ext_resource type="Texture2D" uid="uid://drkym8j6v6cd1" path="res://assets/combat/ui/ui-frame.png" id="5_ikfks"]
 [ext_resource type="PackedScene" uid="uid://bmmj4lxj88iwg" path="res://scenes/mini_game.tscn" id="6_0vylu"]
+[ext_resource type="Theme" uid="uid://cxygi6sxk02d2" path="res://default_theme.tres" id="6_ikfks"]
 
 [node name="Combat" type="Node2D"]
 script = ExtResource("1_a2e2y")
@@ -43,44 +44,50 @@ centered = false
 [node name="BattleEndText" type="Label" parent="."]
 unique_name_in_owner = true
 visible = false
-offset_left = 341.0
-offset_top = 206.0
-offset_right = 473.0
-offset_bottom = 229.0
-text = "Enemy Defeated!"
+offset_left = 148.0
+offset_top = 139.0
+offset_right = 371.0
+offset_bottom = 174.0
+theme = ExtResource("6_ikfks")
+theme_override_constants/outline_size = 6
+text = "\"Great job
+little critter!\""
 
 [node name="GameWinText1" type="Label" parent="."]
 unique_name_in_owner = true
 visible = false
-offset_left = 278.0
-offset_top = 286.0
-offset_right = 540.0
-offset_bottom = 335.0
+offset_left = 149.0
+offset_top = 132.0
+offset_right = 415.0
+offset_bottom = 181.0
+theme = ExtResource("6_ikfks")
 theme_override_constants/outline_size = 6
-text = "Congratulations!!!"
-horizontal_alignment = 1
+text = "\"We did it
+little critter!\""
 vertical_alignment = 1
 
 [node name="GameWinText2" type="Label" parent="."]
 unique_name_in_owner = true
 visible = false
-offset_left = 278.0
-offset_top = 342.0
-offset_right = 540.0
-offset_bottom = 391.0
+offset_left = 166.0
+offset_top = 306.0
+offset_right = 629.0
+offset_bottom = 355.0
+theme = ExtResource("6_ikfks")
 theme_override_constants/outline_size = 6
 text = "You have helped your hero defeat
-the evil in this land!!"
+the evil of this land!!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="GameWinText3" type="Label" parent="."]
 unique_name_in_owner = true
 visible = false
-offset_left = 278.0
-offset_top = 400.0
-offset_right = 540.0
-offset_bottom = 449.0
+offset_left = 259.0
+offset_top = 359.0
+offset_right = 521.0
+offset_bottom = 408.0
+theme = ExtResource("6_ikfks")
 theme_override_constants/outline_size = 6
 text = "Run time: 5:00.00"
 horizontal_alignment = 1
