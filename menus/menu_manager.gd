@@ -4,6 +4,7 @@ extends Node2D
 @onready var menus := {
 	Global.MENU_TYPE.PAUSE: preload("res://menus/menu_pause.tscn"),
 	Global.MENU_TYPE.SETTINGS: preload("res://menus/menu_settings.tscn"),
+	Global.MENU_TYPE.AUDIO: preload("res://menus/menu_audio.tscn"),
 	Global.MENU_TYPE.CREDITS: preload("res://menus/menu_credits.tscn"),
 }
 

@@ -17,6 +17,7 @@ position = Vector2(400, 400)
 current = true
 
 [node name="Menus" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="Fade" type="ColorRect" parent="Menus"]
 unique_name_in_owner = true

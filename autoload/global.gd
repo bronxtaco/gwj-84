@@ -6,6 +6,7 @@ const HERO_HEALTH := 20
 enum MENU_TYPE {
 	PAUSE,
 	SETTINGS,
+	AUDIO,
 	CREDITS,
 }
 

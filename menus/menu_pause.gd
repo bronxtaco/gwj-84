@@ -1,19 +1,23 @@
 extends BaseMenu
 
-var focused_node
-
 func _ready():
-	default_focused_node = %SettingsButton
+	var focus_nodes = [
+		%SettingsButton,
+		%CreditsButton,
+	]
+
+	default_focused_node = focus_nodes[0]
+	connect_vertical_nodes(focus_nodes)
+	connect_default_signals(focus_nodes)
+	grab_focus_(default_focused_node, true)
 	Audio.play_menu_pause()
 
 
 func _on_settings_button_pressed():
 	Audio.play_menu_select()
-	focused_node = get_viewport().gui_get_focus_owner()
 	Events.menu_push.emit(Global.MENU_TYPE.SETTINGS)
 
 
 func _on_credits_button_pressed():
 	Audio.play_menu_select()
-	focused_node = get_viewport().gui_get_focus_owner()
 	Events.menu_push.emit(Global.MENU_TYPE.CREDITS)
