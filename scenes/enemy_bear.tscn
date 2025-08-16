@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://hf7sdes27cfc"]
+
+[ext_resource type="PackedScene" uid="uid://j4p6hrpy0tw6" path="res://scenes/enemy.tscn" id="1_1ggfj"]
+
+[node name="EnemyBear" instance=ExtResource("1_1ggfj")]
+maxHealth = 150
+base_attack = 120
+
+[node name="Shadow" parent="." index="0"]
+offset_left = -55.0
+offset_top = 28.0
+offset_right = 77.0
+offset_bottom = 148.0
+
+[node name="Sprite" parent="." index="1"]
+position = Vector2(-11, -11)
+
+[node name="HealthBar" parent="." index="2"]
+offset_left = -44.0
+offset_top = -71.0
+offset_right = 66.0
+offset_bottom = -51.0
+
+[editable path="FireballAttack"]

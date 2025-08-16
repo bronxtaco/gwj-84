@@ -57,3 +57,11 @@ func get_gem_color(type: Global.GemType) -> Color:
 			return Color.from_rgba8(30, 30, 30)
 		_:
 			return Color(1, 1, 1, 1)
+
+var Enemies = {
+	1: preload("res://scenes/enemy_dwarf.tscn"),
+	2: preload("res://scenes/enemy_bear.tscn"),
+	3: preload("res://scenes/enemy_vampire.tscn"),
+	4: preload("res://scenes/enemy_knight.tscn"),
+	5: preload("res://scenes/enemy_orc.tscn"),
+}

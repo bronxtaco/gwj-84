@@ -1,12 +1,13 @@
 extends Node2D
 
 @export var maxHealth : int = 100
+@export var base_attack : int = 80
 
 @onready var Sprite := %Sprite
 @onready var FireballAttack := %FireballAttack
 @onready var HealthBar := $HealthBar
 
-var currentHealth : int = maxHealth:
+var currentHealth : int:
 	set(new_health):
 		currentHealth = max(new_health, 0)
 		var healthNormalized = float(currentHealth) / maxHealth
@@ -31,7 +32,7 @@ class PreAttackState extends FSM.State:
 	const STATE_TIME := 0.2
 	
 	func on_enter(_prev_state):
-		obj.Sprite.play("default")
+		obj.Sprite.play("attack")
 	
 	func get_next_state():
 		if seconds_active > STATE_TIME:
@@ -45,8 +46,8 @@ class AttackingState extends FSM.State:
 	
 	func on_enter(_prev_state):
 		done = false
-		obj.Sprite.play("attack")
-		obj.FireballAttack.launch_new(100)
+		#obj.Sprite.play("attack")
+		obj.FireballAttack.launch_new(obj.base_attack)
 	
 	func get_next_state():
 		if done:
@@ -89,6 +90,8 @@ func _ready():
 	fsm.register_state(STATE.Attacking, AttackingState)
 	fsm.register_state(STATE.Hurt, HurtState)
 	fsm.register_state(STATE.Dead, DeadState)
+	
+	currentHealth = maxHealth
 
 
 func _physics_process(delta: float) -> void:

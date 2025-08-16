@@ -14,8 +14,9 @@ var level_bg_map = {
 }
 
 @onready var Hero = $Hero
-@onready var Enemy = $Enemy
 @onready var BattleEndText = %BattleEndText
+
+var Enemy # set on ready
 
 # StateMachine
 enum STATE {
@@ -84,6 +85,7 @@ class VictoryState extends FSM.State:
 		exit_triggered = false
 		obj.BattleEndText.text = "Enemy Defeated!"
 		obj.BattleEndText.visible = true
+		obj.Hero.battle_victory()
 		print("Hero has slain the enemy!")
 	
 	func force_state_change():
@@ -105,6 +107,9 @@ func _ready():
 	fsm.register_state(STATE.HeroDefence, HeroDefenceState)
 	fsm.register_state(STATE.Defeat, DefeatState)
 	fsm.register_state(STATE.Victory, VictoryState)
+	
+	Enemy = Global.Enemies[Global.current_level].instantiate()
+	$EnemyContainer.add_child(Enemy)
 	
 	%BackgroundFlipped.texture = level_bg_map[Global.current_level]
 	%Background.texture = level_bg_map[Global.current_level]

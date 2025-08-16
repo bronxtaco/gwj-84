@@ -1,0 +1,117 @@
+[gd_scene load_steps=18 format=3 uid="uid://d2lcrauwj5cdi"]
+
+[ext_resource type="PackedScene" uid="uid://j4p6hrpy0tw6" path="res://scenes/enemy.tscn" id="1_mj7i7"]
+[ext_resource type="Texture2D" uid="uid://bt8yrnqodkflx" path="res://assets/combat/enemies/Orc/Attack1.png" id="2_s2g5q"]
+[ext_resource type="Texture2D" uid="uid://cdi1aqgwx5xio" path="res://assets/combat/enemies/Orc/Attack2.png" id="3_ex7a3"]
+[ext_resource type="Texture2D" uid="uid://dmo14m8eu2pxg" path="res://assets/combat/enemies/Orc/Attack3.png" id="4_pd8mg"]
+[ext_resource type="Texture2D" uid="uid://be3p0xdk2tebx" path="res://assets/combat/enemies/Orc/Attack4.png" id="5_1yk7k"]
+[ext_resource type="Texture2D" uid="uid://c2mmh3oo12net" path="res://assets/combat/enemies/Orc/Death1.png" id="6_vckl6"]
+[ext_resource type="Texture2D" uid="uid://col10op4d3yjj" path="res://assets/combat/enemies/Orc/Death2.png" id="7_1h2fr"]
+[ext_resource type="Texture2D" uid="uid://dns7gaic1scmg" path="res://assets/combat/enemies/Orc/Death3.png" id="8_il4x8"]
+[ext_resource type="Texture2D" uid="uid://dk2i8sthomohb" path="res://assets/combat/enemies/Orc/Death4.png" id="9_7rfrs"]
+[ext_resource type="Texture2D" uid="uid://b8w5rdknjpntl" path="res://assets/combat/enemies/Orc/Death5.png" id="10_swnw2"]
+[ext_resource type="Texture2D" uid="uid://dvt4gratxqeen" path="res://assets/combat/enemies/Orc/Death6.png" id="11_4f07r"]
+[ext_resource type="Texture2D" uid="uid://c2ydlr5tng4e1" path="res://assets/combat/enemies/Orc/Hurt1.png" id="12_ocsdt"]
+[ext_resource type="Texture2D" uid="uid://bj57nbv6trndb" path="res://assets/combat/enemies/Orc/Hurt2.png" id="13_j7nab"]
+[ext_resource type="Texture2D" uid="uid://dujcygl2cl0xy" path="res://assets/combat/enemies/Orc/Idle1.png" id="14_cw0xd"]
+[ext_resource type="Texture2D" uid="uid://dmd213dyr2k63" path="res://assets/combat/enemies/Orc/Idle2.png" id="15_88y7l"]
+[ext_resource type="Texture2D" uid="uid://ctqaawqn3esva" path="res://assets/combat/enemies/Orc/Idle3.png" id="16_wnubg"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tdrdx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_s2g5q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ex7a3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_pd8mg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_1yk7k")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_vckl6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_1h2fr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_il4x8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_7rfrs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_swnw2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_4f07r")
+}],
+"loop": false,
+"name": &"death",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_ocsdt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_j7nab")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_cw0xd")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_cw0xd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_88y7l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_wnubg")
+}],
+"loop": false,
+"name": &"idle_anim",
+"speed": 5.0
+}]
+
+[node name="EnemyOrc" instance=ExtResource("1_mj7i7")]
+maxHealth = 400
+base_attack = 250
+
+[node name="Shadow" parent="." index="0"]
+offset_left = -51.0
+offset_top = 16.0
+offset_right = 81.0
+offset_bottom = 136.0
+
+[node name="Sprite" parent="." index="1"]
+position = Vector2(-30, -50)
+sprite_frames = SubResource("SpriteFrames_tdrdx")
+animation = &"attack"
+
+[node name="HealthBar" parent="." index="2"]
+offset_left = -47.0
+offset_top = -148.0
+offset_right = 63.0
+offset_bottom = -128.0
+
+[editable path="FireballAttack"]

@@ -1,0 +1,116 @@
+[gd_scene load_steps=17 format=3 uid="uid://d206lseofovyw"]
+
+[ext_resource type="PackedScene" uid="uid://j4p6hrpy0tw6" path="res://scenes/enemy.tscn" id="1_jefah"]
+[ext_resource type="Texture2D" uid="uid://byvdpv6cfykdu" path="res://assets/combat/enemies/Vampire/vampire08_attack1.png" id="2_lbxae"]
+[ext_resource type="Texture2D" uid="uid://g8o61nnjiofi" path="res://assets/combat/enemies/Vampire/vampire09_attack2.png" id="3_x0ujo"]
+[ext_resource type="Texture2D" uid="uid://bk4c154bgr4eo" path="res://assets/combat/enemies/Vampire/vampire10_attack3.png" id="4_jefah"]
+[ext_resource type="Texture2D" uid="uid://bgj41v8w8rm84" path="res://assets/combat/enemies/Vampire/vampire11_attack4.png" id="5_wsgp4"]
+[ext_resource type="Texture2D" uid="uid://rtbwf0ixahul" path="res://assets/combat/enemies/Vampire/vampire14_death1.png" id="8_y88w2"]
+[ext_resource type="Texture2D" uid="uid://muvksek6g8fw" path="res://assets/combat/enemies/Vampire/vampire15_death2.png" id="9_0brh0"]
+[ext_resource type="Texture2D" uid="uid://cj3qp28pu38qa" path="res://assets/combat/enemies/Vampire/vampire16_death3.png" id="10_dx3v2"]
+[ext_resource type="Texture2D" uid="uid://dxfdrmtaxur0e" path="res://assets/combat/enemies/Vampire/vampire17_death4.png" id="11_dx8yw"]
+[ext_resource type="Texture2D" uid="uid://gtku750at27h" path="res://assets/combat/enemies/Vampire/vampire18_death5.png" id="12_4dp78"]
+[ext_resource type="Texture2D" uid="uid://vaaivsbwnhk" path="res://assets/combat/enemies/Vampire/vampire12_hurt1.png" id="13_ybnlf"]
+[ext_resource type="Texture2D" uid="uid://cu8h6dwog2q5q" path="res://assets/combat/enemies/Vampire/vampire13_hurt2.png" id="14_giash"]
+[ext_resource type="Texture2D" uid="uid://bclwe0kojba0t" path="res://assets/combat/enemies/Vampire/vampire01_idle1.png" id="15_8xb5e"]
+[ext_resource type="Texture2D" uid="uid://nn5m88g4yf1b" path="res://assets/combat/enemies/Vampire/vampire02_idle2.png" id="16_2vn5y"]
+[ext_resource type="Texture2D" uid="uid://ds85h7covg40q" path="res://assets/combat/enemies/Vampire/vampire03_idle3.png" id="17_vddr0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jpasx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_lbxae")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_x0ujo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_jefah")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_wsgp4")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_y88w2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_0brh0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_dx3v2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_dx8yw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_4dp78")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"death",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_ybnlf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_giash")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_8xb5e")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_8xb5e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_2vn5y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_vddr0")
+}],
+"loop": false,
+"name": &"idle_anim",
+"speed": 10.0
+}]
+
+[node name="EnemyVampire" instance=ExtResource("1_jefah")]
+maxHealth = 200
+base_attack = 160
+
+[node name="Shadow" parent="." index="0"]
+offset_left = -38.0
+offset_top = 31.0
+offset_right = 62.0
+offset_bottom = 111.0
+
+[node name="Sprite" parent="." index="1"]
+position = Vector2(-20, -10)
+sprite_frames = SubResource("SpriteFrames_jpasx")
+animation = &"attack"
+
+[node name="HealthBar" parent="." index="2"]
+offset_left = -43.0
+offset_top = -93.0
+offset_right = 67.0
+offset_bottom = -73.0
+
+[editable path="FireballAttack"]

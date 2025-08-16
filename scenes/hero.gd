@@ -12,6 +12,7 @@ enum STATE {
 	Attacking,
 	Hurt,
 	Dead,
+	Victory,
 }
 var fsm := FSM.StateMachine.new(STATE, STATE.Idle, self, "Hero")
 
@@ -31,7 +32,7 @@ class PreAttackState extends FSM.State:
 			return STATE.Attacking
 
 	func on_enter(_prev_state):
-		obj.Sprite.play("attack_frame_1")
+		obj.Sprite.play("attack_intro")
 
 
 class AttackingState extends FSM.State:
@@ -78,13 +79,21 @@ class DeadState extends FSM.State:
 		return Global.hero_health <= 0
 
 
+class VictoryState extends FSM.State:
+	func on_enter(_prev_state):
+		obj.Sprite.play("victory")
+
+
 func _ready():
+	Events.crit_boost.connect(_on_crit_boost)
+	
 	fsm.debug = true # enables logging for state changes
 	fsm.register_state(STATE.Idle, IdleState)
 	fsm.register_state(STATE.PreAttack, PreAttackState)
 	fsm.register_state(STATE.Attacking, AttackingState)
 	fsm.register_state(STATE.Hurt, HurtState)
 	fsm.register_state(STATE.Dead, DeadState)
+	fsm.register_state(STATE.Victory, VictoryState)
 	
 	update_health_bar()
 	
@@ -98,6 +107,9 @@ func is_idle() -> bool:
 
 func start_attack() -> void:
 	fsm.force_change(STATE.PreAttack)
+
+func battle_victory() -> void:
+	fsm.force_change(STATE.Victory)
 
 func apply_damage(damageValue: int):
 	if fsm.current_state == STATE.Dead:
@@ -114,6 +126,24 @@ func apply_damage(damageValue: int):
 	if newHealth > 0:
 		fsm.force_change(STATE.Hurt)
 
-func update_health_bar():
+func update_health_bar() -> void:
 	var healthNormalized = float(Global.hero_health) / Global.HERO_HEALTH
 	HealthBar.value = healthNormalized
+
+
+func _on_crit_boost(_gem_type: Global.GemType, boost_amount: int) -> void:
+	if fsm.current_state == STATE.Attacking:
+		Sprite.play("attack_boost")
+	elif fsm.current_state == STATE.Idle: # defence
+		Sprite.play("defence_boost")
+
+
+func _on_sprite_animation_finished() -> void:
+	if fsm.current_state == STATE.Attacking:
+		Sprite.play("attack_loop")
+	elif fsm.current_state == STATE.Idle: # defence
+		Sprite.play("idle")
+	elif fsm.current_state == STATE.Dead:
+		Sprite.visible = false
+		%Shadow.visible = false
+		

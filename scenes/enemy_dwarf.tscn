@@ -1,0 +1,100 @@
+[gd_scene load_steps=15 format=3 uid="uid://2heuduej1848"]
+
+[ext_resource type="PackedScene" uid="uid://j4p6hrpy0tw6" path="res://scenes/enemy.tscn" id="1_wqocv"]
+[ext_resource type="Texture2D" uid="uid://bge5sd63a0qho" path="res://assets/combat/enemies/Dworf/Attack1.png" id="2_psu58"]
+[ext_resource type="Texture2D" uid="uid://2ilso44mwpof" path="res://assets/combat/enemies/Dworf/Attack2.png" id="3_o4jy0"]
+[ext_resource type="Texture2D" uid="uid://cqc7i1f221786" path="res://assets/combat/enemies/Dworf/Death1.png" id="4_gefh7"]
+[ext_resource type="Texture2D" uid="uid://4nddgbviwysa" path="res://assets/combat/enemies/Dworf/Death2.png" id="5_q5d6m"]
+[ext_resource type="Texture2D" uid="uid://pixuavk570au" path="res://assets/combat/enemies/Dworf/Death3.png" id="6_h78u6"]
+[ext_resource type="Texture2D" uid="uid://c0xtdqdm7syqb" path="res://assets/combat/enemies/Dworf/Death4.png" id="7_ghi80"]
+[ext_resource type="Texture2D" uid="uid://bidulopghcsdc" path="res://assets/combat/enemies/Dworf/Death5.png" id="8_dh7eb"]
+[ext_resource type="Texture2D" uid="uid://cp52oh4or43mf" path="res://assets/combat/enemies/Dworf/Hurt1.png" id="9_li7f5"]
+[ext_resource type="Texture2D" uid="uid://cuyhygo82vw18" path="res://assets/combat/enemies/Dworf/Hurt2.png" id="10_pdo8k"]
+[ext_resource type="Texture2D" uid="uid://54qp6gkelaej" path="res://assets/combat/enemies/Dworf/Idle2.png" id="12_6gh0a"]
+[ext_resource type="Texture2D" uid="uid://xyl1sp7njptb" path="res://assets/combat/enemies/Dworf/Idle3.png" id="13_eu1sn"]
+[ext_resource type="Texture2D" uid="uid://bye7igw3yl82g" path="res://assets/combat/enemies/Dworf/Idle1.png" id="14_bawww"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k45a8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_psu58")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_o4jy0")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_gefh7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_q5d6m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_h78u6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ghi80")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_dh7eb")
+}],
+"loop": false,
+"name": &"death",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_li7f5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_pdo8k")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_bawww")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_6gh0a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_eu1sn")
+}],
+"loop": false,
+"name": &"idle_anim",
+"speed": 10.0
+}]
+
+[node name="EnemyDwarf" instance=ExtResource("1_wqocv")]
+
+[node name="Shadow" parent="." index="0"]
+offset_left = -34.0
+offset_top = 45.0
+offset_right = 66.0
+offset_bottom = 125.0
+
+[node name="Sprite" parent="." index="1"]
+position = Vector2(-7, 25)
+sprite_frames = SubResource("SpriteFrames_k45a8")
+animation = &"idle_anim"
+
+[node name="HealthBar" parent="." index="2"]
+offset_left = -36.0
+offset_top = -57.0
+offset_right = 74.0
+offset_bottom = -37.0
+
+[editable path="FireballAttack"]

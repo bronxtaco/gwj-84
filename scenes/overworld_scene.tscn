@@ -1,12 +1,18 @@
-[gd_scene load_steps=9 format=4 uid="uid://c5fygb6iji4bt"]
+[gd_scene load_steps=16 format=4 uid="uid://c5fygb6iji4bt"]
 
 [ext_resource type="Script" uid="uid://c8uupytpu72uo" path="res://scenes/overworld_scene.gd" id="1_hqurk"]
 [ext_resource type="TileSet" uid="uid://dgol3qg2wql5q" path="res://scenes/overworld.tres" id="2_o0op5"]
-[ext_resource type="Texture2D" uid="uid://f4vvs3l5gi1" path="res://assets/combat/hero/idle/idle1.png" id="3_k2vnf"]
+[ext_resource type="Texture2D" uid="uid://c56quuxhr48pk" path="res://assets/combat/hero_purple/idle/idle14.png" id="3_ugusn"]
+[ext_resource type="Texture2D" uid="uid://buti0wqxbni34" path="res://assets/combat/hero_purple/Walk/walk1.png" id="4_bma7i"]
+[ext_resource type="Texture2D" uid="uid://djagge5cgn3ma" path="res://assets/combat/hero_purple/Walk/walk2.png" id="5_ji23s"]
+[ext_resource type="Texture2D" uid="uid://cry6t3a7q4omi" path="res://assets/combat/hero_purple/Walk/walk3.png" id="6_bqx6l"]
+[ext_resource type="Texture2D" uid="uid://djr8pyhrl8rby" path="res://assets/combat/hero_purple/Walk/walk4.png" id="7_m2m5s"]
+[ext_resource type="Texture2D" uid="uid://bib5ftdila7qd" path="res://assets/combat/hero_purple/Walk/walk5.png" id="8_ir3bw"]
+[ext_resource type="Texture2D" uid="uid://dnm5itgm7drj2" path="res://assets/combat/hero_purple/Walk/walk6.png" id="9_hrbfi"]
 
 [sub_resource type="Curve2D" id="Curve2D_m1b5j"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 328, 465, 0, 0, 0, 0, 328, 487, 0, 0, 0, 0, 265, 487, 0, 0, 0, 0, 265, 472, 0, 0, 0, 0, 153, 472)
+"points": PackedVector2Array(0, 0, 0, 0, 328, 465, 0, 0, 0, 0, 327, 487, 0, 0, 0, 0, 265, 487, 0, 0, 0, 0, 264, 472, 0, 0, 0, 0, 153, 472)
 }
 point_count = 5
 
@@ -33,6 +39,40 @@ _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 130.5, 121, 0, 0, 0, 0, 154.5, 121, 0, 0, 0, 0, 201, 148, 0, 0, 0, 0, 282, 167.5, 0, 0, 0, 0, 391, 167, 0, 0, 0, 0, 391, 142.5)
 }
 point_count = 6
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oqj32"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ugusn")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_bma7i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ji23s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_bqx6l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_m2m5s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ir3bw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_hrbfi")
+}],
+"loop": true,
+"name": &"walking",
+"speed": 10.0
+}]
 
 [node name="Overworld" type="Node2D"]
 scale = Vector2(2, 2)
@@ -95,13 +135,16 @@ position = Vector2(130.5, 121)
 rotates = false
 
 [node name="PathChildren" type="Node2D" parent="."]
-visible = false
 
-[node name="HeroSprite" type="Sprite2D" parent="PathChildren"]
+[node name="HeroSprite" type="AnimatedSprite2D" parent="PathChildren"]
 unique_name_in_owner = true
-scale = Vector2(0.3, 0.3)
-texture = ExtResource("3_k2vnf")
-offset = Vector2(5.5, -5.5)
+scale = Vector2(0.35, 0.35)
+sprite_frames = SubResource("SpriteFrames_oqj32")
+animation = &"walking"
+autoplay = "idle"
+frame_progress = 0.601192
+offset = Vector2(-40, -5.5)
+flip_h = true
 
 [node name="CameraLevel" type="Camera2D" parent="PathChildren"]
 unique_name_in_owner = true
