@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cwxf3ipevjip"]
+[gd_scene load_steps=14 format=3 uid="uid://cwxf3ipevjip"]
 
 [ext_resource type="Script" uid="uid://bb07vhwvqenvm" path="res://scenes/gem.gd" id="1_kprv0"]
 [ext_resource type="Texture2D" uid="uid://b76w3h0o4qcxp" path="res://assets/critterGame/gem_shadow2.png" id="2_eaa7k"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://ck7sxdfhg5npc" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerC-002.mp3" id="5_o6gnd"]
 [ext_resource type="AudioStream" uid="uid://ou4qr33nqoob" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerC-003.mp3" id="6_35lcq"]
 [ext_resource type="AudioStream" uid="uid://doouonmd43w7r" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-003.mp3" id="6_qgn10"]
+[ext_resource type="Texture2D" uid="uid://p2e6eskb3s1d" path="res://assets/critterGame/collision_particle.png" id="10_hqa1t"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5xxwx"]
 radius = 17.25
@@ -31,6 +32,29 @@ contact_monitor = true
 max_contacts_reported = 8
 linear_damp = 0.32
 script = ExtResource("1_kprv0")
+
+[node name="CollideParticle" type="CPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+amount = 26
+texture = ExtResource("10_hqa1t")
+lifetime = 0.55
+one_shot = true
+local_coords = true
+emission_shape = 4
+emission_points = PackedVector2Array(14.12, -4.535, -12.8, -3.965, 0, -12.42)
+emission_colors = PackedColorArray()
+direction = Vector2(0, -1)
+spread = 77.79
+gravity = Vector2(0, -20)
+initial_velocity_min = 25.8
+initial_velocity_max = 25.8
+angular_velocity_min = -60.0
+angular_velocity_max = 60.0
+damping_min = 1.0
+damping_max = 1.0
+scale_amount_min = 0.1
+scale_amount_max = 0.1
 
 [node name="Shadow" type="Sprite2D" parent="."]
 unique_name_in_owner = true

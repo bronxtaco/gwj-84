@@ -107,7 +107,6 @@ func _physics_process(delta):
 		var attackMoveDelta = rollDirection * attackMoveSpeed * delta;
 		
 		var collision : KinematicCollision2D = move_and_collide(attackMoveDelta)
-		
 		if collision:
 			var otherCollider = collision.get_collider()
 			if otherCollider is RigidBody2D:
@@ -116,7 +115,6 @@ func _physics_process(delta):
 				$GemImpactSound.play()
 				print("critter hit gem")
 			attackTimeRemaining = 0.0 # stop rolling every time you collide
-	
 	
 	# if we have any velocity, update are sprite direction and anim based of it
 	var hasVelocity = velocity.length_squared() > 0.0
