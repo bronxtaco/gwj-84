@@ -12,6 +12,8 @@ func _ready():
 	grab_focus_(default_focused_node, true)
 	Audio.play_menu_pause()
 
+func _exit_tree() -> void:
+	Events.menu_unpaused.emit()
 
 func _on_settings_button_pressed():
 	Audio.play_menu_select()

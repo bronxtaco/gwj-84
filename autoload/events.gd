@@ -7,6 +7,7 @@ signal menu_push(menu: Global.MENU_TYPE, data: Dictionary)
 signal menu_pop
 signal menu_pop_all
 signal menu_empty
+signal menu_unpaused
 
 signal apply_damage_to_enemy(amount: int)
 signal apply_damage_to_hero

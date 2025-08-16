@@ -19,7 +19,7 @@ func on_change_scene(new_scene:PackedScene):
 
 	%ActiveScene.process_mode = Node.PROCESS_MODE_DISABLED
 
-	var fade_time = 0.4
+	var fade_time = 0.7
 	var fade_tween = create_tween()
 	fade_tween.tween_property(%Fade, "color:a", 1.0, fade_time)
 	await fade_tween.finished
