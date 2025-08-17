@@ -12,6 +12,8 @@ var debug_low_health := false
 @onready var AttackSound := %AttackSound
 @onready var DeathSound := %DeathSound
 
+var debug_speed_up := false
+
 var currentHealth : int:
 	set(new_health):
 		currentHealth = max(new_health, 0)
@@ -44,14 +46,15 @@ class PreAttackState extends FSM.State:
 
 
 class AttackingState extends FSM.State:
-	const STATE_TIME: float = 25.0 # TODO: different attack options could have different times?
+	var STATE_TIME: float
 	var done := false
 	
-	
 	func on_enter(_prev_state):
+		STATE_TIME = obj.base_attack_time
 		done = false
 		obj.AttackSound.play()
-		obj.FireballAttack.launch_new(obj.base_attack)
+		var base_damage = (floor(obj.base_attack * 0.75)) if Global.active_relics[Global.Relics.EnemyAttackDecrease] else obj.base_attack
+		obj.FireballAttack.launch_new(base_damage)
 	
 	func get_next_state():
 		if done:
@@ -61,6 +64,8 @@ class AttackingState extends FSM.State:
 		if done:
 			return
 		
+		STATE_TIME = 5.0 if obj.debug_speed_up else obj.base_attack_time
+
 		var progress_seconds = min(seconds_active, STATE_TIME)
 		var progress_normalized = progress_seconds / STATE_TIME
 		if obj.FireballAttack.update_progress(progress_normalized):
@@ -105,6 +110,7 @@ func _ready():
 
 
 func _physics_process(delta: float) -> void:
+	debug_speed_up = Input.is_action_pressed("debug_f1")
 	fsm.physics_process(delta)
 
 

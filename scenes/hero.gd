@@ -16,6 +16,8 @@ enum STATE {
 }
 var fsm := FSM.StateMachine.new(STATE, STATE.Idle, self, "Hero")
 
+var debug_speed_up := false
+
 class IdleState extends FSM.State:
 	func get_next_state():
 		pass # combat class decides when the hero changes out of idle
@@ -36,7 +38,7 @@ class PreAttackState extends FSM.State:
 
 
 class AttackingState extends FSM.State:
-	const STATE_TIME: float = 30.0
+	var STATE_TIME: float = 30.0
 	var done := false
 	
 	func get_next_state():
@@ -53,6 +55,8 @@ class AttackingState extends FSM.State:
 	func physics_process(_delta):
 		if done:
 			return
+		
+		STATE_TIME = 5.0 if obj.debug_speed_up else 30.0
 		
 		var progress_seconds = min(seconds_active, STATE_TIME)
 		var progress_normalized = progress_seconds / STATE_TIME
@@ -102,6 +106,7 @@ func _ready():
 	Global.staff_pos = $StaffPos.global_position
 
 func _physics_process(delta: float) -> void:
+	debug_speed_up = Input.is_action_pressed("debug_f1")
 	fsm.physics_process(delta)
 	
 	'''if Input.is_action_just_pressed("debug_f1"):
