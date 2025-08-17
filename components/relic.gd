@@ -2,10 +2,23 @@ extends Area2D
 
 @export var sequence: int = 0
 var relic_type: Global.Relics
+var active := true
 
 func _ready() -> void:
-	relic_type = Global.overworld_relics[sequence].keys()[0]
+	relic_type = Global.overworld_relics[sequence].type
 	%Sprite.texture = Global.RelicTextures[relic_type]
+	if !Global.overworld_relics[sequence].active:
+		deactivate()
+
+func deactivate() -> void:
+	visible = false
+	active = false
+	Global.overworld_relics[sequence].active = false
+
+func activate() -> void:
+	visible = true
+	active = true
+	Global.overworld_relics[sequence].active = true
 	
 	'''var orig_pos = position
 	var tween = create_tween()

@@ -3,7 +3,8 @@ extends MarginContainer
 
 @export var pause_game := true
 @export var disable_input := true
-@export var dismissable := true
+@export var dismissable_back := true
+@export var dismissable_accept := false
 
 var _dismissed := false
 var _first_ignored := false
@@ -21,7 +22,7 @@ func _process(_delta):
 
 	reset_default_focused_node()
 
-	if dismissable and Input.is_action_just_pressed("ui_cancel"):
+	if (dismissable_back and Input.is_action_just_pressed("ui_cancel")) or (dismissable_accept and Input.is_action_just_pressed("ui_accept")):
 		Audio.play_menu_back()
 		Events.menu_pop.emit()
 		_on_dismiss()

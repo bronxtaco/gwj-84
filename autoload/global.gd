@@ -8,9 +8,11 @@ enum MENU_TYPE {
 	SETTINGS,
 	AUDIO,
 	CREDITS,
+	RELIC_PICKUP,
 }
 
-var paused = false
+var paused := false
+var hud_enabled := false
 
 var game_active := false
 var total_run_time := 0.0
@@ -36,7 +38,7 @@ func reset_overworld_relics():
 			relics_picked.push_back(rand_relic)
 	overworld_relics = []
 	for i in range(4):
-		overworld_relics.push_back( { relics_picked[i]: false })
+		overworld_relics.push_back( { "type": relics_picked[i], "active": true })
 
 enum GemType
 {
@@ -113,6 +115,7 @@ enum Relics {
 	AttackDamageIncrease,
 	EnemyAttackDecrease,
 	EnemyHealthDecrease,
+	IncreaseGemSpawnRate,
 }
 
 var RelicTextures := {
@@ -125,6 +128,33 @@ var RelicTextures := {
 	Relics.AttackDamageIncrease: preload("res://assets/relics/Fire Spell Pack57.png"),
 	Relics.EnemyAttackDecrease: preload("res://assets/relics/Fire Spell Pack71.png"),
 	Relics.EnemyHealthDecrease: preload("res://assets/relics/Poison Spell28.png"),
+	Relics.IncreaseGemSpawnRate: preload("res://assets/relics/Galaxy Spell_48.png"),
+}
+
+var RelicNames := {
+	Relics.MoveSpeed: "1,000 MORE LEGS",
+	Relics.GemRankHigherChance: "LUCKY CRITTER",
+	Relics.GemNoLowestRank: "NO MORE FEELING BLUE",
+	Relics.HealPostBattle: "POST-MATCH REFRESHMENTS",
+	Relics.HealingGemChance: "HEALING RAIN",
+	Relics.HealFullOneOff: "SECOND CHANCE",
+	Relics.AttackDamageIncrease: "STOKE THE FIRE",
+	Relics.EnemyAttackDecrease: "QUELL THE FLAMES",
+	Relics.EnemyHealthDecrease: "SAP STRENGTH",
+	Relics.IncreaseGemSpawnRate: "HEAVY RAIN",
+}
+
+var RelicDescriptions := {
+	Relics.MoveSpeed: "Increased movement speed",
+	Relics.GemRankHigherChance: "Chance for higher tier crystal drops",
+	Relics.GemNoLowestRank: "Lowest tier crystals no longer spawn",
+	Relics.HealPostBattle: "Heal some amount after each battle",
+	Relics.HealingGemChance: "Chance for healing crystals to spawn",
+	Relics.HealFullOneOff: "One-time heal to full health",
+	Relics.AttackDamageIncrease: "Hero fireball starting damage increase",
+	Relics.EnemyAttackDecrease: "Enemy fireball starting damage decrease",
+	Relics.EnemyHealthDecrease: "Enemy health decrease",
+	Relics.IncreaseGemSpawnRate: "Increase crystal spawn rate",
 }
 
 var active_relics := {
@@ -137,11 +167,21 @@ var active_relics := {
 	Relics.AttackDamageIncrease: false,
 	Relics.EnemyAttackDecrease: false,
 	Relics.EnemyHealthDecrease: false,
+	Relics.IncreaseGemSpawnRate: false,
 }
+var relic_pickup_order := []
 
 var overworld_relics := [
-	{ Relics.MoveSpeed: true },
-	{ Relics.MoveSpeed: true },
-	{ Relics.MoveSpeed: true },
-	{ Relics.MoveSpeed: true },
+	{ "type": Relics.MoveSpeed, "active": true },
+	{ "type": Relics.MoveSpeed, "active": true },
+	{ "type": Relics.MoveSpeed, "active": true },
+	{ "type": Relics.MoveSpeed, "active": true },
 ]
+
+var recent_relic_pickup: Relics
+func pickup_relic(relic_type: Relics):
+	recent_relic_pickup = relic_type
+	active_relics[relic_type] = true
+	relic_pickup_order.push_back(relic_type)
+	Events.relic_pickup.emit(relic_type)
+	Events.menu_push.emit(Global.MENU_TYPE.RELIC_PICKUP)

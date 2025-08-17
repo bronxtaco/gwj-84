@@ -5,7 +5,6 @@ const CUTSCENE_TIME := 3.0
 var remaining_time := CUTSCENE_TIME
 var active_path: PathFollow2D
 var prev_hero_pos: Vector2
-var relic_pickup_active := false
 
 func _ready() -> void:
 	var level_path_map = {
@@ -28,8 +27,6 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if relic_pickup_active:
-		return
 	remaining_time = max(remaining_time - delta, 0)
 	active_path.progress_ratio = 1 - (remaining_time / CUTSCENE_TIME)
 	var new_hero_pos = %HeroSprite.global_position
@@ -46,4 +43,6 @@ func _process(delta: float) -> void:
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	pass #relic_pickup_active = true
+	if area.active:
+		area.deactivate()
+		Global.pickup_relic(area.relic_type)

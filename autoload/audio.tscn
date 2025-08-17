@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b2waytaxnr4g3"]
+[gd_scene load_steps=12 format=3 uid="uid://b2waytaxnr4g3"]
 
 [ext_resource type="AudioStream" uid="uid://c8fx1ory5lqeo" path="res://assets/audio/music/overworld.ogg" id="1_rxn34"]
 [ext_resource type="Script" uid="uid://ccg8pewpq407h" path="res://autoload/audio.gd" id="1_uw2yb"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://c7ac3gcx6mr42" path="res://assets/audio/sfx/GWJ84_SFX_BattleDefeat.mp3" id="6_at2qi"]
 [ext_resource type="AudioStream" uid="uid://dyptdijdxcx61" path="res://assets/audio/sfx/GWJ84_SFX_UI_Back.mp3" id="6_lx04d"]
 [ext_resource type="AudioStream" uid="uid://da3rb7nej7al0" path="res://assets/audio/sfx/GWJ84_SFX_UI_Scroll.mp3" id="7_k0ge0"]
+[ext_resource type="AudioStream" uid="uid://bdlr6k17jsaq4" path="res://assets/audio/sfx/GWJ84_SFX_PickUpRelic.mp3" id="11_kflsn"]
 
 [node name="Audio" type="Node2D"]
 script = ExtResource("1_uw2yb")
@@ -66,6 +67,11 @@ bus = &"SFX"
 unique_name_in_owner = true
 stream = ExtResource("7_k0ge0")
 max_polyphony = 3
+bus = &"SFX"
+
+[node name="relic_pickup" type="AudioStreamPlayer" parent="Menu"]
+unique_name_in_owner = true
+stream = ExtResource("11_kflsn")
 bus = &"SFX"
 
 [connection signal="finished" from="Music/battle_start" to="." method="_on_battle_start_finished"]

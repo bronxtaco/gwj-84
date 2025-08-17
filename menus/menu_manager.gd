@@ -6,6 +6,7 @@ extends Node2D
 	Global.MENU_TYPE.SETTINGS: preload("res://menus/menu_settings.tscn"),
 	Global.MENU_TYPE.AUDIO: preload("res://menus/menu_audio.tscn"),
 	Global.MENU_TYPE.CREDITS: preload("res://menus/menu_credits.tscn"),
+	Global.MENU_TYPE.RELIC_PICKUP: preload("res://menus/relic_pickup_notification.tscn"),
 }
 
 # ColorRect used for fading behind menus
@@ -38,7 +39,9 @@ func _on_menu_push(menu_type: Global.MENU_TYPE, data: Dictionary = {}):
 	if menu_stack.is_empty():
 		if menu.pause_game:
 			Global.paused = true
-			scene_container.process_mode = PROCESS_MODE_DISABLED
+			var pause_deferred = func():
+				scene_container.process_mode = PROCESS_MODE_DISABLED
+			pause_deferred.call_deferred()
 	else:
 		menu_stack[-1].process_mode = PROCESS_MODE_DISABLED
 		await tween_out_menu(menu_stack[-1]).finished

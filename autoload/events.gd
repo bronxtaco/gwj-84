@@ -16,3 +16,5 @@ signal fireball_exploded
 signal crit_boost(gem_type: Global.GemType, amount: int)
 
 signal gems_collided(initialGemType: Global.GemType, gemA: RigidBody2D, gemB: RigidBody2D)
+
+signal relic_pickup(relic_type: Global.Relics)

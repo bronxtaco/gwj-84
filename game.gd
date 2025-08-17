@@ -16,7 +16,9 @@ func _process(delta: float) -> void:
 		Global.total_run_time += delta
 
 func on_change_scene(new_scene:PackedScene):
-
+	
+	%HUD.visible = Global.hud_enabled
+	
 	%ActiveScene.process_mode = Node.PROCESS_MODE_DISABLED
 
 	var fade_time = 0.7

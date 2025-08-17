@@ -58,3 +58,6 @@ func play_menu_back():
 
 func play_menu_scroll():
 	%scroll.play()
+
+func play_relic_pickup():
+	%relic_pickup.play()

@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://d11eesvpxlsk2" path="res://menus/menu_base.tscn" id="1_uosjy"]
 
 [node name="MenuCredits" instance=ExtResource("1_uosjy")]
+dismissable_accept = true
 
 [node name="Label" parent="Modal/MarginContainer/VBoxContainer" index="0"]
 text = "Credits"
