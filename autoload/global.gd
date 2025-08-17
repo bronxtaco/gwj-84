@@ -15,6 +15,8 @@ enum MENU_TYPE {
 var paused := false
 var hud_enabled := false
 
+var mini_game_active := false
+
 var game_active := false
 var total_run_time := 0.0
 var current_level := 1
@@ -68,6 +70,8 @@ enum GemType
 	Multiply, # multiplier
 	Divide, # divider
 	Heal,
+	
+	KillGem
 }
 
 func get_gem_color(type: Global.GemType) -> Color:
@@ -88,6 +92,8 @@ func get_gem_color(type: Global.GemType) -> Color:
 			return Color.from_rgba8(225, 225, 225)
 		Global.GemType.Heal:
 			return Color.DEEP_PINK
+		Global.GemType.KillGem:
+			return Color.DARK_RED
 		_:
 			return Color(1, 1, 1, 1)
 

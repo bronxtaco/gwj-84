@@ -23,7 +23,7 @@ func _ready():
 
 func set_gem_visuals(type: Global.GemType):
 	# update visibily of the different sprites or text labels
-	%MultiplyIcon.visible = type == Global.GemType.Multiply
+	%MultiplyIcon.visible = type == Global.GemType.Multiply || type == Global.GemType.KillGem
 	%DivideIcon.visible = type == Global.GemType.Divide
 	%DamageNumberLabel.visible = !%MultiplyIcon.visible && !%DivideIcon.visible
 	

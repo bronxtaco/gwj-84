@@ -19,4 +19,7 @@ signal heal_boost(amount: int)
 
 signal spawn_combined_gem_type(gemType: Global.GemType, position_: Vector2, impulse: Vector2, useDropSpawn: bool)
 
+signal spawn_kill_gem()
+signal kill_gem_scored()
+
 signal refresh_hud()

@@ -43,6 +43,8 @@ func _on_body_entered(body: Node2D) -> void:
 	%SuccessAudio.play()
 	if gem.gemType == Global.GemType.Heal:
 		Events.heal_boost.emit(gem.gemDamage)
+	elif gem.gemType == Global.GemType.KillGem:	
+		Events.kill_gem_scored.emit()
 	else:
 		Events.crit_boost.emit(gem.gemType, gem.gemDamage)
 	gem.queue_free()

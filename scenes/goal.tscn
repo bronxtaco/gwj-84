@@ -22,6 +22,7 @@ radius = 64.0
 
 [node name="Goal" type="Area2D"]
 script = ExtResource("1_jo0vh")
+repulseSpeed = 45.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.211111, 0.0839982, 0.475798, 1)

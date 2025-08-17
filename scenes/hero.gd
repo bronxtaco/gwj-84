@@ -16,6 +16,7 @@ enum STATE {
 }
 var fsm := FSM.StateMachine.new(STATE, STATE.Idle, self, "Hero")
 
+var kill_gem_speed_up := false
 var debug_speed_up := false
 
 class IdleState extends FSM.State:
@@ -47,16 +48,21 @@ class AttackingState extends FSM.State:
 
 	func on_enter(_prev_state):
 		done = false
+		obj.kill_gem_speed_up = false
 		obj.Sprite.play("attack_loop")
 		obj.AttackSound.play()
 		var base_damage = 30 if Global.active_relics[Global.Relics.AttackDamageIncrease] else 10
 		obj.FireballAttack.launch_new(base_damage)
 	
-	func physics_process(_delta):
+	func physics_process(delta):
 		if done:
 			return
 		
 		STATE_TIME = 5.0 if obj.debug_speed_up else 30.0
+		if obj.kill_gem_speed_up:
+			var kill_gem_speed_up_rate = 12.0
+			seconds_active += delta * kill_gem_speed_up_rate
+	
 		
 		var progress_seconds = min(seconds_active, STATE_TIME)
 		var progress_normalized = progress_seconds / STATE_TIME
@@ -89,10 +95,14 @@ class VictoryState extends FSM.State:
 	func on_enter(_prev_state):
 		obj.Sprite.play("victory")
 
+func get_fireball_damage() -> int:
+	return %FireballAttack.damage if %FireballAttack.active else 0
 
 func _ready():
 	Events.crit_boost.connect(_on_crit_boost)
 	Events.heal_boost.connect(_on_heal_boost)
+	Events.kill_gem_scored.connect(_on_kill_gem)
+	
 	
 	fsm.debug = true # enables logging for state changes
 	fsm.register_state(STATE.Idle, IdleState)
@@ -171,7 +181,9 @@ func _on_crit_boost(_gem_type: Global.GemType, boost_amount: int) -> void:
 
 func _on_heal_boost(boost_amount: int) -> void:
 	heal(boost_amount)
-	
+
+func _on_kill_gem():
+	kill_gem_speed_up = true
 	
 func _on_sprite_animation_finished() -> void:
 	if fsm.current_state == STATE.Attacking:

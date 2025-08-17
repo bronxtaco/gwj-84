@@ -38,6 +38,7 @@ class IdleState extends FSM.State:
 	
 	func on_enter(prev_state):
 		next_state = STATE.HeroAttack # hero always attacks first
+		Global.mini_game_active = true
 		if prev_state != null:        # and then alternates
 			next_state = STATE.HeroAttack if prev_state == STATE.HeroDefence else STATE.HeroDefence
 	
@@ -47,13 +48,20 @@ class IdleState extends FSM.State:
 
 
 class HeroAttackState extends FSM.State:
+	var spawned_kill_gem : bool = false
+	
 	func on_enter(prev_state):
+		spawned_kill_gem = false
 		obj.Hero.start_attack()
 	
 	func get_next_state():
 		if obj.Hero.is_idle():
 			return STATE.Idle
 
+	func physics_process(_delta):
+		if !spawned_kill_gem && obj.Hero.get_fireball_damage() >= obj.Enemy.currentHealth:
+			Events.spawn_kill_gem.emit()
+			spawned_kill_gem = true
 
 class HeroDefenceState extends FSM.State:
 	func on_enter(prev_state):
@@ -68,6 +76,7 @@ class DefeatState extends FSM.State:
 	var exit_triggered := false
 	func on_enter(prev_state):
 		exit_triggered = false
+		Global.mini_game_active = false
 		Audio.play_gameover()
 		obj.BattleEndText.text = "Noooooooooooo!"
 		await obj.get_tree().create_timer(0.25).timeout
@@ -89,6 +98,7 @@ class VictoryState extends FSM.State:
 	var exit_triggered := false
 	func on_enter(prev_state):
 		exit_triggered = false
+		Global.mini_game_active = false
 		obj.Hero.battle_victory()
 		if Global.active_relics[Global.Relics.HealPostBattle]:
 			obj.Hero.heal(30)

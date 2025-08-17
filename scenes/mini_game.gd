@@ -24,6 +24,8 @@ func _ready() -> void:
 	Events.fireball_active.connect(_on_fireball_active)
 	Events.fireball_inactive.connect(_on_fireball_inactive)
 	
+	Events.spawn_kill_gem.connect(_on_spawn_kill_gem)
+	
 	Events.spawn_combined_gem_type.connect(_on_spawn_combined_gem_type)
 	
 	%Goal.deactivate()
@@ -74,7 +76,7 @@ func _process(delta: float) -> void:
 	var max_spawned_gems = maxSpawnedGems + 2 if Global.active_relics[Global.Relics.IncreaseGemSpawnRate] else maxSpawnedGems
 	
 	gemSpawnTimer -= delta
-	if gemSpawnTimer <= 0.0:
+	if gemSpawnTimer <= 0.0 && Global.mini_game_active:
 		gemSpawnTimer = gemSpawnTimeInterval
 		
 		var gemCount = get_gem_count()
@@ -87,7 +89,8 @@ func _process(delta: float) -> void:
 	'''if Input.is_action_just_pressed("debug_f3"):
 		spawn_gem(Global.GemType.Multiply, reservedSpawnPositions)
 	if Input.is_action_just_pressed("debug_f4"):
-		spawn_gem(Global.GemType.Divide, reservedSpawnPositions)'''
+		spawn_gem(Global.GemType.Divide, reservedSpawnPositions)
+		'''
 
 func _physics_process(delta: float) -> void:
 	# loop over all gems and if they are outside the arena center polygon, nudge them back inside
@@ -191,3 +194,7 @@ func gen_random_direction() -> Vector2:
 	while randDir.length_squared() == 0:
 		randDir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0))
 	return randDir.normalized()
+
+func _on_spawn_kill_gem():
+	var reservedPositions : Array[Vector2]
+	spawn_gem(Global.GemType.KillGem, reservedPositions)
