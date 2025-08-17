@@ -13,6 +13,7 @@ func apply_damage(amount: int) -> void:
 		queue_free.call_deferred()
 	else:
 		%Sprite.frame = clamp(4 - health, 0, 3)
+		%BreakEffects.emitting = true
 		await get_tree().create_timer(0.3).timeout
 		invuln = false
 	

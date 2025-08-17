@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8cocldkynsj"]
+[gd_scene load_steps=5 format=3 uid="uid://c8cocldkynsj"]
 
 [ext_resource type="Texture2D" uid="uid://wlkdvgfy1dul" path="res://assets/critterGame/obstacle-Sheet.png" id="1_7ukg5"]
 [ext_resource type="Script" uid="uid://cpqk6m0v1f5rx" path="res://scenes/obstacle.gd" id="1_drdry"]
+[ext_resource type="Texture2D" uid="uid://p2e6eskb3s1d" path="res://assets/critterGame/collision_particle.png" id="3_cjuko"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_svrvl"]
 radius = 9.0
@@ -19,3 +20,20 @@ hframes = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(0, 12)
 shape = SubResource("CircleShape2D_svrvl")
+
+[node name="BreakEffects" type="CPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+texture = ExtResource("3_cjuko")
+lifetime = 0.6
+one_shot = true
+emission_shape = 4
+emission_points = PackedVector2Array(-10.98, -7, 11, -7)
+emission_colors = PackedColorArray()
+direction = Vector2(0, -1)
+spread = 91.63
+gravity = Vector2(0, -50)
+initial_velocity_min = 36.04
+initial_velocity_max = 36.04
+scale_amount_min = 0.1
+scale_amount_max = 0.3
