@@ -47,7 +47,8 @@ class AttackingState extends FSM.State:
 		done = false
 		obj.Sprite.play("attack_loop")
 		obj.AttackSound.play()
-		obj.FireballAttack.launch_new(10)
+		var base_damage = 30 if Global.active_relics[Global.Relics.AttackDamageIncrease] else 10
+		obj.FireballAttack.launch_new(base_damage)
 	
 	func physics_process(_delta):
 		if done:
