@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://8hc8w0lxm0f2"]
+[gd_scene load_steps=28 format=3 uid="uid://8hc8w0lxm0f2"]
 
 [ext_resource type="Script" uid="uid://ild780hfbee1" path="res://components/fireball_attack.gd" id="1_s1opf"]
 [ext_resource type="AudioStream" uid="uid://bovtg3pw8hfu1" path="res://assets/audio/sfx/GWJ84_SFX_Player_Fireblast Impact_Small.mp3" id="2_f44dr"]
@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://c85m15eii1u7h" path="res://assets/combat/fx/fireball_14.png" id="16_vd78t"]
 [ext_resource type="AudioStream" uid="uid://bv388tdu7h367" path="res://assets/audio/sfx/GWJ84_SFX_Player_Fireblast Cast-002.mp3" id="17_jh3wq"]
 [ext_resource type="Texture2D" uid="uid://82a0fyki1rrn" path="res://assets/combat/fx/fireball_15.png" id="17_oru3f"]
+[ext_resource type="Theme" uid="uid://cxygi6sxk02d2" path="res://default_theme.tres" id="20_0fvdc"]
 [ext_resource type="AudioStream" uid="uid://c3js3kq60whwc" path="res://assets/audio/sfx/GWJ84_SFX_Player_Fireblast Loop.mp3" id="21_kffx5"]
 
 [sub_resource type="Curve2D" id="Curve2D_54d4v"]
@@ -186,9 +187,10 @@ offset_left = -30.0
 offset_top = -44.0
 offset_right = 10.0
 offset_bottom = -21.0
+theme = ExtResource("20_0fvdc")
 theme_override_colors/font_outline_color = Color(0.369777, 0.139618, 0, 1)
 theme_override_constants/outline_size = 8
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 14
 text = "10"
 horizontal_alignment = 1
 vertical_alignment = 1

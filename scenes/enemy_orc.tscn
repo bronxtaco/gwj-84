@@ -107,12 +107,8 @@ offset_bottom = 136.0
 [node name="Sprite" parent="." index="1"]
 position = Vector2(-30, -50)
 sprite_frames = SubResource("SpriteFrames_tdrdx")
-animation = &"attack"
 
 [node name="HealthBar" parent="." index="2"]
-offset_left = -47.0
-offset_top = -148.0
-offset_right = 63.0
-offset_bottom = -128.0
+position = Vector2(-65, -174)
 
 [editable path="FireballAttack"]

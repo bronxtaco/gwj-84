@@ -106,12 +106,8 @@ offset_bottom = 111.0
 [node name="Sprite" parent="." index="1"]
 position = Vector2(-20, -10)
 sprite_frames = SubResource("SpriteFrames_jpasx")
-animation = &"attack"
 
 [node name="HealthBar" parent="." index="2"]
-offset_left = -43.0
-offset_top = -93.0
-offset_right = 67.0
-offset_bottom = -73.0
+position = Vector2(-53, -109)
 
 [editable path="FireballAttack"]

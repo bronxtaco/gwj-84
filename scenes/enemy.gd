@@ -9,12 +9,13 @@ var debug_low_health := false
 @onready var Sprite := %Sprite
 @onready var FireballAttack := %FireballAttack
 @onready var HealthBar := $HealthBar
+@onready var AttackSound := %AttackSound
+@onready var DeathSound := %DeathSound
 
 var currentHealth : int:
 	set(new_health):
 		currentHealth = max(new_health, 0)
-		var healthNormalized = float(currentHealth) / maxHealth
-		HealthBar.value = healthNormalized
+		HealthBar.update_health_bar(currentHealth, maxHealth)
 
 #StateMachine
 enum STATE {
@@ -49,7 +50,7 @@ class AttackingState extends FSM.State:
 	
 	func on_enter(_prev_state):
 		done = false
-		#obj.Sprite.play("attack")
+		obj.AttackSound.play()
 		obj.FireballAttack.launch_new(obj.base_attack)
 	
 	func get_next_state():
@@ -81,6 +82,7 @@ class DeadState extends FSM.State:
 	func on_enter(_prev_state):
 		print("Enemy Died!")
 		obj.Sprite.play("death")
+		obj.DeathSound.play()
 	
 	func force_state_change():
 		return obj.currentHealth <= 0
@@ -98,6 +100,8 @@ func _ready():
 		currentHealth = 10
 	else:
 		currentHealth = maxHealth
+	
+	HealthBar.update_health_bar(currentHealth, maxHealth)
 
 
 func _physics_process(delta: float) -> void:
@@ -119,4 +123,7 @@ func apply_damage(damageValue: int):
 	print("%d damage to enemy. Health: %d -> %d" % [ damageValue, prevHealth, currentHealth ])
 	
 	if currentHealth > 0:
+		%HurtSound.play()
 		fsm.force_change(STATE.Hurt)
+	
+	%HealthBar.add_damage_effect(damageValue)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://c8ky2qrq0buds"]
+[gd_scene load_steps=42 format=3 uid="uid://c8ky2qrq0buds"]
 
 [ext_resource type="Script" uid="uid://d08wrm06fpjwd" path="res://scenes/hero.gd" id="1_6xrt3"]
 [ext_resource type="Texture2D" uid="uid://bcju0rsd56p8y" path="res://assets/combat/hero_purple/attack/attack3.png" id="2_nh6g3"]
@@ -24,11 +24,17 @@
 [ext_resource type="Texture2D" uid="uid://bq1uc0djli3k7" path="res://assets/combat/hero_purple/idle/idle10.png" id="22_5dxqo"]
 [ext_resource type="Texture2D" uid="uid://cguohl5aff2nm" path="res://assets/combat/hero_purple/idle/idle12.png" id="23_4v2qv"]
 [ext_resource type="Texture2D" uid="uid://o4r8d5im2hr5" path="res://assets/combat/hero_purple/idle/idle13.png" id="24_05r1h"]
-[ext_resource type="Texture2D" uid="uid://dack17wqj7ft0" path="res://assets/combat/ui/hp_bar_bg.png" id="44_5r5he"]
+[ext_resource type="PackedScene" uid="uid://dsto8h0wo28w6" path="res://components/health_bar.tscn" id="25_61g13"]
+[ext_resource type="AudioStream" uid="uid://fub75bf37dn8" path="res://assets/audio/sfx/GWJ84_SFX_Exert_Player_Wound-001.mp3" id="29_delsk"]
+[ext_resource type="AudioStream" uid="uid://dfsk1oi2nlvyr" path="res://assets/audio/sfx/GWJ84_SFX_Exert_Player_Wound-002.mp3" id="30_158md"]
+[ext_resource type="AudioStream" uid="uid://kdkjk0anbmow" path="res://assets/audio/sfx/GWJ84_SFX_Exert_Player_Wound-003.mp3" id="31_j0f64"]
+[ext_resource type="AudioStream" uid="uid://c2ge4fva8bcm" path="res://assets/audio/sfx/GWJ84_SFX_Exert_Player_Wound-004.mp3" id="32_akksl"]
+[ext_resource type="AudioStream" uid="uid://byrulew3ocipm" path="res://assets/audio/sfx/GWJ84_SFX_Exert_Player_Wound-005.mp3" id="33_u7rdq"]
+[ext_resource type="AudioStream" uid="uid://be1ynxo11yhkt" path="res://assets/audio/sfx/GWJ84_SFX_Exert_Player_Death-001.mp3" id="34_akksl"]
+[ext_resource type="AudioStream" uid="uid://bthnj6lnqxxof" path="res://assets/audio/sfx/GWJ84_SFX_Exert_Player_Death-002.mp3" id="35_u7rdq"]
+[ext_resource type="AudioStream" uid="uid://c2b02rj3oml2d" path="res://assets/audio/sfx/GWJ84_SFX_Exert_Player_Death-003.mp3" id="36_pku1t"]
 [ext_resource type="AudioStream" uid="uid://dufdyf1q68ek6" path="res://assets/audio/sfx/GWJ84_SFX_Exert_Player_Attack-001.mp3" id="44_tsxnk"]
 [ext_resource type="AudioStream" uid="uid://4wyt8asd132s" path="res://assets/audio/sfx/GWJ84_SFX_Exert_Player_Attack-002.mp3" id="45_6xrt3"]
-[ext_resource type="Texture2D" uid="uid://bv18ljwbg0itu" path="res://assets/combat/ui/hp_bar_border.png" id="45_cuxdf"]
-[ext_resource type="Texture2D" uid="uid://y15fvyrchlwl" path="res://assets/combat/ui/hp_full.png" id="46_5wdp5"]
 [ext_resource type="PackedScene" uid="uid://8hc8w0lxm0f2" path="res://components/fireball_attack.tscn" id="47_54d4v"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nh6g3"]
@@ -196,6 +202,20 @@ streams_count = 2
 stream_0/stream = ExtResource("44_tsxnk")
 stream_1/stream = ExtResource("45_6xrt3")
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_pku1t"]
+streams_count = 5
+stream_0/stream = ExtResource("29_delsk")
+stream_1/stream = ExtResource("30_158md")
+stream_2/stream = ExtResource("31_j0f64")
+stream_3/stream = ExtResource("32_akksl")
+stream_4/stream = ExtResource("33_u7rdq")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_fd06a"]
+streams_count = 3
+stream_0/stream = ExtResource("34_akksl")
+stream_1/stream = ExtResource("35_u7rdq")
+stream_2/stream = ExtResource("36_pku1t")
+
 [node name="Hero" type="Node2D"]
 script = ExtResource("1_6xrt3")
 
@@ -215,18 +235,9 @@ sprite_frames = SubResource("SpriteFrames_vfeu3")
 animation = &"victory"
 autoplay = "idle"
 
-[node name="HealthBar" type="TextureProgressBar" parent="."]
-offset_left = -74.0
-offset_top = -77.0
-offset_right = 6.0
-offset_bottom = -57.0
-max_value = 1.0
-step = 0.05
-value = 1.0
-nine_patch_stretch = true
-texture_under = ExtResource("44_5r5he")
-texture_over = ExtResource("45_cuxdf")
-texture_progress = ExtResource("46_5wdp5")
+[node name="HealthBar" parent="." instance=ExtResource("25_61g13")]
+unique_name_in_owner = true
+position = Vector2(-98, -77)
 
 [node name="FireballAttack" parent="." instance=ExtResource("47_54d4v")]
 unique_name_in_owner = true
@@ -242,4 +253,18 @@ stream = SubResource("AudioStreamRandomizer_54d4v")
 panning_strength = 2.0
 bus = &"Arena"
 
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_pku1t")
+panning_strength = 2.0
+bus = &"Arena"
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_fd06a")
+panning_strength = 2.0
+bus = &"Arena"
+
 [connection signal="animation_finished" from="Sprite" to="." method="_on_sprite_animation_finished"]
+
+[editable path="HealthBar"]

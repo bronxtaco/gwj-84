@@ -2,8 +2,8 @@ extends Node2D
 
 @onready var Sprite := %Sprite
 @onready var AttackSound := %AttackSound
+@onready var DeathSound := %DeathSound
 @onready var FireballAttack := %FireballAttack
-@onready var HealthBar := $HealthBar
 
 #StateMachine
 enum STATE {
@@ -74,6 +74,7 @@ class DeadState extends FSM.State:
 	func on_enter(_prev_state):
 		print("Hero Died!")
 		obj.Sprite.play("death")
+		obj.DeathSound.play()
 	
 	func force_state_change():
 		return Global.hero_health <= 0
@@ -102,6 +103,11 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	fsm.physics_process(delta)
 	
+	'''if Input.is_action_just_pressed("debug_f1"):
+		heal(30)
+	elif Input.is_action_just_pressed("debug_f2"):
+		apply_damage(50)'''
+	
 func is_idle() -> bool:
 	return fsm.current_state == STATE.Idle
 
@@ -116,19 +122,31 @@ func apply_damage(damageValue: int):
 		return
 	
 	var prevHealth = Global.hero_health
-	var newHealth = max(prevHealth - damageValue, 0);
+	var newHealth = max(prevHealth - damageValue, 0)
 	Global.hero_health = newHealth
 	
 	print("%d damage to hero. Health: %d -> %d" % [ damageValue, prevHealth, newHealth ])
 	
 	update_health_bar()
-	
+	%HealthBar.add_damage_effect(damageValue)
 	if newHealth > 0:
+		%HurtSound.play()
 		fsm.force_change(STATE.Hurt)
 
+func heal(amount: int):
+	var prevHealth = Global.hero_health
+	var newHealth = min(prevHealth + amount, Global.HERO_HEALTH)
+	Global.hero_health = newHealth
+	
+	print("%d heal for hero. Health: %d -> %d" % [ amount, prevHealth, newHealth ])
+	
+	update_health_bar()
+	%HealthBar.add_health_effect(amount)
+	Audio.play_heal()
+
+
 func update_health_bar() -> void:
-	var healthNormalized = float(Global.hero_health) / Global.HERO_HEALTH
-	HealthBar.value = healthNormalized
+	%HealthBar.update_health_bar(Global.hero_health, Global.HERO_HEALTH)
 
 
 func _on_crit_boost(_gem_type: Global.GemType, boost_amount: int) -> void:

@@ -93,10 +93,4 @@ position = Vector2(-7, 25)
 sprite_frames = SubResource("SpriteFrames_k45a8")
 animation = &"idle_anim"
 
-[node name="HealthBar" parent="." index="2"]
-offset_left = -36.0
-offset_top = -57.0
-offset_right = 74.0
-offset_bottom = -37.0
-
 [editable path="FireballAttack"]

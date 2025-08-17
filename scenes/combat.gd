@@ -90,6 +90,9 @@ class VictoryState extends FSM.State:
 	func on_enter(prev_state):
 		exit_triggered = false
 		obj.Hero.battle_victory()
+		if Global.active_relics[Global.Relics.HealPostBattle]:
+			obj.Hero.heal(30)
+		
 		Audio.play_victory()
 		if Global.current_level == 5: # game has been won
 			Global.game_active = false

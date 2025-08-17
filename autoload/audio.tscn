@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b2waytaxnr4g3"]
+[gd_scene load_steps=16 format=3 uid="uid://b2waytaxnr4g3"]
 
 [ext_resource type="AudioStream" uid="uid://c8fx1ory5lqeo" path="res://assets/audio/music/overworld.ogg" id="1_rxn34"]
 [ext_resource type="Script" uid="uid://ccg8pewpq407h" path="res://autoload/audio.gd" id="1_uw2yb"]
@@ -11,6 +11,15 @@
 [ext_resource type="AudioStream" uid="uid://dyptdijdxcx61" path="res://assets/audio/sfx/GWJ84_SFX_UI_Back.mp3" id="6_lx04d"]
 [ext_resource type="AudioStream" uid="uid://da3rb7nej7al0" path="res://assets/audio/sfx/GWJ84_SFX_UI_Scroll.mp3" id="7_k0ge0"]
 [ext_resource type="AudioStream" uid="uid://bdlr6k17jsaq4" path="res://assets/audio/sfx/GWJ84_SFX_PickUpRelic.mp3" id="11_kflsn"]
+[ext_resource type="AudioStream" uid="uid://bvcyii5j51jju" path="res://assets/audio/sfx/GWJ84_SFX_Player_Heal_OptionA.mp3" id="12_8rrsg"]
+[ext_resource type="AudioStream" uid="uid://dpb3l2261fryv" path="res://assets/audio/sfx/GWJ84_SFX_Player_Heal_OptionB.mp3" id="13_0ciot"]
+[ext_resource type="AudioStream" uid="uid://dnso8wn1fweqg" path="res://assets/audio/sfx/GWJ84_SFX_Player_Heal_OptionC.mp3" id="14_0l2kr"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_6pc8v"]
+streams_count = 3
+stream_0/stream = ExtResource("12_8rrsg")
+stream_1/stream = ExtResource("13_0ciot")
+stream_2/stream = ExtResource("14_0l2kr")
 
 [node name="Audio" type="Node2D"]
 script = ExtResource("1_uw2yb")
@@ -72,6 +81,11 @@ bus = &"SFX"
 [node name="relic_pickup" type="AudioStreamPlayer" parent="Menu"]
 unique_name_in_owner = true
 stream = ExtResource("11_kflsn")
+bus = &"SFX"
+
+[node name="heal" type="AudioStreamPlayer" parent="Menu"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_6pc8v")
 bus = &"SFX"
 
 [connection signal="finished" from="Music/battle_start" to="." method="_on_battle_start_finished"]

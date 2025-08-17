@@ -61,3 +61,6 @@ func play_menu_scroll():
 
 func play_relic_pickup():
 	%relic_pickup.play()
+
+func play_heal():
+	%heal.play()

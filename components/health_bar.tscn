@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://dsto8h0wo28w6"]
+
+[ext_resource type="Texture2D" uid="uid://dack17wqj7ft0" path="res://assets/combat/ui/hp_bar_bg.png" id="1_bv5dr"]
+[ext_resource type="Script" uid="uid://cfjluisi8ds1n" path="res://components/health_bar.gd" id="1_wiwsu"]
+[ext_resource type="Texture2D" uid="uid://bv18ljwbg0itu" path="res://assets/combat/ui/hp_bar_border.png" id="2_wiwsu"]
+[ext_resource type="Texture2D" uid="uid://y15fvyrchlwl" path="res://assets/combat/ui/hp_full.png" id="3_t13mc"]
+[ext_resource type="Theme" uid="uid://cxygi6sxk02d2" path="res://default_theme.tres" id="4_qshqo"]
+
+[node name="HealthBar" type="Node2D"]
+script = ExtResource("1_wiwsu")
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+unique_name_in_owner = true
+offset_right = 135.0
+offset_bottom = 30.0
+max_value = 1.0
+step = 0.05
+value = 1.0
+nine_patch_stretch = true
+texture_under = ExtResource("1_bv5dr")
+texture_over = ExtResource("2_wiwsu")
+texture_progress = ExtResource("3_t13mc")
+
+[node name="HealthText" type="Label" parent="."]
+unique_name_in_owner = true
+offset_right = 138.0
+offset_bottom = 30.0
+theme = ExtResource("4_qshqo")
+text = "200 / 200"
+horizontal_alignment = 1
+vertical_alignment = 1
