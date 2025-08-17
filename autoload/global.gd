@@ -72,15 +72,15 @@ func get_gem_color(type: Global.GemType) -> Color:
 func get_gem_damage(type: Global.GemType) -> int:
 	match(type):
 		Global.GemType.Blue:
-			return 8
+			return 1
 		Global.GemType.Green:
-			return 16
+			return 4
 		Global.GemType.Yellow:
-			return 32
+			return 12
 		Global.GemType.Orange:
-			return 64
+			return 30
 		Global.GemType.Red:
-			return 128
+			return 80
 		_:
 			return 0
 
