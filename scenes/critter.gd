@@ -13,10 +13,6 @@ extends CharacterBody2D
 
 @export var maxChargeTime : float = 1.5 # how long attack charge up can be held
 
-# turn speed number is somewhat ambiguous. If I hold left or right of the current roll direction,
-# 	this value scales how much of that input is added to the roll direction
-@export var rollTurnSpeed : float = 2.5 
-
 @export var aimLineMinLength : float = 10
 @export var aimLineMaxLength : float = 23
 
@@ -38,6 +34,10 @@ var attackMoveSpeed : float = attackMaxMoveSpeed # calculated by the amount of t
 
 var rollDirection : Vector2 # used by the roll/sprint. Travels in this direction and updates with sidewards input
 var lastFaceDirection := Vector2(1.0, 0.0)
+var lastAimVector := Vector2(0.0, 0.0) # not normalized
+
+var minInputToAim = 0.2
+var minInputToAimSqr = minInputToAim * minInputToAim
 
 var wasChargeHeld : bool = false
 
@@ -58,6 +58,8 @@ func _physics_process(delta):
 		chargeTime += delta;
 		if chargeTime >= maxChargeTime || !chargeInputHeld:
 			state = State.Attack
+			
+			rollDirection = lastAimVector.normalized() if lastAimVector.length_squared() >= minInputToAimSqr else rollDirection
 			attackMoveSpeed = remap(chargeTime, 0, maxChargeTime, attackMinMoveSpeed, attackMaxMoveSpeed) 
 			attackTimeRemaining = remap(chargeTime, 0, maxChargeTime, minAttackTime, maxAttackTime )
 			%ChargingSprite.visible = false
@@ -78,25 +80,15 @@ func _physics_process(delta):
 			%CritterSprite.play("rollLeftRight")
 		elif walkInputHeld:
 			state = State.Walk
-			#%CritterSprite.play("rollLeftRight")
 	
 	wasChargeHeld = chargeInputHeld
-	
-	# update aiming line
-	if state == State.Charging:
-		pass
-		#var firstPoint : Vector2 = %AimingLine.points[0]
-		#var lineStartPos = rollDirection * firstPoint.length()
-		#var lineEndPos = rollDirection * remap(chargeTime, 0, maxChargeTime, aimLineMinLength, aimLineMaxLength )
-
-		#%AimingLine.points[0] = lineEndPos
-		#%AimingLine.points[1] = lineStartPos
-		
-		#%AimingLine.visible = false
 	
 	# read input always, so we can store the last input direction for the roll direction
 	var inputDirection = Input.get_vector("moveLeft", "moveRight", "moveUp", "moveDown")
 	var move_multiplier = RelicMoveSpeedMultiplier if Global.active_relics[Global.Relics.MoveSpeed] else 1.0
+	
+	if inputDirection.length_squared() >= minInputToAimSqr:
+		lastAimVector = inputDirection
 	
 	# free movement in idle
 	if state == State.Idle:

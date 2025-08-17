@@ -4,6 +4,8 @@ extends RigidBody2D
 
 @export var  dropSpawnTime : float = 0.5
 
+@export var gemRepulseSpeed : float = 40
+
 var gemDamage : int = 0
 
 var useDropSpawn : bool = true
@@ -119,6 +121,24 @@ func _physics_process(delta: float) -> void:
 		if !isGem: continue
 		var otherGem = otherRigidBody
 		gems_collided(otherGem)
+	
+	# Goal repulse area works in the opposite way. Use it to get the overlapping bodies and then apply for force to it
+	for overlapBody in %RepulseArea.get_overlapping_bodies():
+		if overlapBody == self: continue # skip ourselves
+		
+		var isRigidBody = overlapBody is RigidBody2D
+		if !isRigidBody: continue 
+		var rigidBody = overlapBody as RigidBody2D
+		
+		var isGem = "gemType" in rigidBody
+		if !isGem: continue
+		var otherGem = rigidBody
+
+		var otherGemSpeed = otherGem.linear_velocity.length()
+		if otherGemSpeed < gemRepulseSpeed:
+			var speedToAdd = max( gemRepulseSpeed - otherGemSpeed, 0.0)
+			var pushDirection = (otherGem.position - position ).normalized()
+			otherGem.apply_force(pushDirection * speedToAdd)
 
 
 func can_upgrade_on_collide(otherGem: RigidBody2D) -> bool:

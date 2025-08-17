@@ -178,7 +178,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oeans"]
-radius = 17.0
+radius = 14.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_bxkvv"]
 streams_count = 3
@@ -216,6 +216,7 @@ unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_re4ka")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_oeans")
 
 [node name="ScuttleSound" type="AudioStreamPlayer2D" parent="."]
