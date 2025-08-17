@@ -94,8 +94,9 @@ animations = [{
 }]
 
 [node name="EnemyOrc" instance=ExtResource("1_mj7i7")]
-maxHealth = 400
-base_attack = 250
+maxHealth = 250
+base_attack = 150
+base_attack_time = 25.0
 
 [node name="Shadow" parent="." index="0"]
 offset_left = -51.0

@@ -36,7 +36,7 @@ class PreAttackState extends FSM.State:
 
 
 class AttackingState extends FSM.State:
-	const STATE_TIME: float = 25.0 # TODO: different attack options could have different times?
+	const STATE_TIME: float = 30.0
 	var done := false
 	
 	func get_next_state():

@@ -14,6 +14,9 @@ func _process(delta: float) -> void:
 	
 	if !Global.paused and Global.game_active:
 		Global.total_run_time += delta
+	
+	if Input.is_action_just_pressed("debug_f7"):
+		Events.menu_push.emit(Global.MENU_TYPE.DEBUG_RELIC)
 
 func on_change_scene(new_scene:PackedScene):
 	

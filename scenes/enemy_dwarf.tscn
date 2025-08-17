@@ -79,6 +79,8 @@ animations = [{
 }]
 
 [node name="EnemyDwarf" instance=ExtResource("1_wqocv")]
+maxHealth = 50
+base_attack = 30
 
 [node name="Shadow" parent="." index="0"]
 offset_left = -34.0

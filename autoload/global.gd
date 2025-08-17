@@ -9,6 +9,7 @@ enum MENU_TYPE {
 	AUDIO,
 	CREDITS,
 	RELIC_PICKUP,
+	DEBUG_RELIC,
 }
 
 var paused := false
@@ -185,3 +186,16 @@ func pickup_relic(relic_type: Relics):
 	relic_pickup_order.push_back(relic_type)
 	Events.relic_pickup.emit(relic_type)
 	Events.menu_push.emit(Global.MENU_TYPE.RELIC_PICKUP)
+
+func degug_relic(relic_type: Relics, toggled_on: bool):
+	if (active_relics[relic_type] and toggled_on) or (!active_relics[relic_type] and !toggled_on):
+		return
+	active_relics[relic_type] = toggled_on
+	if toggled_on:
+		relic_pickup_order.push_back(relic_type)
+	else:
+		for i in range(relic_pickup_order.size()):
+			if relic_pickup_order[i] == relic_type:
+				relic_pickup_order.remove_at(i)
+				break
+	Events.relic_pickup.emit(relic_type)

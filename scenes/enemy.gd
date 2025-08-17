@@ -4,6 +4,7 @@ var debug_low_health := false
 
 @export var maxHealth : int = 100
 @export var base_attack : int = 80
+@export var base_attack_time : float = 45.0
 
 @onready var Sprite := %Sprite
 @onready var FireballAttack := %FireballAttack

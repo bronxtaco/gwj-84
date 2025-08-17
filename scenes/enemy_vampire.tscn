@@ -93,8 +93,9 @@ animations = [{
 }]
 
 [node name="EnemyVampire" instance=ExtResource("1_jefah")]
-maxHealth = 200
-base_attack = 160
+maxHealth = 130
+base_attack = 60
+base_attack_time = 35.0
 
 [node name="Shadow" parent="." index="0"]
 offset_left = -38.0

@@ -3,8 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://j4p6hrpy0tw6" path="res://scenes/enemy.tscn" id="1_1ggfj"]
 
 [node name="EnemyBear" instance=ExtResource("1_1ggfj")]
-maxHealth = 150
-base_attack = 120
+maxHealth = 80
+base_attack = 45
+base_attack_time = 40.0
 
 [node name="Shadow" parent="." index="0"]
 offset_left = -55.0

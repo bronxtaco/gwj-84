@@ -20,6 +20,8 @@ extends CharacterBody2D
 @export var aimLineMinLength : float = 10
 @export var aimLineMaxLength : float = 23
 
+const RelicMoveSpeedMultiplier := 1.5
+
 enum State
 {
 	Idle = 0,
@@ -93,19 +95,20 @@ func _physics_process(delta):
 		#%AimingLine.visible = false
 	
 	# read input always, so we can store the last input direction for the roll direction
-	var inputDirection = Input.get_vector("moveLeft", "moveRight", "moveUp", "moveDown");
-
+	var inputDirection = Input.get_vector("moveLeft", "moveRight", "moveUp", "moveDown")
+	var move_multiplier = RelicMoveSpeedMultiplier if Global.active_relics[Global.Relics.MoveSpeed] else 1.0
+	
 	# free movement in idle
 	if state == State.Idle:
-		velocity = inputDirection * sprintSpeed
+		velocity = inputDirection * (sprintSpeed * move_multiplier)
 		move_and_slide()
 	elif state == State.Walk:
-		velocity = inputDirection * walkSpeed
+		velocity = inputDirection * (walkSpeed * move_multiplier)
 		move_and_slide()
 	elif state == State.Charging:
 		pass
 	elif state == State.Attack:
-		velocity = rollDirection * attackMoveSpeed
+		velocity = rollDirection * (attackMoveSpeed * move_multiplier)
 		move_and_slide()
 		
 		var collision : KinematicCollision2D = get_last_slide_collision()

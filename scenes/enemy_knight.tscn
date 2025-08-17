@@ -90,8 +90,9 @@ animations = [{
 }]
 
 [node name="EnemyKnight" instance=ExtResource("1_5onvr")]
-maxHealth = 300
-base_attack = 200
+maxHealth = 200
+base_attack = 100
+base_attack_time = 30.0
 
 [node name="Shadow" parent="." index="0"]
 offset_left = -42.0

@@ -7,6 +7,7 @@ extends Node2D
 	Global.MENU_TYPE.AUDIO: preload("res://menus/menu_audio.tscn"),
 	Global.MENU_TYPE.CREDITS: preload("res://menus/menu_credits.tscn"),
 	Global.MENU_TYPE.RELIC_PICKUP: preload("res://menus/relic_pickup_notification.tscn"),
+	Global.MENU_TYPE.DEBUG_RELIC: preload("res://menus/menu_debug_relic.tscn"),
 }
 
 # ColorRect used for fading behind menus
