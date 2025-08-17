@@ -49,8 +49,8 @@ func move_goal():
 	
 func get_gem_type() -> Global.GemType:
 	if Global.active_relics[Global.Relics.HealingGemChance]:
-		var rng = randi_range(1, 40)
-		if rng == 40:
+		var rng = randi_range(1, 30)
+		if rng == 30:
 			return Global.GemType.Heal
 	
 	var gemType = Global.GemType.Green if Global.active_relics[Global.Relics.GemNoLowestRank] else Global.GemType.Blue
@@ -82,6 +82,9 @@ func _process(delta: float) -> void:
 		var gemCount = get_gem_count()
 		if gemCount < max_spawned_gems:
 			var spawnCount = min(randi_range(1, 3), max_spawned_gems - gemCount)
+			if gemCount == 0:
+				spawnCount = min(spawnCount, 2) # always spawn at least two gems if none exist
+			
 			for i in range(spawnCount):
 				var gemType = get_gem_type()
 				spawn_gem(gemType, reservedSpawnPositions)
