@@ -11,6 +11,12 @@ func _ready() -> void:
 	%Relic8.button_pressed = Global.active_relics[Global.Relics.EnemyAttackDecrease]
 	%Relic9.button_pressed = Global.active_relics[Global.Relics.EnemyHealthDecrease]
 	%Relic10.button_pressed = Global.active_relics[Global.Relics.IncreaseGemSpawnRate]
+
+
+func _process(delta: float) -> void:
+	if Global.paused and (Input.is_action_just_pressed("debug_f7") or Input.is_action_just_pressed("ui_cancel")):
+		Events.menu_unpaused.emit()
+		Events.menu_pop.emit()
 	
 func toggle_relic(relic_type: Global.Relics, toggled_on: bool) -> void:
 	Global.degug_relic(relic_type, toggled_on)
