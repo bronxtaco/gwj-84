@@ -59,13 +59,16 @@ func _process(delta: float) -> void:
 	# reserve spawn positions in a single group of spawns. So if 3 spawns are made, non of them overlap	
 	var reservedSpawnPositions : Array[Vector2]
 	
+	var gem_spawn_time_interval = gemSpawnTimeInterval * 0.75 if Global.active_relics[Global.Relics.IncreaseGemSpawnRate] else gemSpawnTimeInterval
+	var max_spawned_gems = maxSpawnedGems + 2 if Global.active_relics[Global.Relics.IncreaseGemSpawnRate] else maxSpawnedGems
+	
 	gemSpawnTimer -= delta
 	if gemSpawnTimer <= 0.0:
 		gemSpawnTimer = gemSpawnTimeInterval
 		
 		var gemCount = get_gem_count()
-		if gemCount < maxSpawnedGems:
-			var spawnCount = min(randi_range(1, 3), maxSpawnedGems - gemCount)
+		if gemCount < max_spawned_gems:
+			var spawnCount = min(randi_range(1, 3), max_spawned_gems - gemCount)
 			for i in range(spawnCount):
 				var gemType = get_gem_type()
 				spawn_gem(gemType, reservedSpawnPositions)
