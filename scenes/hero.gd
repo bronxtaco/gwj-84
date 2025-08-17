@@ -92,6 +92,7 @@ class VictoryState extends FSM.State:
 
 func _ready():
 	Events.crit_boost.connect(_on_crit_boost)
+	Events.heal_boost.connect(_on_heal_boost)
 	
 	fsm.debug = true # enables logging for state changes
 	fsm.register_state(STATE.Idle, IdleState)
@@ -168,6 +169,10 @@ func _on_crit_boost(_gem_type: Global.GemType, boost_amount: int) -> void:
 		Sprite.play("defence_boost")
 
 
+func _on_heal_boost(boost_amount: int) -> void:
+	heal(boost_amount)
+	
+	
 func _on_sprite_animation_finished() -> void:
 	if fsm.current_state == STATE.Attacking:
 		Sprite.play("attack_loop")

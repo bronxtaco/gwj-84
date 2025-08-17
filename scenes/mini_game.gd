@@ -40,6 +40,11 @@ func _ready() -> void:
 				spawn_obstacle(obstacleMarker.position)
 
 func get_gem_type() -> Global.GemType:
+	if Global.active_relics[Global.Relics.HealingGemChance]:
+		var rng = randi_range(1, 40)
+		if rng == 40:
+			return Global.GemType.Heal
+	
 	var gemType = Global.GemType.Green if Global.active_relics[Global.Relics.GemNoLowestRank] else Global.GemType.Blue
 	if Global.active_relics[Global.Relics.GemRankHigherChance]:
 		var rng = randi_range(1, 200)
@@ -73,10 +78,10 @@ func _process(delta: float) -> void:
 				var gemType = get_gem_type()
 				spawn_gem(gemType, reservedSpawnPositions)
 	
-	if Input.is_action_just_pressed("debug_f3"):
+	'''if Input.is_action_just_pressed("debug_f3"):
 		spawn_gem(Global.GemType.Multiply, reservedSpawnPositions)
 	if Input.is_action_just_pressed("debug_f4"):
-		spawn_gem(Global.GemType.Divide, reservedSpawnPositions)
+		spawn_gem(Global.GemType.Divide, reservedSpawnPositions)'''
 
 func _physics_process(delta: float) -> void:
 	# loop over all gems and if they are outside the arena center polygon, nudge them back inside
@@ -173,6 +178,9 @@ func _on_gems_collided(initialGemType: Global.GemType, gemA: RigidBody2D, gemB: 
 	var no_upgrade = false
 	if gemA.gemType != gemB.gemType:
 		no_upgrade = true # if are not the same type, then do not upgrade there color
+	
+	if gemA.gemType == Global.GemType.Heal or gemB.gemType == Global.GemType.Heal:
+		no_upgrade = true # heal gems can't combine
 	
 	var gemType = gemA.gemType
 	
