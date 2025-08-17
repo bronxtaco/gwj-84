@@ -190,12 +190,6 @@ modulate = Color(0, 1, 0, 1)
 position = Vector2(-39, -3)
 rotation = -2.43474
 
-[node name="TravelSound" parent="FireballAttack/FireballPath" index="3"]
-position = Vector2(-3.58012, -0.427524)
-
-[node name="ExplodeSound" parent="FireballAttack/FireballPath" index="4"]
-position = Vector2(388.696, 342.496)
-
 [node name="DamageTextPath" parent="FireballAttack" index="1"]
 position = Vector2(-39, -3)
 

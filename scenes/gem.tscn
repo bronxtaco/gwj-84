@@ -54,7 +54,7 @@ stream_1 = ExtResource("21_rxau7")
 physics_material_override = SubResource("PhysicsMaterial_hqa1t")
 lock_rotation = true
 contact_monitor = true
-max_contacts_reported = 8
+max_contacts_reported = 10
 linear_damp = 0.32
 script = ExtResource("1_kprv0")
 
@@ -120,6 +120,7 @@ vertical_alignment = 1
 
 [node name="MultiplyIcon" type="Sprite2D" parent="Sprite/DamageNumber"]
 unique_name_in_owner = true
+visible = false
 scale = Vector2(0.7, 0.619)
 skew = 0.0349066
 texture = ExtResource("6_raabq")
@@ -158,5 +159,3 @@ volume_db = -2.0
 pitch_scale = 1.33
 panning_strength = 2.0
 bus = &"Minigame"
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -17,6 +17,6 @@ signal fireball_inactive
 signal crit_boost(gem_type: Global.GemType, amount: int)
 signal heal_boost(amount: int)
 
-signal gems_collided(initialGemType: Global.GemType, gemA: RigidBody2D, gemB: RigidBody2D)
+signal spawn_combined_gem_type(gemType: Global.GemType, position_: Vector2, impulse: Vector2, useDropSpawn: bool)
 
 signal refresh_hud()

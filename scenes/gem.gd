@@ -10,13 +10,12 @@ var useDropSpawn : bool = true
 
 var spawnImpulse : Vector2
 
-var dropOnSpawnTween
-
 var initialCollisionLayers : int = 0
 var initialCollisionMasks : int = 0
 
+var removingGem : bool = false
+
 func _ready():
-	dropOnSpawnTween = create_tween()
 	initialCollisionLayers = get_collision_layer()
 	initialCollisionMasks = get_collision_mask()
 
@@ -77,55 +76,132 @@ func setup_gem(type: Global.GemType, gemPos: Vector2, spawnImpulse: Vector2, use
 		apply_central_impulse(spawnImpulse)
 		%CollideParticle.emitting = true # one shot, play/emmits once
 	else: #drop spawn
-		set_collision_layer(0)
-		set_collision_mask(0)
+		set_collision_layer.call_deferred(0)
+		set_collision_mask.call_deferred(0)
 		
 		var initSpriteYPos = %Sprite.position.y
 		var initShadowScale = $Shadow.scale
 		%Sprite.position.y = -300
 		$Shadow.scale = Vector2(0, 0)
 		
-		%DropSound.play()
+		#%DropSound.play()
 		
-		dropOnSpawnTween.play()
+		var dropOnSpawnTween = get_tree().create_tween()
 		dropOnSpawnTween.tween_property(%Sprite, "position:y", initSpriteYPos, dropSpawnTime)
 		dropOnSpawnTween.parallel().tween_property(%Shadow, "scale", initShadowScale, dropSpawnTime)
 		dropOnSpawnTween.tween_callback(on_tween_end)
 
 func on_tween_end():
 	if useDropSpawn: # not really required as callback will never happen, but just incase someone else calls this
-		set_collision_layer(initialCollisionLayers)
-		set_collision_mask(initialCollisionMasks)
+		print("spawn drop ended")
+		set_collision_layer.call_deferred(initialCollisionLayers)
+		set_collision_mask.call_deferred(initialCollisionMasks)
 		apply_central_impulse(spawnImpulse) # apply spawn impulse after the gem has landed
 
-var removingGem : bool = false
-
-func remove_gem():
-	removingGem = true
-	set_collision_layer(0)
-	set_collision_mask(0)
-	queue_free()
-
-func play_collide_sound():
-	%CollideSound.play()
-
-func play_upgrade_sound():
-	%UpgradeSound.play()
-
-func play_combined_sound():
-	%CombinedSound.play()
-
-func _on_body_entered(body: Node) -> void:
+func _physics_process(delta: float) -> void:
 	if removingGem: return
 	
-	var isRigidBody = body is RigidBody2D
-	if !isRigidBody: return 
+	for otherBody in get_colliding_bodies():
+		if removingGem: continue # if self is already removing, don't do anything
 	
-	var rigidBody = body as RigidBody2D
-	var isGem = "gemType" in rigidBody
-	if !isGem: return
+		var isRigidBody = otherBody is RigidBody2D
+		if !isRigidBody: continue;
+		var otherRigidBody = otherBody as RigidBody2D
+		
+		var isGem = "gemType" in otherRigidBody
+		if !isGem: continue
+		var otherGem = otherRigidBody
+		gems_collided(otherGem)
+		
+
+func play_collide_sound():
+	#%CollideSound.play()
+	pass
+
+func play_upgrade_sound():
+	#%UpgradeSound.play()
+	pass
+
+func play_combined_sound():
+	#%CombinedSound.play()
+	pass
+
+func can_upgrade_on_collide(otherGem: RigidBody2D) -> bool:
+	if gemType != otherGem.gemType:
+		return false
+	if gemType == Global.GemType.Red: # if already at max gem, early out
+		return false
+	if gemType == Global.GemType.Heal or otherGem.gemType == Global.GemType.Heal:
+		return false # heal gems can't combine
+	return true
+
+func gems_collided(otherGem: RigidBody2D) -> void:
+	# Here we know two gems collided.
+	var canUpgrade = can_upgrade_on_collide(otherGem)
+
+	if !canUpgrade:
+		play_collide_sound() # only need to play 1 sound
+		return
 	
-	var otherGem = rigidBody
+	print("combine called")
 	
-	# Here we know two gems collided. Send event so the game script can handle what happens
-	Events.gems_collided.emit(gemType, self, otherGem)
+	play_upgrade_sound() # only need to play 1 sound
+	
+	var nextGemTypeIndex = min(gemType + 1, Global.GemType.size() - 1)
+	var nextGemType = Global.GemType.values()[nextGemTypeIndex]
+	var midPosition = (position + otherGem.position) * 0.5
+	
+	var spawnImpulse = calc_combined_gem_impulse(self, otherGem)
+	
+	Events.spawn_combined_gem_type.emit(nextGemType, midPosition, spawnImpulse, false)
+	
+	# set remove flags so the other doesn't also try combine collide
+	removingGem = true
+	otherGem.removingGem = true
+	
+	# dont think I need this anymore
+	#set_collision_layer(0)
+	#set_collision_mask(0)
+	
+	queue_free()
+	otherGem.queue_free()
+	
+func calc_combined_gem_impulse(gemA: RigidBody2D, gemB: RigidBody2D) -> Vector2:
+	# give the new gem some velocity. Combine both A and B and clamp within a sensible range.
+	# if perfectly against each other, just use a 90 degree angle
+	var minCombinedImpulseSpeed = 10
+	var maxCombinedImpulseSpeed = 150
+	
+	var resultImpulse := Vector2()
+	
+	var velA = gemA.get_linear_velocity()
+	var velB = gemB.get_linear_velocity()
+	
+	var speedASquared = velA.length_squared()
+	var speedBSquared = velB.length_squared()
+	
+	var largerVel = velA if (speedASquared >= speedBSquared) else velB
+	
+	var hasMovingGems = speedASquared > 0 || speedBSquared > 0
+	if !hasMovingGems: # if no movement somehow, just give random direction and min speed
+		resultImpulse = minCombinedImpulseSpeed * gen_random_direction() 
+	else:
+		var combinedVelocity = velA + velB
+		var combinedSpeedSqr = combinedVelocity.length_squared()
+		if combinedSpeedSqr <= 0.0: # no velocity after coliding. Use the tangent
+			var tangentDir = Vector2(-largerVel.y, largerVel.x).normalized()
+			var impulseDir = tangentDir if (randi() % 2 == 0) else -tangentDir
+			resultImpulse = minCombinedImpulseSpeed * impulseDir
+		else:
+			# clamp impulse speed
+			var impulseSpeed = clamp(largerVel.length(), minCombinedImpulseSpeed, maxCombinedImpulseSpeed )
+			resultImpulse = impulseSpeed * combinedVelocity.normalized()
+	
+	return resultImpulse
+
+func gen_random_direction() -> Vector2:
+	# my dumb way to get rid of zero length direction. But it works :D 
+	var randDir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0))
+	while randDir.length_squared() == 0:
+		randDir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0))
+	return randDir.normalized()

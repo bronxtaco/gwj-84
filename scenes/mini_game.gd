@@ -23,7 +23,8 @@ func spawn_obstacle(spawnPosition: Vector2):
 func _ready() -> void:
 	Events.fireball_active.connect(_on_fireball_active)
 	Events.fireball_inactive.connect(_on_fireball_inactive)
-	Events.gems_collided.connect(_on_gems_collided)
+	
+	Events.spawn_combined_gem_type.connect(_on_spawn_combined_gem_type)
 	
 	%Goal.deactivate()
 	move_goal()
@@ -107,7 +108,7 @@ func clear_gems():
 	for gem in %SpawnedGems.get_children():
 		gem.queue_free()
 
-func spawn_combined_gem_type(gemType: Global.GemType, position_: Vector2, impulse: Vector2, useDropSpawn: bool):
+func _on_spawn_combined_gem_type(gemType: Global.GemType, position_: Vector2, impulse: Vector2, useDropSpawn: bool):
 	var new_gem = spawn_gem_type(gemType, position_, impulse, useDropSpawn)
 	new_gem.play_combined_sound.call_deferred()
 
@@ -184,77 +185,9 @@ func _on_fireball_active():
 func _on_fireball_inactive():
 	%Goal.deactivate()
 
-
-func _on_gems_collided(initialGemType: Global.GemType, gemA: RigidBody2D, gemB: RigidBody2D):
-	var no_upgrade = false
-	if gemA.gemType != gemB.gemType:
-		no_upgrade = true # if are not the same type, then do not upgrade there color
-	
-	if gemA.gemType == Global.GemType.Heal or gemB.gemType == Global.GemType.Heal:
-		no_upgrade = true # heal gems can't combine
-	
-	var gemType = gemA.gemType
-	
-	if initialGemType != gemType:
-		# if gem type is different then initial type. Then we have likely already handled these two gems colliding this frame
-		no_upgrade = true
-	
-	if gemType == Global.GemType.Red: # if already at max gem, early out
-		no_upgrade = true
-	
-	if no_upgrade:
-		gemA.play_collide_sound() # only need to play 1 sound
-		return
-	
-	gemA.play_upgrade_sound() # only need to play 1 sound
-	
-	var nextGemTypeIndex = min(gemType + 1, Global.GemType.size() - 1)
-	var nextGemType = Global.GemType.values()[nextGemTypeIndex]
-	var midPosition = (gemA.position + gemB.position) * 0.5
-	
-	var spawnImpulse = calc_combined_gem_impulse(gemA, gemB)
-	
-	spawn_combined_gem_type(nextGemType, midPosition, spawnImpulse, false)
-	
-	gemA.remove_gem()
-	gemB.remove_gem()
-
 func gen_random_direction() -> Vector2:
 	# my dumb way to get rid of zero length direction. But it works :D 
 	var randDir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0))
 	while randDir.length_squared() == 0:
 		randDir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0))
 	return randDir.normalized()
-
-func calc_combined_gem_impulse(gemA: RigidBody2D, gemB: RigidBody2D) -> Vector2:
-	# give the new gem some velocity. Combine both A and B and clamp within a sensible range.
-	# if perfectly against each other, just use a 90 degree angle
-	var minCombinedImpulseSpeed = 10
-	var maxCombinedImpulseSpeed = 150
-	
-	var resultImpulse := Vector2()
-	
-	var velA = gemA.get_linear_velocity()
-	var velB = gemB.get_linear_velocity()
-	
-	var speedASquared = velA.length_squared()
-	var speedBSquared = velB.length_squared()
-	
-	var largerVel = velA if (speedASquared >= speedBSquared) else velB
-	
-	var hasMovingGems = speedASquared > 0 || speedBSquared > 0
-	if !hasMovingGems: # if no movement somehow, just give random direction and min speed
-		resultImpulse = minCombinedImpulseSpeed * gen_random_direction() 
-	else:
-		var combinedVelocity = velA + velB
-		var combinedSpeedSqr = combinedVelocity.length_squared()
-		if combinedSpeedSqr <= 0.0: # no velocity after coliding. Use the tangent
-			var tangentDir = Vector2(-largerVel.y, largerVel.x).normalized()
-			var impulseDir = tangentDir if (randi() % 2 == 0) else -tangentDir
-			resultImpulse = minCombinedImpulseSpeed * impulseDir
-		else:
-			# clamp impulse speed
-			var impulseSpeed = clamp(largerVel.length(), minCombinedImpulseSpeed, maxCombinedImpulseSpeed )
-			resultImpulse = impulseSpeed * combinedVelocity.normalized()
-	
-	return resultImpulse
