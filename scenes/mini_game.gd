@@ -80,10 +80,15 @@ func clear_gems():
 	for gem in %SpawnedGems.get_children():
 		gem.queue_free()
 
+func spawn_combined_gem_type(gemType: Global.GemType, position_: Vector2, impulse: Vector2, useDropSpawn: bool):
+	var new_gem = spawn_gem_type(gemType, position_, impulse, useDropSpawn)
+	new_gem.play_combined_sound.call_deferred()
+
 func spawn_gem_type(gemType: Global.GemType, position: Vector2, impulse: Vector2, useDropSpawn: bool):
 	var gem = gemScene.instantiate() as Node2D
-	%SpawnedGems.add_child(gem)
+	%SpawnedGems.add_child.call_deferred(gem)
 	gem.setup_gem.call_deferred(gemType, position, impulse, useDropSpawn)
+	return gem
 
 func is_spawn_pos_empty(pos: Vector2, radius: float) -> bool:
 	# TODO: Get gem scene for radius? Shape doesn't exist yet so that isn't an option unless we used a dummy
@@ -173,7 +178,7 @@ func _on_gems_collided(initialGemType: Global.GemType, gemA: RigidBody2D, gemB: 
 	
 	var spawnImpulse = calc_combined_gem_impulse(gemA, gemB)
 	
-	spawn_gem_type(nextGemType, midPosition, spawnImpulse, false)
+	spawn_combined_gem_type(nextGemType, midPosition, spawnImpulse, false)
 	
 	gemA.remove_gem()
 	gemB.remove_gem()

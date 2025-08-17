@@ -85,6 +85,8 @@ func setup_gem(type: Global.GemType, gemPos: Vector2, spawnImpulse: Vector2, use
 		%Sprite.position.y = -300
 		$Shadow.scale = Vector2(0, 0)
 		
+		%DropSound.play()
+		
 		dropOnSpawnTween.play()
 		dropOnSpawnTween.tween_property(%Sprite, "position:y", initSpriteYPos, dropSpawnTime)
 		dropOnSpawnTween.parallel().tween_property(%Shadow, "scale", initShadowScale, dropSpawnTime)
@@ -109,6 +111,9 @@ func play_collide_sound():
 
 func play_upgrade_sound():
 	%UpgradeSound.play()
+
+func play_combined_sound():
+	%CombinedSound.play()
 
 func _on_body_entered(body: Node) -> void:
 	if removingGem: return

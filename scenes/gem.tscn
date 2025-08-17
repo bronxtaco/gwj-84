@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cwxf3ipevjip"]
+[gd_scene load_steps=25 format=3 uid="uid://cwxf3ipevjip"]
 
 [ext_resource type="Script" uid="uid://bb07vhwvqenvm" path="res://scenes/gem.gd" id="1_kprv0"]
 [ext_resource type="Texture2D" uid="uid://b76w3h0o4qcxp" path="res://assets/critterGame/gem_shadow2.png" id="2_eaa7k"]
@@ -13,6 +13,11 @@
 [ext_resource type="Texture2D" uid="uid://cyl6krv8t5lxe" path="res://assets/critterGame/divideIcon.png" id="7_hgwl1"]
 [ext_resource type="Texture2D" uid="uid://p2e6eskb3s1d" path="res://assets/critterGame/collision_particle.png" id="10_hqa1t"]
 [ext_resource type="Theme" uid="uid://cxygi6sxk02d2" path="res://default_theme.tres" id="11_qgn10"]
+[ext_resource type="AudioStream" uid="uid://box5fgeaee5jg" path="res://assets/audio/sfx/GWJ84_SFX_Gem_Combine-001.mp3" id="14_siowa"]
+[ext_resource type="AudioStream" uid="uid://dngof4eng1of4" path="res://assets/audio/sfx/GWJ84_SFX_Gem_Combine-002.mp3" id="15_qw8v7"]
+[ext_resource type="AudioStream" uid="uid://bdvoy0p4lmqjm" path="res://assets/audio/sfx/GWJ84_SFX_Gem_Combine-003.mp3" id="16_u5me5"]
+[ext_resource type="AudioStream" uid="uid://bkoc66myvd8e" path="res://assets/audio/sfx/$dropt_new-001.wav" id="17_u5me5"]
+[ext_resource type="AudioStream" uid="uid://b3qsyqo5a5dq6" path="res://assets/audio/sfx/GWJ84_SFX_Gem_Drop_ImpactOnly-003.mp3" id="21_rxau7"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_hqa1t"]
 bounce = 0.12
@@ -31,6 +36,19 @@ streams_count = 3
 stream_0/stream = ExtResource("4_dhpy3")
 stream_1/stream = ExtResource("5_o6gnd")
 stream_2/stream = ExtResource("6_35lcq")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_es26p"]
+streams_count = 3
+stream_0/stream = ExtResource("14_siowa")
+stream_1/stream = ExtResource("15_qw8v7")
+stream_2/stream = ExtResource("16_u5me5")
+
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_s25my"]
+loop = false
+fade_time = 0.0
+stream_count = 2
+stream_0 = ExtResource("17_u5me5")
+stream_1 = ExtResource("21_rxau7")
 
 [node name="Gem" type="RigidBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_hqa1t")
@@ -126,6 +144,19 @@ bus = &"Minigame"
 [node name="UpgradeSound" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = SubResource("AudioStreamRandomizer_eaa7k")
+bus = &"Minigame"
+
+[node name="CombinedSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_es26p")
+bus = &"Minigame"
+
+[node name="DropSound" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamPlaylist_s25my")
+volume_db = -2.0
+pitch_scale = 1.33
+panning_strength = 2.0
 bus = &"Minigame"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

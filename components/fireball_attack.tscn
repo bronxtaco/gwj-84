@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://8hc8w0lxm0f2"]
+[gd_scene load_steps=27 format=3 uid="uid://8hc8w0lxm0f2"]
 
 [ext_resource type="Script" uid="uid://ild780hfbee1" path="res://components/fireball_attack.gd" id="1_s1opf"]
 [ext_resource type="AudioStream" uid="uid://bovtg3pw8hfu1" path="res://assets/audio/sfx/GWJ84_SFX_Player_Fireblast Impact_Small.mp3" id="2_f44dr"]
@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://c85m15eii1u7h" path="res://assets/combat/fx/fireball_14.png" id="16_vd78t"]
 [ext_resource type="AudioStream" uid="uid://bv388tdu7h367" path="res://assets/audio/sfx/GWJ84_SFX_Player_Fireblast Cast-002.mp3" id="17_jh3wq"]
 [ext_resource type="Texture2D" uid="uid://82a0fyki1rrn" path="res://assets/combat/fx/fireball_15.png" id="17_oru3f"]
+[ext_resource type="AudioStream" uid="uid://c3js3kq60whwc" path="res://assets/audio/sfx/GWJ84_SFX_Player_Fireblast Loop.mp3" id="21_kffx5"]
 
 [sub_resource type="Curve2D" id="Curve2D_54d4v"]
 _data = {
@@ -109,12 +110,12 @@ animations = [{
 offsets = PackedFloat32Array(0, 0.254902, 0.87451, 1)
 colors = PackedColorArray(0.987182, 0.175684, 0, 1, 0.707446, 0.606764, 0, 1, 0, 0, 0, 0.486275, 0, 0, 0, 0)
 
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_u53df"]
+
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_qpwft"]
 streams_count = 2
 stream_0/stream = ExtResource("16_u53df")
 stream_1/stream = ExtResource("17_jh3wq")
-
-[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_u53df"]
 
 [node name="FireballAttack" type="Path2D"]
 z_index = 10
@@ -155,6 +156,25 @@ color_ramp = SubResource("Gradient_rqysm")
 unique_name_in_owner = true
 position = Vector2(5.75038, 0.966009)
 
+[node name="TravelSound" type="AudioStreamPlayer2D" parent="FireballPath"]
+unique_name_in_owner = true
+position = Vector2(-3.58012, -0.427524)
+rotation = 0.706856
+stream = ExtResource("21_kffx5")
+volume_db = -15.0
+max_distance = 700.0
+panning_strength = 8.0
+bus = &"Arena"
+
+[node name="ExplodeSound" type="AudioStreamPlayer2D" parent="FireballPath"]
+unique_name_in_owner = true
+position = Vector2(388.696, 342.496)
+rotation = 0.706856
+stream = SubResource("AudioStreamInteractive_u53df")
+volume_db = 3.0
+panning_strength = 2.0
+bus = &"Arena"
+
 [node name="DamageTextPath" type="PathFollow2D" parent="."]
 position = Vector2(3, -2)
 rotates = false
@@ -177,13 +197,7 @@ vertical_alignment = 1
 unique_name_in_owner = true
 stream = SubResource("AudioStreamRandomizer_qpwft")
 volume_db = 3.0
-bus = &"Arena"
-
-[node name="ExplodeSound" type="AudioStreamPlayer2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(521, 6)
-stream = SubResource("AudioStreamInteractive_u53df")
-volume_db = 3.0
+panning_strength = 2.0
 bus = &"Arena"
 
 [connection signal="animation_finished" from="FireballPath/Fireball" to="." method="_on_fireball_animation_finished"]

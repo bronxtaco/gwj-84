@@ -44,6 +44,7 @@ func launch_new(damage_: int):
 	active = true
 	damage = damage_
 	%LaunchSound.play()
+	%TravelSound.play()
 
 
 func update_progress(progress: float) -> bool:
@@ -69,6 +70,7 @@ func explode():
 	%Fireball.play("explode")
 	%ExplodeSound.stream = explode_audio[size-1]
 	%ExplodeSound.play()
+	%TravelSound.stop()
 	Events.fireball_exploded.emit()
 
 

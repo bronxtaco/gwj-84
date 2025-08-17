@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://bnn7k8mua5vul" path="res://scenes/critter.gd" id="1_oeans"]
 [ext_resource type="Texture2D" uid="uid://b23bt0dis3ppr" path="res://assets/critterGame/critter_charging.png" id="2_5mxoi"]
 [ext_resource type="Texture2D" uid="uid://b0xkxaqnamv7s" path="res://assets/critterGame/critter2.png" id="2_oeans"]
-[ext_resource type="AudioStream" uid="uid://c5lqchp87dc8g" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_Movement_Loop.mp3" id="3_qlvc6"]
 [ext_resource type="AudioStream" uid="uid://cr6xg5w7lahgo" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-001.mp3" id="4_fraou"]
 [ext_resource type="AudioStream" uid="uid://ufdqd2b0i3i5" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-002.mp3" id="5_5mxoi"]
+[ext_resource type="AudioStream" uid="uid://hd8fcsn6p0nc" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_Movement_Loop_V2.mp3" id="5_bxkvv"]
 [ext_resource type="AudioStream" uid="uid://doouonmd43w7r" path="res://assets/audio/sfx/GWJ84_SFX_Player_Critter_ImpactWithGem-003.mp3" id="6_1ty1m"]
 [ext_resource type="Texture2D" uid="uid://bxak1x6d3dkc7" path="res://assets/critterGame/charging_line.png" id="8_1ty1m"]
 [ext_resource type="AudioStream" uid="uid://c0drv8dlb5c2o" path="res://assets/audio/sfx/GWJ84_SFX_Player_PowerUp(Roll).mp3" id="9_bxkvv"]
@@ -219,8 +219,7 @@ sprite_frames = SubResource("SpriteFrames_re4ka")
 shape = SubResource("CircleShape2D_oeans")
 
 [node name="ScuttleSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_qlvc6")
-volume_db = 4.0
+stream = ExtResource("5_bxkvv")
 max_distance = 400.0
 bus = &"Minigame"
 
