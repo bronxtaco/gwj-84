@@ -84,7 +84,7 @@ func setup_gem(type: Global.GemType, gemPos: Vector2, spawnImpulse: Vector2, use
 		%Sprite.position.y = -300
 		$Shadow.scale = Vector2(0, 0)
 		
-		#%DropSound.play()
+		Audio.gem_drop_play()
 		
 		var dropOnSpawnTween = get_tree().create_tween()
 		dropOnSpawnTween.tween_property(%Sprite, "position:y", initSpriteYPos, dropSpawnTime)
@@ -104,6 +104,13 @@ func _physics_process(delta: float) -> void:
 	for otherBody in get_colliding_bodies():
 		if removingGem: continue # if self is already removing, don't do anything
 	
+		if otherBody.is_in_group("Obstacle"):
+			if linear_velocity.length() > 45:
+				var obst = otherBody.get_parent()
+				obst.apply_damage(1)
+				if obst.health <= 0:
+					obst.queue_free.call_deferred()
+			
 		var isRigidBody = otherBody is RigidBody2D
 		if !isRigidBody: continue;
 		var otherRigidBody = otherBody as RigidBody2D
@@ -112,19 +119,7 @@ func _physics_process(delta: float) -> void:
 		if !isGem: continue
 		var otherGem = otherRigidBody
 		gems_collided(otherGem)
-		
 
-func play_collide_sound():
-	#%CollideSound.play()
-	pass
-
-func play_upgrade_sound():
-	#%UpgradeSound.play()
-	pass
-
-func play_combined_sound():
-	#%CombinedSound.play()
-	pass
 
 func can_upgrade_on_collide(otherGem: RigidBody2D) -> bool:
 	if gemType != otherGem.gemType:
@@ -140,12 +135,11 @@ func gems_collided(otherGem: RigidBody2D) -> void:
 	var canUpgrade = can_upgrade_on_collide(otherGem)
 
 	if !canUpgrade:
-		play_collide_sound() # only need to play 1 sound
+		'''if linear_velocity.length() > 30:
+			Audio.play_collide_sound() # only need to play 1 sound'''
 		return
 	
 	print("combine called")
-	
-	play_upgrade_sound() # only need to play 1 sound
 	
 	var nextGemTypeIndex = min(gemType + 1, Global.GemType.size() - 1)
 	var nextGemType = Global.GemType.values()[nextGemTypeIndex]

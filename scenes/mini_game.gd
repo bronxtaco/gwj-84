@@ -110,7 +110,7 @@ func clear_gems():
 
 func _on_spawn_combined_gem_type(gemType: Global.GemType, position_: Vector2, impulse: Vector2, useDropSpawn: bool):
 	var new_gem = spawn_gem_type(gemType, position_, impulse, useDropSpawn)
-	new_gem.play_combined_sound.call_deferred()
+	Audio.play_gem_combine()
 
 func spawn_gem_type(gemType: Global.GemType, position: Vector2, impulse: Vector2, useDropSpawn: bool):
 	var gem = gemScene.instantiate() as Node2D

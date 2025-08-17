@@ -64,3 +64,12 @@ func play_relic_pickup():
 
 func play_heal():
 	%heal.play()
+
+func play_gem_combine():
+	%gem_combine.play()
+	
+func play_collide_sound():
+	%gem_collide.play()
+
+func gem_drop_play():
+	%gem_drop.play()
