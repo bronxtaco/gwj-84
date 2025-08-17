@@ -40,7 +40,7 @@ func _ready() -> void:
 				spawn_obstacle(obstacleMarker.position)
 
 func get_gem_type() -> Global.GemType:
-	var gemType = Global.GemType.Blue
+	var gemType = Global.GemType.Green if Global.active_relics[Global.Relics.GemNoLowestRank] else Global.GemType.Blue
 	if Global.active_relics[Global.Relics.GemRankHigherChance]:
 		var rng = randi_range(1, 200)
 		if rng > 199:
@@ -51,7 +51,7 @@ func get_gem_type() -> Global.GemType:
 			gemType = Global.GemType.Yellow
 		elif rng > 150:
 			gemType = Global.GemType.Green
-		# else remain Blue
+		# else remain Blue (or Green)
 	return gemType
 
 
