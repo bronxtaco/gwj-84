@@ -45,6 +45,7 @@ func launch_new(damage_: int):
 	damage = damage_
 	%LaunchSound.play()
 	%TravelSound.play()
+	Events.fireball_active.emit()
 
 
 func update_progress(progress: float) -> bool:
@@ -53,6 +54,9 @@ func update_progress(progress: float) -> bool:
 			pathFollow.progress_ratio = progress
 	if progress == 1:
 		explode()
+	
+	if !active:
+		Events.fireball_inactive.emit()
 	return !active
 
 
@@ -71,7 +75,6 @@ func explode():
 	%ExplodeSound.stream = explode_audio[size-1]
 	%ExplodeSound.play()
 	%TravelSound.stop()
-	Events.fireball_exploded.emit()
 
 
 func _on_crit_boost(gem_type: Global.GemType, boost_amount: int) -> void:

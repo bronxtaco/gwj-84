@@ -20,6 +20,17 @@ func _physics_process(delta: float) -> void:
 			var pushDirection = (gem.position - %GoalRepulseArea.position ).normalized()
 			gem.apply_force(pushDirection * speedToAdd)
 
+func activate():
+	visible = true
+	monitoring = true
+	monitorable = true
+
+func deactivate():
+	visible = false
+	monitoring = false
+	monitorable = false
+
+
 func _on_body_entered(body: Node2D) -> void:
 	var isRigidBody = body is RigidBody2D
 	if !isRigidBody: return 

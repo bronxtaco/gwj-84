@@ -21,12 +21,12 @@ func spawn_obstacle(spawnPosition: Vector2):
 	obstacle.position = spawnPosition
 
 func _ready() -> void:
-	Events.fireball_exploded.connect(_on_fireball_exploded)
+	Events.fireball_active.connect(_on_fireball_active)
+	Events.fireball_inactive.connect(_on_fireball_inactive)
 	Events.gems_collided.connect(_on_gems_collided)
 	
-	var randChildIndex = randi_range(0,  %GoalPositions.get_child_count() - 1)
-	var goalPosMarker = %GoalPositions.get_children()[randChildIndex] as Marker2D
-	%Goal.position = goalPosMarker.position
+	%Goal.deactivate()
+	move_goal()
 	
 	var usedIndexes = []
 	var obstacleCount = min(Global.current_level, %ObstaclePositions.get_child_count())
@@ -39,6 +39,11 @@ func _ready() -> void:
 				var obstacleMarker = %ObstaclePositions.get_children()[obstacleMarkerIndex] as Marker2D
 				spawn_obstacle(obstacleMarker.position)
 
+func move_goal():
+	var randChildIndex = randi_range(0,  %GoalPositions.get_child_count() - 1)
+	var goalPosMarker = %GoalPositions.get_children()[randChildIndex] as Marker2D
+	%Goal.position = goalPosMarker.position
+	
 func get_gem_type() -> Global.GemType:
 	if Global.active_relics[Global.Relics.HealingGemChance]:
 		var rng = randi_range(1, 40)
@@ -171,8 +176,14 @@ func spawn_gem(gemType: Global.GemType, reservedPositions: Array[Vector2]):
 	
 	reservedPositions.append(spawnPos)
 
-func _on_fireball_exploded():
-	clear_gems()
+
+func _on_fireball_active():
+	move_goal()
+	%Goal.activate()
+	
+func _on_fireball_inactive():
+	%Goal.deactivate()
+
 
 func _on_gems_collided(initialGemType: Global.GemType, gemA: RigidBody2D, gemB: RigidBody2D):
 	var no_upgrade = false

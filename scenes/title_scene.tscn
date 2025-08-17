@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://b3p2r0tq5yri4"]
+[gd_scene load_steps=38 format=3 uid="uid://b3p2r0tq5yri4"]
 
 [ext_resource type="Script" uid="uid://dgcxjacsyvc6a" path="res://scenes/title_scene.gd" id="1_faptf"]
 [ext_resource type="Texture2D" uid="uid://d0pw6jj1esxja" path="res://assets/combat/backgrounds/game_background_4.png" id="2_7rdyk"]
@@ -160,28 +160,6 @@ corner_radius_bottom_left = 25
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hyxn0"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bre4b"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bpexu"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bdcil"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hskmy"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mptaw"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l81vg"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nawn3"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cnu8j"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iyjwr"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m6vmb"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nvkn5"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ur11i"]
 
 [node name="TitleScene" type="Node2D"]
 script = ExtResource("1_faptf")
@@ -350,30 +328,8 @@ theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_6ybtd")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_1en4i")
 theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_hyxn0")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_bre4b")
-text = "Standard"
-
-[node name="EndlessButton" type="Button" parent="CanvasLayer2/MarginContainer/Buttons"]
-unique_name_in_owner = true
-layout_mode = 2
-theme = ExtResource("3_bre4b")
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_colors/font_focus_color = Color(1, 0.850199, 0.269862, 1)
-theme_override_constants/outline_size = 12
-theme_override_font_sizes/font_size = 32
-theme_override_styles/focus = SubResource("StyleBoxEmpty_bpexu")
-theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_bdcil")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_hskmy")
-theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_mptaw")
-theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_l81vg")
-theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_nawn3")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_cnu8j")
-theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_iyjwr")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_m6vmb")
-theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_nvkn5")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_ur11i")
-text = "Endless"
+text = "Start"
 
 [connection signal="timeout" from="CanvasLayer/TitleCritter/Timer" to="CanvasLayer/TitleCritter" method="_on_timer_timeout"]
 [connection signal="focus_entered" from="CanvasLayer2/MarginContainer/Buttons/StandardButton" to="." method="_on_button_focus_entered"]
 [connection signal="pressed" from="CanvasLayer2/MarginContainer/Buttons/StandardButton" to="." method="_on_standard_button_pressed"]
-[connection signal="focus_entered" from="CanvasLayer2/MarginContainer/Buttons/EndlessButton" to="." method="_on_button_focus_entered"]

@@ -37,7 +37,7 @@ func _process(delta: float) -> void:
 		%HeroSprite.flip_h = true
 		%HeroSprite.offset.x = -40.0
 	prev_hero_pos = %HeroSprite.global_position
-	if remaining_time == 0 or Input.is_action_pressed("skip"):
+	if remaining_time == 0:
 		Audio.play_battle()
 		Scenes.change(Scenes.Enum.Combat)
 

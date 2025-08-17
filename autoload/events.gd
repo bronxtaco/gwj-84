@@ -11,7 +11,8 @@ signal menu_unpaused
 
 signal apply_damage_to_enemy(amount: int)
 signal apply_damage_to_hero
-signal fireball_exploded
+signal fireball_active
+signal fireball_inactive
 
 signal crit_boost(gem_type: Global.GemType, amount: int)
 signal heal_boost(amount: int)
