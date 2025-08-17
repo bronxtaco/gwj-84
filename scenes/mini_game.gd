@@ -28,11 +28,16 @@ func _ready() -> void:
 	var goalPosMarker = %GoalPositions.get_children()[randChildIndex] as Marker2D
 	%Goal.position = goalPosMarker.position
 	
-	var obstacleCount = 4
+	var usedIndexes = []
+	var obstacleCount = min(Global.current_level, %ObstaclePositions.get_child_count())
 	for i in range(obstacleCount):
-		var obstacleMarkerIndex = randi_range(0,  %ObstaclePositions.get_child_count() - 1)
-		var obstacleMarker = %ObstaclePositions.get_children()[obstacleMarkerIndex] as Marker2D
-		spawn_obstacle(obstacleMarker.position)
+		var obstacleMarkerIndex
+		while usedIndexes.size() < Global.current_level:
+			obstacleMarkerIndex = randi_range(0,  %ObstaclePositions.get_child_count() - 1)
+			if usedIndexes.find(obstacleMarkerIndex) == -1:
+				usedIndexes.push_back(obstacleMarkerIndex)
+				var obstacleMarker = %ObstaclePositions.get_children()[obstacleMarkerIndex] as Marker2D
+				spawn_obstacle(obstacleMarker.position)
 		
 
 func _process(delta: float) -> void:
@@ -78,7 +83,7 @@ func clear_gems():
 func spawn_gem_type(gemType: Global.GemType, position: Vector2, impulse: Vector2, useDropSpawn: bool):
 	var gem = gemScene.instantiate() as Node2D
 	%SpawnedGems.add_child(gem)
-	gem.setup_gem(gemType, position, impulse, useDropSpawn)
+	gem.setup_gem.call_deferred(gemType, position, impulse, useDropSpawn)
 
 func is_spawn_pos_empty(pos: Vector2, radius: float) -> bool:
 	# TODO: Get gem scene for radius? Shape doesn't exist yet so that isn't an option unless we used a dummy
