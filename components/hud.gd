@@ -14,7 +14,7 @@ extends CanvasLayer
 ]
 
 func _ready() -> void:
-	Events.relic_pickup.connect(_on_relic_pickup)
+	Events.refresh_hud.connect(_on_refresh_hud)
 	refresh()
 
 
@@ -28,7 +28,10 @@ func refresh():
 		var r = relics[i]
 		r.texture = Global.RelicTextures[r_type]
 		r.visible = true
+		r.modulate = Color.WHITE
+		if r_type == Global.Relics.HealFullOneOff and !Global.heal_full_one_off_unused:
+			r.modulate = Color.DIM_GRAY
 
 
-func _on_relic_pickup(_relic_type):
+func _on_refresh_hud():
 	refresh()

@@ -138,6 +138,12 @@ func apply_damage(damageValue: int):
 	if newHealth > 0:
 		%HurtSound.play()
 		fsm.force_change(STATE.Hurt)
+	else:
+		if Global.active_relics[Global.Relics.HealFullOneOff] and Global.heal_full_one_off_unused:
+			Global.heal_full_one_off_unused = false
+			Events.refresh_hud.emit()
+			heal(Global.HERO_HEALTH)
+			print("Hero revived fro heal one off relic")
 
 func heal(amount: int):
 	var prevHealth = Global.hero_health

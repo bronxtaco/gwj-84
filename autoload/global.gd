@@ -23,7 +23,8 @@ var hero_health := HERO_HEALTH
 var staff_pos := Vector2.ZERO
 
 func reset_game() -> void:
-	reset_overworld_relics()
+	reset_relics()
+	Events.refresh_hud.emit()
 	game_active = false
 	total_run_time = 0.0
 	current_level = 1
@@ -31,7 +32,22 @@ func reset_game() -> void:
 	Scenes.change(Scenes.Enum.Title)
 
 
-func reset_overworld_relics():
+func reset_relics():
+	heal_full_one_off_unused = true
+	relic_pickup_order = []
+	active_relics = {
+		Relics.MoveSpeed: false,
+		Relics.GemRankHigherChance: false,
+		Relics.GemNoLowestRank: false,
+		Relics.HealPostBattle: false,
+		Relics.HealingGemChance: false,
+		Relics.HealFullOneOff: false,
+		Relics.AttackDamageIncrease: false,
+		Relics.EnemyAttackDecrease: false,
+		Relics.EnemyHealthDecrease: false,
+		Relics.IncreaseGemSpawnRate: false,
+	}
+	Events.refresh_hud.emit()
 	var relics_picked := []
 	while relics_picked.size() != 4:
 		var rand_relic = randi_range(0, Relics.size() - 1)
@@ -151,7 +167,7 @@ var RelicDescriptions := {
 	Relics.GemNoLowestRank: "Lowest tier crystals no longer spawn",
 	Relics.HealPostBattle: "Heal some amount after each battle",
 	Relics.HealingGemChance: "Chance for healing crystals to spawn",
-	Relics.HealFullOneOff: "One-time heal to full health",
+	Relics.HealFullOneOff: "One-time revive to full health on death",
 	Relics.AttackDamageIncrease: "Hero fireball starting damage increase",
 	Relics.EnemyAttackDecrease: "Enemy fireball starting damage decrease",
 	Relics.EnemyHealthDecrease: "Enemy health decrease",
@@ -179,12 +195,13 @@ var overworld_relics := [
 	{ "type": Relics.MoveSpeed, "active": true },
 ]
 
+var heal_full_one_off_unused := true
 var recent_relic_pickup: Relics
 func pickup_relic(relic_type: Relics):
 	recent_relic_pickup = relic_type
 	active_relics[relic_type] = true
 	relic_pickup_order.push_back(relic_type)
-	Events.relic_pickup.emit(relic_type)
+	Events.refresh_hud.emit()
 	Events.menu_push.emit(Global.MENU_TYPE.RELIC_PICKUP)
 
 func degug_relic(relic_type: Relics, toggled_on: bool):
@@ -198,4 +215,4 @@ func degug_relic(relic_type: Relics, toggled_on: bool):
 			if relic_pickup_order[i] == relic_type:
 				relic_pickup_order.remove_at(i)
 				break
-	Events.relic_pickup.emit(relic_type)
+	Events.refresh_hud.emit()
