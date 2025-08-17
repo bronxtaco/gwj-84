@@ -38,7 +38,22 @@ func _ready() -> void:
 				usedIndexes.push_back(obstacleMarkerIndex)
 				var obstacleMarker = %ObstaclePositions.get_children()[obstacleMarkerIndex] as Marker2D
 				spawn_obstacle(obstacleMarker.position)
-		
+
+func get_gem_type() -> Global.GemType:
+	var gemType = Global.GemType.Blue
+	if Global.active_relics[Global.Relics.GemRankHigherChance]:
+		var rng = randi_range(1, 200)
+		if rng > 199:
+			gemType = Global.GemType.Red
+		elif rng > 195:
+			gemType = Global.GemType.Orange
+		elif rng > 180:
+			gemType = Global.GemType.Yellow
+		elif rng > 150:
+			gemType = Global.GemType.Green
+		# else remain Blue
+	return gemType
+
 
 func _process(delta: float) -> void:
 	# reserve spawn positions in a single group of spawns. So if 3 spawns are made, non of them overlap	
@@ -48,12 +63,11 @@ func _process(delta: float) -> void:
 	if gemSpawnTimer <= 0.0:
 		gemSpawnTimer = gemSpawnTimeInterval
 		
-		var gemType = Global.GemType.Blue
-		
 		var gemCount = get_gem_count()
 		if gemCount < maxSpawnedGems:
 			var spawnCount = min(randi_range(1, 3), maxSpawnedGems - gemCount)
 			for i in range(spawnCount):
+				var gemType = get_gem_type()
 				spawn_gem(gemType, reservedSpawnPositions)
 	
 	if Input.is_action_just_pressed("debug_f3"):
