@@ -53,7 +53,7 @@ class AttackingState extends FSM.State:
 		STATE_TIME = obj.base_attack_time
 		done = false
 		obj.AttackSound.play()
-		var base_damage = (floor(obj.base_attack * 0.75)) if Global.active_relics[Global.Relics.EnemyAttackDecrease] else obj.base_attack
+		var base_damage = (ceil(obj.base_attack * 0.75)) if Global.active_relics[Global.Relics.EnemyAttackDecrease] else obj.base_attack
 		obj.FireballAttack.launch_new(base_damage)
 	
 	func get_next_state():
@@ -100,6 +100,9 @@ func _ready():
 	fsm.register_state(STATE.Attacking, AttackingState)
 	fsm.register_state(STATE.Hurt, HurtState)
 	fsm.register_state(STATE.Dead, DeadState)
+	
+	if Global.active_relics[Global.Relics.EnemyHealthDecrease]:
+		maxHealth = ceil(maxHealth * 0.75)
 	
 	if debug_low_health:
 		currentHealth = 10
