@@ -65,3 +65,7 @@ func _on_relic_10_toggled(toggled_on: bool) -> void:
 
 func _on_relic_11_toggled(toggled_on: bool) -> void:
 	toggle_relic(Global.Relics.IncreaseGemSpawnMax, toggled_on)
+
+
+func _on_relic_12_toggled(toggled_on: bool) -> void:
+	toggle_relic(Global.Relics.WeakerObstacles, toggled_on)

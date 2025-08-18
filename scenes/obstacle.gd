@@ -3,6 +3,10 @@ extends Node2D
 var health: int = 4
 var invuln: bool = false
 
+func _ready() -> void:
+	if Global.active_relics[Global.Relics.WeakerObstacles]:
+		apply_damage(3)
+
 func apply_damage(amount: int) -> void:
 	if invuln:
 		return

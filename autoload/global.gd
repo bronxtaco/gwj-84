@@ -52,6 +52,7 @@ func reset_relics():
 		Relics.EnemyHealthDecrease: false,
 		Relics.IncreaseGemSpawnRate: false,
 		Relics.IncreaseGemSpawnMax: false,
+		Relics.WeakerObstacles: false,
 	}
 	Events.refresh_hud.emit()
 	var relics_picked := []
@@ -149,6 +150,7 @@ enum Relics {
 	EnemyHealthDecrease,
 	IncreaseGemSpawnRate,
 	IncreaseGemSpawnMax,
+	WeakerObstacles,
 }
 
 var RelicTextures := {
@@ -163,6 +165,7 @@ var RelicTextures := {
 	Relics.EnemyHealthDecrease: preload("res://assets/relics/Poison Spell28.png"),
 	Relics.IncreaseGemSpawnRate: preload("res://assets/relics/Galaxy Spell_48.png"),
 	Relics.IncreaseGemSpawnMax: preload("res://assets/relics/Galaxy Spell_32.png"),
+	Relics.WeakerObstacles: preload("res://assets/relics/Stone Spells75.png"),
 }
 
 var RelicNames := {
@@ -177,6 +180,7 @@ var RelicNames := {
 	Relics.EnemyHealthDecrease: "SAP STRENGTH",
 	Relics.IncreaseGemSpawnRate: "HEAVY RAIN",
 	Relics.IncreaseGemSpawnMax: "TOP OF THE PYRAMID",
+	Relics.WeakerObstacles: "THE PARTHENON",
 }
 
 var RelicDescriptions := {
@@ -191,6 +195,7 @@ var RelicDescriptions := {
 	Relics.EnemyHealthDecrease: "Enemy health decrease",
 	Relics.IncreaseGemSpawnRate: "Crystals spawn faster",
 	Relics.IncreaseGemSpawnMax: "Max crystal spawns increase",
+	Relics.WeakerObstacles: "Static crystals have reduced health",
 }
 
 var active_relics := {}
