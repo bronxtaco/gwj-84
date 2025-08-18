@@ -110,7 +110,7 @@ func get_gem_damage(type: Global.GemType) -> int:
 		Global.GemType.Red:
 			return 80
 		Global.GemType.Heal:
-			return 15
+			return 10
 		_:
 			return 0
 
