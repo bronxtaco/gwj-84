@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cqorayt3trtqu"]
+[gd_scene load_steps=14 format=3 uid="uid://cqorayt3trtqu"]
 
 [ext_resource type="PackedScene" uid="uid://d11eesvpxlsk2" path="res://menus/menu_base.tscn" id="1_riyxq"]
 [ext_resource type="Script" uid="uid://dhenexglkw2cq" path="res://menus/menu_debug_relic.gd" id="2_bwfht"]
@@ -12,8 +12,11 @@
 [ext_resource type="Texture2D" uid="uid://kjpq1p676ts2" path="res://assets/relics/Fire Spell Pack71.png" id="10_wumva"]
 [ext_resource type="Texture2D" uid="uid://x1ncxiwevj3q" path="res://assets/relics/Poison Spell28.png" id="11_nmhea"]
 [ext_resource type="Texture2D" uid="uid://dsvfvtxo5kkd6" path="res://assets/relics/Galaxy Spell_48.png" id="12_icfdg"]
+[ext_resource type="Texture2D" uid="uid://bke8knwaxrs25" path="res://assets/relics/Galaxy Spell_32.png" id="13_jh4g2"]
 
 [node name="MenuDebugRelic" instance=ExtResource("1_riyxq")]
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_right = 100
 script = ExtResource("2_bwfht")
 
 [node name="Label" parent="Modal/MarginContainer/VBoxContainer" index="0"]
@@ -54,57 +57,62 @@ texture = ExtResource("6_1uld7")
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="2"]
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="0"]
+[node name="TextureRect5" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="8"]
 layout_mode = 2
 texture = ExtResource("7_oqe7f")
 
-[node name="Relic5" type="CheckBox" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="1"]
+[node name="Relic5" type="CheckBox" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="9"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect2" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="2"]
+[node name="TextureRect6" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="10"]
 layout_mode = 2
 texture = ExtResource("8_n2617")
 
-[node name="Relic6" type="CheckBox" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="3"]
+[node name="Relic6" type="CheckBox" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="11"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect3" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="4"]
+[node name="TextureRect7" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="12"]
 layout_mode = 2
 texture = ExtResource("9_16ch0")
 
-[node name="Relic7" type="CheckBox" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="5"]
+[node name="Relic7" type="CheckBox" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="13"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect4" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="6"]
+[node name="TextureRect8" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="14"]
 layout_mode = 2
 texture = ExtResource("10_wumva")
 
-[node name="Relic8" type="CheckBox" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="7"]
+[node name="Relic8" type="CheckBox" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="15"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="3"]
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer3" index="0"]
+[node name="TextureRect9" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="16"]
 layout_mode = 2
 texture = ExtResource("11_nmhea")
 
-[node name="Relic9" type="CheckBox" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer3" index="1"]
+[node name="Relic9" type="CheckBox" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="17"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="TextureRect2" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer3" index="2"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="2"]
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="0"]
 layout_mode = 2
 texture = ExtResource("12_icfdg")
 
-[node name="Relic10" type="CheckBox" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer3" index="3"]
+[node name="Relic10" type="CheckBox" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="2"]
+layout_mode = 2
+texture = ExtResource("13_jh4g2")
+
+[node name="Relic11" type="CheckBox" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="3"]
 unique_name_in_owner = true
 layout_mode = 2
 
@@ -112,11 +120,12 @@ layout_mode = 2
 [connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/Relic2" to="." method="_on_relic_2_toggled"]
 [connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/Relic3" to="." method="_on_relic_3_toggled"]
 [connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/Relic4" to="." method="_on_relic_4_toggled"]
-[connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer2/Relic5" to="." method="_on_relic_5_toggled"]
-[connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer2/Relic6" to="." method="_on_relic_6_toggled"]
-[connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer2/Relic7" to="." method="_on_relic_7_toggled"]
-[connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer2/Relic8" to="." method="_on_relic_8_toggled"]
-[connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer3/Relic9" to="." method="_on_relic_9_toggled"]
-[connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer3/Relic10" to="." method="_on_relic_10_toggled"]
+[connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/Relic5" to="." method="_on_relic_5_toggled"]
+[connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/Relic6" to="." method="_on_relic_6_toggled"]
+[connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/Relic7" to="." method="_on_relic_7_toggled"]
+[connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/Relic8" to="." method="_on_relic_8_toggled"]
+[connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/Relic9" to="." method="_on_relic_9_toggled"]
+[connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer2/Relic10" to="." method="_on_relic_10_toggled"]
+[connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer2/Relic11" to="." method="_on_relic_11_toggled"]
 
 [editable path="Modal"]

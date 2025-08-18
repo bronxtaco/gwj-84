@@ -11,6 +11,7 @@ func _ready() -> void:
 	%Relic8.button_pressed = Global.active_relics[Global.Relics.EnemyAttackDecrease]
 	%Relic9.button_pressed = Global.active_relics[Global.Relics.EnemyHealthDecrease]
 	%Relic10.button_pressed = Global.active_relics[Global.Relics.IncreaseGemSpawnRate]
+	%Relic11.button_pressed = Global.active_relics[Global.Relics.IncreaseGemSpawnMax]
 
 
 func _process(delta: float) -> void:
@@ -60,3 +61,7 @@ func _on_relic_9_toggled(toggled_on: bool) -> void:
 
 func _on_relic_10_toggled(toggled_on: bool) -> void:
 	toggle_relic(Global.Relics.IncreaseGemSpawnRate, toggled_on)
+
+
+func _on_relic_11_toggled(toggled_on: bool) -> void:
+	toggle_relic(Global.Relics.IncreaseGemSpawnMax, toggled_on)

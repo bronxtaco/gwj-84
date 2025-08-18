@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cldobpbwec173"
-path="res://.godot/imported/Galaxy Spell_42.png-4adfbdfbc8455c8e042e84c5e5aebf9b.ctex"
+uid="uid://mqdal04k22fb"
+path="res://.godot/imported/Celestial spell_62.png-34995d283679f75e21c8d6cc359e29c8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/relics/Galaxy Spell_42.png"
-dest_files=["res://.godot/imported/Galaxy Spell_42.png-4adfbdfbc8455c8e042e84c5e5aebf9b.ctex"]
+source_file="res://assets/relics/Celestial spell_62.png"
+dest_files=["res://.godot/imported/Celestial spell_62.png-34995d283679f75e21c8d6cc359e29c8.ctex"]
 
 [params]
 

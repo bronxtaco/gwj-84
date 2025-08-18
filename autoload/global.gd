@@ -24,6 +24,9 @@ var hero_health := HERO_HEALTH
 
 var staff_pos := Vector2.ZERO
 
+func _ready() -> void:
+	reset_game()
+
 func reset_game() -> void:
 	reset_relics()
 	Events.refresh_hud.emit()
@@ -48,6 +51,7 @@ func reset_relics():
 		Relics.EnemyAttackDecrease: false,
 		Relics.EnemyHealthDecrease: false,
 		Relics.IncreaseGemSpawnRate: false,
+		Relics.IncreaseGemSpawnMax: false,
 	}
 	Events.refresh_hud.emit()
 	var relics_picked := []
@@ -144,6 +148,7 @@ enum Relics {
 	EnemyAttackDecrease,
 	EnemyHealthDecrease,
 	IncreaseGemSpawnRate,
+	IncreaseGemSpawnMax,
 }
 
 var RelicTextures := {
@@ -157,6 +162,7 @@ var RelicTextures := {
 	Relics.EnemyAttackDecrease: preload("res://assets/relics/Fire Spell Pack71.png"),
 	Relics.EnemyHealthDecrease: preload("res://assets/relics/Poison Spell28.png"),
 	Relics.IncreaseGemSpawnRate: preload("res://assets/relics/Galaxy Spell_48.png"),
+	Relics.IncreaseGemSpawnMax: preload("res://assets/relics/Galaxy Spell_32.png"),
 }
 
 var RelicNames := {
@@ -170,6 +176,7 @@ var RelicNames := {
 	Relics.EnemyAttackDecrease: "QUELL THE FLAMES",
 	Relics.EnemyHealthDecrease: "SAP STRENGTH",
 	Relics.IncreaseGemSpawnRate: "HEAVY RAIN",
+	Relics.IncreaseGemSpawnMax: "TOP OF THE PYRAMID",
 }
 
 var RelicDescriptions := {
@@ -182,21 +189,11 @@ var RelicDescriptions := {
 	Relics.AttackDamageIncrease: "Hero fireball starting damage increase",
 	Relics.EnemyAttackDecrease: "Enemy fireball starting damage decrease",
 	Relics.EnemyHealthDecrease: "Enemy health decrease",
-	Relics.IncreaseGemSpawnRate: "Increase crystal spawn rate",
+	Relics.IncreaseGemSpawnRate: "Crystals spawn faster",
+	Relics.IncreaseGemSpawnMax: "Max crystal spawns increase",
 }
 
-var active_relics := {
-	Relics.MoveSpeed: false,
-	Relics.GemRankHigherChance: false,
-	Relics.GemNoLowestRank: false,
-	Relics.HealPostBattle: false,
-	Relics.HealingGemChance: false,
-	Relics.HealFullOneOff: false,
-	Relics.AttackDamageIncrease: false,
-	Relics.EnemyAttackDecrease: false,
-	Relics.EnemyHealthDecrease: false,
-	Relics.IncreaseGemSpawnRate: false,
-}
+var active_relics := {}
 var relic_pickup_order := []
 
 var overworld_relics := [

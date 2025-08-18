@@ -72,12 +72,12 @@ func _process(delta: float) -> void:
 	# reserve spawn positions in a single group of spawns. So if 3 spawns are made, non of them overlap	
 	var reservedSpawnPositions : Array[Vector2]
 	
-	var gem_spawn_time_interval = gemSpawnTimeInterval * 0.75 if Global.active_relics[Global.Relics.IncreaseGemSpawnRate] else gemSpawnTimeInterval
-	var max_spawned_gems = maxSpawnedGems + 2 if Global.active_relics[Global.Relics.IncreaseGemSpawnRate] else maxSpawnedGems
+	var gem_spawn_time_interval = gemSpawnTimeInterval * 0.35 if Global.active_relics[Global.Relics.IncreaseGemSpawnRate] else gemSpawnTimeInterval
+	var max_spawned_gems = maxSpawnedGems + 2 if Global.active_relics[Global.Relics.IncreaseGemSpawnMax] else maxSpawnedGems
 	
 	gemSpawnTimer -= delta
 	if gemSpawnTimer <= 0.0 && Global.mini_game_active:
-		gemSpawnTimer = gemSpawnTimeInterval
+		gemSpawnTimer = gem_spawn_time_interval
 		
 		var gemCount = get_gem_count()
 		if gemCount < max_spawned_gems:
@@ -88,12 +88,7 @@ func _process(delta: float) -> void:
 			for i in range(spawnCount):
 				var gemType = get_gem_type()
 				spawn_gem(gemType, reservedSpawnPositions)
-	
-	'''if Input.is_action_just_pressed("debug_f3"):
-		spawn_gem(Global.GemType.Multiply, reservedSpawnPositions)
-	if Input.is_action_just_pressed("debug_f4"):
-		spawn_gem(Global.GemType.Divide, reservedSpawnPositions)
-		'''
+
 
 func _physics_process(delta: float) -> void:
 	# loop over all gems and if they are outside the arena center polygon, nudge them back inside
