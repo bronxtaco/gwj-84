@@ -95,7 +95,6 @@ func setup_gem(type: Global.GemType, gemPos: Vector2, spawnImpulse: Vector2, use
 
 func on_tween_end():
 	if useDropSpawn: # not really required as callback will never happen, but just incase someone else calls this
-		print("spawn drop ended")
 		set_collision_layer.call_deferred(initialCollisionLayers)
 		set_collision_mask.call_deferred(initialCollisionMasks)
 		apply_central_impulse(spawnImpulse) # apply spawn impulse after the gem has landed

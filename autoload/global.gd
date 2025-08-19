@@ -53,6 +53,7 @@ func reset_relics():
 		Relics.IncreaseGemSpawnRate: false,
 		Relics.IncreaseGemSpawnMax: false,
 		Relics.WeakerObstacles: false,
+		Relics.SlowerAttacks: false,
 	}
 	Events.refresh_hud.emit()
 	var relics_picked := []
@@ -151,6 +152,7 @@ enum Relics {
 	IncreaseGemSpawnRate,
 	IncreaseGemSpawnMax,
 	WeakerObstacles,
+	SlowerAttacks,
 }
 
 var RelicTextures := {
@@ -166,6 +168,7 @@ var RelicTextures := {
 	Relics.IncreaseGemSpawnRate: preload("res://assets/relics/Galaxy Spell_48.png"),
 	Relics.IncreaseGemSpawnMax: preload("res://assets/relics/Galaxy Spell_32.png"),
 	Relics.WeakerObstacles: preload("res://assets/relics/Stone Spells75.png"),
+	Relics.SlowerAttacks: preload("res://assets/relics/Ice Spells54.png"),
 }
 
 var RelicNames := {
@@ -181,6 +184,7 @@ var RelicNames := {
 	Relics.IncreaseGemSpawnRate: "HEAVY RAIN",
 	Relics.IncreaseGemSpawnMax: "TOP OF THE PYRAMID",
 	Relics.WeakerObstacles: "THE PARTHENON",
+	Relics.SlowerAttacks: "BULLET TIME",
 }
 
 var RelicDescriptions := {
@@ -196,6 +200,7 @@ var RelicDescriptions := {
 	Relics.IncreaseGemSpawnRate: "Crystals spawn faster",
 	Relics.IncreaseGemSpawnMax: "Max crystal spawns increase",
 	Relics.WeakerObstacles: "Static crystals have reduced health",
+	Relics.SlowerAttacks: "Fireball movement speed decrease",
 }
 
 var active_relics := {}
@@ -208,6 +213,7 @@ var overworld_relics := [
 	{ "type": Relics.MoveSpeed, "active": true },
 ]
 
+const SlowerAttacksMod := 1.3
 var heal_full_one_off_unused := true
 var recent_relic_pickup: Relics
 func pickup_relic(relic_type: Relics):

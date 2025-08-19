@@ -46,12 +46,19 @@ class PreAttackState extends FSM.State:
 
 
 class AttackingState extends FSM.State:
-	var STATE_TIME: float
+	var remaining_attack_time : float
+	var base_progress := 0.0
+	var tracked_time := 0.0
 	var done := false
+	var attack_time_modified := false
 	
 	func on_enter(_prev_state):
-		STATE_TIME = obj.base_attack_time
 		done = false
+		attack_time_modified = false
+		remaining_attack_time = obj.base_attack_time * Global.SlowerAttacksMod if Global.active_relics[Global.Relics.SlowerAttacks] else obj.base_attack_time
+		base_progress = 0.0
+		tracked_time = 0.0
+		obj.debug_speed_up = false
 		obj.AttackSound.play()
 		var base_damage = (ceil(obj.base_attack * 0.75)) if Global.active_relics[Global.Relics.EnemyAttackDecrease] else obj.base_attack
 		obj.FireballAttack.launch_new(base_damage)
@@ -60,14 +67,24 @@ class AttackingState extends FSM.State:
 		if done:
 			return STATE.Idle
 	
-	func physics_process(_delta):
+	func physics_process(delta):
 		if done:
 			return
 		
-		STATE_TIME = 5.0 if obj.debug_speed_up else obj.base_attack_time
+		var mod_time_fn = func(abs_time_left: float):
+			attack_time_modified = true
+			var progress_seconds = min(seconds_active, remaining_attack_time)
+			var progress_normalized = progress_seconds / remaining_attack_time
+			base_progress = progress_normalized
+			tracked_time = 0.0
+			remaining_attack_time = abs_time_left
+		
+		if !attack_time_modified and obj.debug_speed_up:
+			mod_time_fn.call(2.0)
 
-		var progress_seconds = min(seconds_active, STATE_TIME)
-		var progress_normalized = progress_seconds / STATE_TIME
+		tracked_time += delta
+		var progress_seconds = min(tracked_time, remaining_attack_time)
+		var progress_normalized = min(base_progress + (progress_seconds / remaining_attack_time), 1.0)
 		if obj.FireballAttack.update_progress(progress_normalized):
 			done = true
 			Events.apply_damage_to_hero.emit(obj.FireballAttack.damage)

@@ -39,8 +39,12 @@ class PreAttackState extends FSM.State:
 
 
 class AttackingState extends FSM.State:
-	var STATE_TIME: float = 30.0
+	const BaseAttackTime := 30.0
+	var remaining_attack_time := BaseAttackTime
+	var base_progress := 0.0
+	var tracked_time := 0.0
 	var done := false
+	var attack_time_modified := false
 	
 	func get_next_state():
 		if done:
@@ -48,6 +52,11 @@ class AttackingState extends FSM.State:
 
 	func on_enter(_prev_state):
 		done = false
+		attack_time_modified = false
+		remaining_attack_time = BaseAttackTime * Global.SlowerAttacksMod if Global.active_relics[Global.Relics.SlowerAttacks] else BaseAttackTime
+		base_progress = 0.0
+		tracked_time = 0.0
+		obj.debug_speed_up = false
 		obj.kill_gem_speed_up = false
 		obj.Sprite.play("attack_loop")
 		obj.AttackSound.play()
@@ -58,14 +67,22 @@ class AttackingState extends FSM.State:
 		if done:
 			return
 		
-		STATE_TIME = 5.0 if obj.debug_speed_up else 30.0
-		if obj.kill_gem_speed_up:
-			var kill_gem_speed_up_rate = 12.0
-			seconds_active += delta * kill_gem_speed_up_rate
-	
+		var mod_time_fn = func(abs_time_left: float):
+			attack_time_modified = true
+			var progress_seconds = min(seconds_active, remaining_attack_time)
+			var progress_normalized = progress_seconds / remaining_attack_time
+			base_progress = progress_normalized
+			tracked_time = 0.0
+			remaining_attack_time = abs_time_left
 		
-		var progress_seconds = min(seconds_active, STATE_TIME)
-		var progress_normalized = progress_seconds / STATE_TIME
+		if !attack_time_modified and obj.kill_gem_speed_up:
+			mod_time_fn.call(3.0)
+		elif !attack_time_modified and obj.debug_speed_up:
+			mod_time_fn.call(2.0)
+		
+		tracked_time += delta
+		var progress_seconds = min(tracked_time, remaining_attack_time)
+		var progress_normalized = min(base_progress + (progress_seconds / remaining_attack_time), 1.0)
 		if obj.FireballAttack.update_progress(progress_normalized):
 			done = true
 			Events.apply_damage_to_enemy.emit(obj.FireballAttack.damage)
@@ -117,7 +134,7 @@ func _ready():
 	Global.staff_pos = $StaffPos.global_position
 
 func _physics_process(delta: float) -> void:
-	debug_speed_up = Input.is_action_pressed("debug_f1")
+	debug_speed_up = Input.is_action_just_pressed("debug_f1")
 	fsm.physics_process(delta)
 	
 	'''if Input.is_action_just_pressed("debug_f1"):
