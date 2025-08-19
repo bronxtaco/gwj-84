@@ -1,18 +1,20 @@
-[gd_scene load_steps=38 format=3 uid="uid://b3p2r0tq5yri4"]
+[gd_scene load_steps=40 format=3 uid="uid://b3p2r0tq5yri4"]
 
 [ext_resource type="Script" uid="uid://dgcxjacsyvc6a" path="res://scenes/title_scene.gd" id="1_faptf"]
 [ext_resource type="Texture2D" uid="uid://d0pw6jj1esxja" path="res://assets/combat/backgrounds/game_background_4.png" id="2_7rdyk"]
 [ext_resource type="Theme" uid="uid://cxygi6sxk02d2" path="res://default_theme.tres" id="3_bre4b"]
 [ext_resource type="Texture2D" uid="uid://cs20g24v75wje" path="res://assets/combat/hero_purple/idle/idle9.png" id="4_bre4b"]
 [ext_resource type="Texture2D" uid="uid://6igh883d6aw" path="res://assets/combat/ui/staff_bg.png" id="4_s8xmt"]
-[ext_resource type="Texture2D" uid="uid://b0xkxaqnamv7s" path="res://assets/critterGame/critter2.png" id="5_7rdyk"]
 [ext_resource type="Script" uid="uid://f1uah8a1o57k" path="res://scenes/title_critter.gd" id="5_ofksa"]
 [ext_resource type="Texture2D" uid="uid://bq1uc0djli3k7" path="res://assets/combat/hero_purple/idle/idle10.png" id="5_ur11i"]
-[ext_resource type="Texture2D" uid="uid://cx2b8u82m1of2" path="res://assets/combat/ui/staff_fg.png" id="6_ofksa"]
 [ext_resource type="Texture2D" uid="uid://ce4gjn7jvope" path="res://assets/combat/hero_purple/idle/idle11.png" id="6_u3gtk"]
 [ext_resource type="Texture2D" uid="uid://clpommyb1q642" path="res://assets/combat/ui/staff_outline.png" id="7_1ot34"]
 [ext_resource type="Texture2D" uid="uid://cguohl5aff2nm" path="res://assets/combat/hero_purple/idle/idle12.png" id="7_xolyv"]
 [ext_resource type="Texture2D" uid="uid://o4r8d5im2hr5" path="res://assets/combat/hero_purple/idle/idle13.png" id="8_qlmyv"]
+[ext_resource type="Texture2D" uid="uid://c5n4s0afv501m" path="res://assets/critterGame/critter2-Sheet.png" id="11_xolyv"]
+[ext_resource type="Texture2D" uid="uid://kpggvydx5hsn" path="res://assets/combat/ui/staff_overlay_bottom.png" id="12_xolyv"]
+[ext_resource type="Texture2D" uid="uid://lwkld20s0llq" path="res://assets/combat/ui/staff_overlay_middle.png" id="13_qlmyv"]
+[ext_resource type="Texture2D" uid="uid://bfwf8q2uldlx4" path="res://assets/combat/ui/staff_overlay_top.png" id="14_p7aju"]
 [ext_resource type="Texture2D" uid="uid://cx7if33tpxba4" path="res://assets/gwj/GWJ-Half-Logo-Orange.svg" id="14_ur11i"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7rdyk"]
@@ -55,39 +57,39 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lqobm"]
-atlas = ExtResource("5_7rdyk")
+[sub_resource type="AtlasTexture" id="AtlasTexture_qlmyv"]
+atlas = ExtResource("11_xolyv")
 region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6ppm8"]
-atlas = ExtResource("5_7rdyk")
+[sub_resource type="AtlasTexture" id="AtlasTexture_p7aju"]
+atlas = ExtResource("11_xolyv")
 region = Rect2(0, 64, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bre4b"]
-atlas = ExtResource("5_7rdyk")
+[sub_resource type="AtlasTexture" id="AtlasTexture_fcpdo"]
+atlas = ExtResource("11_xolyv")
 region = Rect2(64, 64, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ur11i"]
-atlas = ExtResource("5_7rdyk")
+[sub_resource type="AtlasTexture" id="AtlasTexture_why83"]
+atlas = ExtResource("11_xolyv")
 region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_u3gtk"]
-atlas = ExtResource("5_7rdyk")
+[sub_resource type="AtlasTexture" id="AtlasTexture_udv04"]
+atlas = ExtResource("11_xolyv")
 region = Rect2(64, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xolyv"]
-atlas = ExtResource("5_7rdyk")
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ybtd"]
+atlas = ExtResource("11_xolyv")
 region = Rect2(0, 128, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qlmyv"]
-atlas = ExtResource("5_7rdyk")
+[sub_resource type="AtlasTexture" id="AtlasTexture_1en4i"]
+atlas = ExtResource("11_xolyv")
 region = Rect2(64, 128, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_p7aju"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lqobm")
+"texture": SubResource("AtlasTexture_qlmyv")
 }],
 "loop": true,
 "name": &"idle",
@@ -95,10 +97,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6ppm8")
+"texture": SubResource("AtlasTexture_p7aju")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bre4b")
+"texture": SubResource("AtlasTexture_fcpdo")
 }],
 "loop": true,
 "name": &"walk_down",
@@ -106,10 +108,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ur11i")
+"texture": SubResource("AtlasTexture_why83")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_u3gtk")
+"texture": SubResource("AtlasTexture_udv04")
 }],
 "loop": true,
 "name": &"walk_right",
@@ -117,10 +119,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_xolyv")
+"texture": SubResource("AtlasTexture_6ybtd")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qlmyv")
+"texture": SubResource("AtlasTexture_1en4i")
 }],
 "loop": true,
 "name": &"walk_up",
@@ -224,7 +226,7 @@ script = ExtResource("5_ofksa")
 unique_name_in_owner = true
 position = Vector2(269, 379)
 sprite_frames = SubResource("SpriteFrames_p7aju")
-animation = &"idle"
+animation = &"walk_up"
 
 [node name="Timer" type="Timer" parent="CanvasLayer/TitleCritter"]
 wait_time = 0.5
@@ -268,9 +270,19 @@ position = Vector2(642, 448)
 [node name="Marker2D12" type="Marker2D" parent="CanvasLayer/TitleCritter/CritterLocations"]
 position = Vector2(527, 509)
 
-[node name="StaffTransparent" type="Sprite2D" parent="CanvasLayer"]
-modulate = Color(1, 1, 1, 0.508)
-texture = ExtResource("6_ofksa")
+[node name="StaffTransparentBottom" type="Sprite2D" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0.25)
+texture = ExtResource("12_xolyv")
+centered = false
+
+[node name="StaffTransparentMiddle" type="Sprite2D" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0.25)
+texture = ExtResource("13_qlmyv")
+centered = false
+
+[node name="StaffTransparentTop" type="Sprite2D" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0.25)
+texture = ExtResource("14_p7aju")
 centered = false
 
 [node name="StaffOutline" type="Sprite2D" parent="CanvasLayer"]

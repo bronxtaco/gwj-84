@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bmmj4lxj88iwg"]
+[gd_scene load_steps=12 format=3 uid="uid://bmmj4lxj88iwg"]
 
 [ext_resource type="Script" uid="uid://c4fdc82p08sxj" path="res://scenes/mini_game.gd" id="1_0gcsj"]
 [ext_resource type="PackedScene" uid="uid://cwxf3ipevjip" path="res://scenes/gem.tscn" id="2_3kuml"]
@@ -6,7 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://c8cocldkynsj" path="res://scenes/obstacle.tscn" id="3_hd6k8"]
 [ext_resource type="PackedScene" uid="uid://bwbix4ltm861q" path="res://scenes/critter.tscn" id="3_v2cs6"]
 [ext_resource type="PackedScene" uid="uid://biup80na4prc0" path="res://scenes/goal.tscn" id="5_burph"]
-[ext_resource type="Texture2D" uid="uid://cx2b8u82m1of2" path="res://assets/combat/ui/staff_fg.png" id="10_4ovyi"]
+[ext_resource type="Texture2D" uid="uid://kpggvydx5hsn" path="res://assets/combat/ui/staff_overlay_bottom.png" id="7_2sn1h"]
+[ext_resource type="Texture2D" uid="uid://lwkld20s0llq" path="res://assets/combat/ui/staff_overlay_middle.png" id="8_eps0w"]
+[ext_resource type="Texture2D" uid="uid://bfwf8q2uldlx4" path="res://assets/combat/ui/staff_overlay_top.png" id="9_4ovyi"]
 [ext_resource type="Texture2D" uid="uid://clpommyb1q642" path="res://assets/combat/ui/staff_outline.png" id="11_o1hth"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3kuml"]
@@ -56,9 +58,19 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 position = Vector2(539, 256)
 
-[node name="StaffTransparent" type="Sprite2D" parent="."]
-self_modulate = Color(1, 1, 1, 0.465)
-texture = ExtResource("10_4ovyi")
+[node name="StaffTransparentBottom" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.25)
+texture = ExtResource("7_2sn1h")
+centered = false
+
+[node name="StaffTransparentMiddle" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.25)
+texture = ExtResource("8_eps0w")
+centered = false
+
+[node name="StaffTransparentTop" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.25)
+texture = ExtResource("9_4ovyi")
 centered = false
 
 [node name="StaffForeground" type="Sprite2D" parent="."]
