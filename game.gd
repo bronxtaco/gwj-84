@@ -16,6 +16,7 @@ func _process(delta: float) -> void:
 		Global.total_run_time += delta
 	
 	if !Global.paused and Input.is_action_just_pressed("debug_f7"):
+		Global.cheater = true
 		Events.menu_push.emit(Global.MENU_TYPE.DEBUG_RELIC)
 
 func on_change_scene(new_scene:PackedScene):

@@ -22,6 +22,7 @@ var total_run_time := 0.0
 var current_level := 1
 var hero_max_health := HeroStartingHealth
 var hero_health := HeroStartingHealth
+var cheater := false
 
 var staff_pos := Vector2.ZERO
 
@@ -36,6 +37,7 @@ func reset_game() -> void:
 	current_level = 1
 	hero_max_health = HeroStartingHealth
 	hero_health = HeroStartingHealth
+	cheater = false
 	Scenes.change(Scenes.Enum.Title)
 
 

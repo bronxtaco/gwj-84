@@ -107,7 +107,10 @@ class VictoryState extends FSM.State:
 		if Global.current_level == 5: # game has been won
 			Global.game_active = false
 			var run_time = Global.get_formatted_time(Global.total_run_time, true)
-			obj.GameWinText3.text = "Run time: %s" % run_time
+			if Global.cheater:
+				obj.GameWinText3.text = "Run time: CHEATER!!"
+			else:
+				obj.GameWinText3.text = "Run time: %s" % run_time
 			await obj.get_tree().create_timer(0.25).timeout
 			obj.GameWinText1.visible = true
 			await obj.get_tree().create_timer(1).timeout
@@ -158,6 +161,7 @@ func _physics_process(delta: float):
 	fsm.physics_process(delta)
 	
 	if Input.is_action_just_pressed("debug_f6"):
+		Global.cheater = true
 		level_success()
 
 

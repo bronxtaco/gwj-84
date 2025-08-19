@@ -78,6 +78,7 @@ class AttackingState extends FSM.State:
 		if !attack_time_modified and obj.kill_gem_speed_up:
 			mod_time_fn.call(3.0)
 		elif !attack_time_modified and obj.debug_speed_up:
+			Global.cheater = true
 			mod_time_fn.call(2.0)
 		
 		tracked_time += delta
@@ -138,10 +139,6 @@ func _physics_process(delta: float) -> void:
 	debug_speed_up = Input.is_action_just_pressed("debug_f1")
 	fsm.physics_process(delta)
 	
-	'''if Input.is_action_just_pressed("debug_f1"):
-		heal(30)
-	elif Input.is_action_just_pressed("debug_f2"):
-		apply_damage(50)'''
 	
 func is_idle() -> bool:
 	return fsm.current_state == STATE.Idle

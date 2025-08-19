@@ -80,6 +80,7 @@ class AttackingState extends FSM.State:
 			remaining_attack_time = abs_time_left
 		
 		if !attack_time_modified and obj.debug_speed_up:
+			Global.cheater = true
 			mod_time_fn.call(2.0)
 
 		tracked_time += delta
