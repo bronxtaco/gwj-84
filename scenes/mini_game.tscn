@@ -51,6 +51,44 @@ position = Vector2(404, 381)
 [node name="Critter" parent="." instance=ExtResource("3_v2cs6")]
 position = Vector2(381, 420)
 
+[node name="CritterLocations" type="Node2D" parent="."]
+
+[node name="Marker2D" type="Marker2D" parent="CritterLocations"]
+position = Vector2(464, 281)
+
+[node name="Marker2D2" type="Marker2D" parent="CritterLocations"]
+position = Vector2(434, 425)
+
+[node name="Marker2D3" type="Marker2D" parent="CritterLocations"]
+position = Vector2(286, 501)
+
+[node name="Marker2D4" type="Marker2D" parent="CritterLocations"]
+position = Vector2(186, 436)
+
+[node name="Marker2D5" type="Marker2D" parent="CritterLocations"]
+position = Vector2(128, 347)
+
+[node name="Marker2D6" type="Marker2D" parent="CritterLocations"]
+position = Vector2(270, 379)
+
+[node name="Marker2D7" type="Marker2D" parent="CritterLocations"]
+position = Vector2(351, 262)
+
+[node name="Marker2D8" type="Marker2D" parent="CritterLocations"]
+position = Vector2(533, 270)
+
+[node name="Marker2D9" type="Marker2D" parent="CritterLocations"]
+position = Vector2(497, 353)
+
+[node name="Marker2D10" type="Marker2D" parent="CritterLocations"]
+position = Vector2(617, 327)
+
+[node name="Marker2D11" type="Marker2D" parent="CritterLocations"]
+position = Vector2(642, 448)
+
+[node name="Marker2D12" type="Marker2D" parent="CritterLocations"]
+position = Vector2(527, 509)
+
 [node name="SpawnedGems" type="Node2D" parent="."]
 unique_name_in_owner = true
 

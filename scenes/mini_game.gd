@@ -1,5 +1,7 @@
 extends Node2D
 
+@export var just_for_show := false
+
 @export var gemScene: PackedScene
 @export var obstacleScene: PackedScene
 
@@ -21,12 +23,19 @@ func spawn_obstacle(spawnPosition: Vector2):
 	obstacle.position = spawnPosition
 
 func _ready() -> void:
+	Events.spawn_combined_gem_type.connect(_on_spawn_combined_gem_type)
+	
+	if just_for_show:
+		spawn_gem(Global.GemType.Blue, [])
+		spawn_gem(Global.GemType.Blue, [])
+		spawn_gem(Global.GemType.Green, [])
+		spawn_gem(Global.GemType.Yellow, [])
+		return
+	
 	Events.fireball_active.connect(_on_fireball_active)
 	Events.fireball_inactive.connect(_on_fireball_inactive)
 	
 	Events.spawn_kill_gem.connect(_on_spawn_kill_gem)
-	
-	Events.spawn_combined_gem_type.connect(_on_spawn_combined_gem_type)
 	
 	%Goal.deactivate()
 	move_goal()
@@ -76,7 +85,7 @@ func _process(delta: float) -> void:
 	var max_spawned_gems = maxSpawnedGems + 2 if Global.active_relics[Global.Relics.IncreaseGemSpawnMax] else maxSpawnedGems
 	
 	gemSpawnTimer -= delta
-	if gemSpawnTimer <= 0.0 && Global.mini_game_active:
+	if gemSpawnTimer <= 0.0 && (just_for_show or Global.mini_game_active):
 		gemSpawnTimer = gem_spawn_time_interval
 		
 		var gemCount = get_gem_count()
@@ -104,6 +113,10 @@ func _physics_process(delta: float) -> void:
 
 func get_gem_count():
 	return %SpawnedGems.get_child_count()
+
+func get_random_gem():
+	if %SpawnedGems.get_child_count() > 0:
+		return %SpawnedGems.get_children().pick_random()
 
 func clear_gems():
 	for gem in %SpawnedGems.get_children():
@@ -196,3 +209,6 @@ func gen_random_direction() -> Vector2:
 func _on_spawn_kill_gem():
 	var reservedPositions : Array[Vector2]
 	spawn_gem(Global.GemType.KillGem, reservedPositions)
+
+func get_attract_locations():
+	return $CritterLocations

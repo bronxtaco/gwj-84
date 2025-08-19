@@ -193,7 +193,7 @@ maxChargeTime = 0.5
 [node name="CritterSprite" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_tcjrq")
-animation = &"walkUp"
+animation = &"walkLeftRight"
 autoplay = "walkLeftRight"
 
 [node name="AimingLine" type="Line2D" parent="CritterSprite"]
@@ -231,3 +231,12 @@ volume_db = 4.0
 max_distance = 800.0
 max_polyphony = 4
 bus = &"Minigame"
+
+[node name="AttractMoveTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="AttractWaitTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 4.0
+one_shot = true

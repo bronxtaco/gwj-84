@@ -88,10 +88,11 @@ func setup_gem(type: Global.GemType, gemPos: Vector2, spawnImpulse: Vector2, use
 		
 		Audio.gem_drop_play()
 		
-		var dropOnSpawnTween = get_tree().create_tween()
-		dropOnSpawnTween.tween_property(%Sprite, "position:y", initSpriteYPos, dropSpawnTime)
-		dropOnSpawnTween.parallel().tween_property(%Shadow, "scale", initShadowScale, dropSpawnTime)
-		dropOnSpawnTween.tween_callback(on_tween_end)
+		if is_inside_tree():
+			var dropOnSpawnTween = get_tree().create_tween()
+			dropOnSpawnTween.tween_property(%Sprite, "position:y", initSpriteYPos, dropSpawnTime)
+			dropOnSpawnTween.parallel().tween_property(%Shadow, "scale", initShadowScale, dropSpawnTime)
+			dropOnSpawnTween.tween_callback(on_tween_end)
 
 func on_tween_end():
 	if useDropSpawn: # not really required as callback will never happen, but just incase someone else calls this

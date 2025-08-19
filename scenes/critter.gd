@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+@export var attract_mode := false
+
 @export var sprintSpeed : float = 250
 @export var walkSpeed : float = 150.0 # default move speed
 
@@ -42,13 +44,29 @@ var minInputToAimSqr = minInputToAim * minInputToAim
 var wasChargeHeld : bool = false
 
 func _ready() -> void:
+	if attract_mode:
+		%AttractMoveTimer.start()
 	%ChargingSprite.visible = false
 	%ChargingSprite.play()
 
 func _physics_process(delta):
 	
-	var walkInputHeld = Input.is_action_pressed("walk")
-	var chargeInputHeld = Input.is_action_pressed("ballCharge")
+	var walkInputHeld = false
+	var chargeInputHeld = false
+	if attract_mode:
+		if $AttractWaitTimer.is_stopped() and state == State.Idle:
+			chargeInputHeld = true
+			var target_gem = get_parent().get_random_gem()
+			if target_gem:
+				$AttractMoveTimer.start()
+				lastAimVector = global_position.direction_to(target_gem.global_position)
+		elif state == State.Charging:
+			chargeInputHeld = !$AttractMoveTimer.is_stopped()
+		elif $AttractWaitTimer.is_stopped() and state == State.Attack:
+			$AttractWaitTimer.start()
+	else:
+		walkInputHeld = Input.is_action_pressed("walk")
+		chargeInputHeld = Input.is_action_pressed("ballCharge")
 	
 	var play_scuttle_sound := false
 	if state == State.Walk:
@@ -84,7 +102,7 @@ func _physics_process(delta):
 	wasChargeHeld = chargeInputHeld
 	
 	# read input always, so we can store the last input direction for the roll direction
-	var inputDirection = Input.get_vector("moveLeft", "moveRight", "moveUp", "moveDown")
+	var inputDirection = Vector2.ZERO if attract_mode else Input.get_vector("moveLeft", "moveRight", "moveUp", "moveDown")
 	var move_multiplier = RelicMoveSpeedMultiplier if Global.active_relics[Global.Relics.MoveSpeed] else 1.0
 	
 	if inputDirection.length_squared() >= minInputToAimSqr:
@@ -170,3 +188,29 @@ func get_lateral_input(inputDirection: Vector2, moveDirection: Vector2) -> Vecto
 	var inputOntoRollDir = inputDirection.dot(moveDirection) * moveDirection
 	var inputLateral = inputDirection - inputOntoRollDir
 	return inputLateral
+
+
+const attract_walk_time := 2.0
+var attract_prev_pos: Vector2 = Vector2.ZERO
+func _on_attract_move_timer_timeout() -> void:
+	if !attract_mode:
+		return
+	
+	'''var critter_locations = get_parent().get_attract_locations()
+	%AttractMoveTimer.wait_time = attract_walk_time + randf_range(0.5, 1.5)
+	var i = randi() % critter_locations.get_child_count()
+	var target_pos = critter_locations.get_child(i)
+	var x_diff = target_pos.global_position.x - attract_prev_pos.x
+	var y_diff = target_pos.global_position.y - attract_prev_pos.y
+	if abs(x_diff) > abs(y_diff):
+		%CritterSprite.play("walkLeftRight")
+		%CritterSprite.flip_h = x_diff < 0
+	else:
+		if y_diff > 0:
+			%CritterSprite.play("walkDown")
+		else:
+			%CritterSprite.play("walkUp")
+	attract_prev_pos = target_pos.global_position
+	var tween = create_tween().tween_property(%CritterSprite, "global_position", target_pos.global_position, attract_walk_time)
+	await tween.finished
+	%CritterSprite.stop()'''
