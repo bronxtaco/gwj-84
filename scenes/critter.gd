@@ -115,7 +115,7 @@ func _physics_process(delta):
 					otherCollider.apply_central_impulse(-collision.get_normal() * impulseSpeed)
 					$GemImpactSound.play()
 				
-				attackTimeRemaining = 0.0 # stop rolling every time you collide with a rigid body
+			attackTimeRemaining = 0.0 # stop rolling every time you collide with anything
 			
 	# if we have any velocity, update are sprite direction and anim based of it
 	var hasVelocity = velocity.length_squared() > 0.0
