@@ -119,6 +119,7 @@ func _ready():
 	Events.crit_boost.connect(_on_crit_boost)
 	Events.heal_boost.connect(_on_heal_boost)
 	Events.kill_gem_scored.connect(_on_kill_gem)
+	Events.hero_health_changed.connect(_on_hero_health_changed)
 	
 	
 	fsm.debug = true # enables logging for state changes
@@ -166,16 +167,10 @@ func apply_damage(damageValue: int):
 	if newHealth > 0:
 		%HurtSound.play()
 		fsm.force_change(STATE.Hurt)
-	else:
-		if Global.active_relics[Global.Relics.HealFullOneOff] and Global.heal_full_one_off_unused:
-			Global.heal_full_one_off_unused = false
-			Events.refresh_hud.emit()
-			heal(Global.HERO_HEALTH)
-			print("Hero revived fro heal one off relic")
 
 func heal(amount: int):
 	var prevHealth = Global.hero_health
-	var newHealth = min(prevHealth + amount, Global.HERO_HEALTH)
+	var newHealth = min(prevHealth + amount, Global.hero_max_health)
 	Global.hero_health = newHealth
 	
 	print("%d heal for hero. Health: %d -> %d" % [ amount, prevHealth, newHealth ])
@@ -186,7 +181,7 @@ func heal(amount: int):
 
 
 func update_health_bar() -> void:
-	%HealthBar.update_health_bar(Global.hero_health, Global.HERO_HEALTH)
+	%HealthBar.update_health_bar(Global.hero_health, Global.hero_max_health)
 
 
 func _on_crit_boost(_gem_type: Global.GemType, boost_amount: int) -> void:
@@ -199,8 +194,10 @@ func _on_crit_boost(_gem_type: Global.GemType, boost_amount: int) -> void:
 func _on_heal_boost(boost_amount: int) -> void:
 	heal(boost_amount)
 
+
 func _on_kill_gem():
 	kill_gem_speed_up = true
+	
 	
 func _on_sprite_animation_finished() -> void:
 	if fsm.current_state == STATE.Attacking:
@@ -210,4 +207,7 @@ func _on_sprite_animation_finished() -> void:
 	elif fsm.current_state == STATE.Dead:
 		Sprite.visible = false
 		%Shadow.visible = false
-		
+
+
+func _on_hero_health_changed():
+	update_health_bar()

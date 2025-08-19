@@ -28,9 +28,6 @@ func refresh():
 		var r = relics[i]
 		r.texture = Global.RelicTextures[r_type]
 		r.visible = true
-		r.modulate = Color.WHITE
-		if r_type == Global.Relics.HealFullOneOff and !Global.heal_full_one_off_unused:
-			r.modulate = Color.DIM_GRAY
 
 
 func _on_refresh_hud():

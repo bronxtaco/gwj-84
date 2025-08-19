@@ -1,17 +1,19 @@
 extends BaseMenu
 
 func _ready() -> void:
-	%Relic1.button_pressed = Global.active_relics[Global.Relics.MoveSpeed]
-	%Relic2.button_pressed = Global.active_relics[Global.Relics.GemRankHigherChance]
-	%Relic3.button_pressed = Global.active_relics[Global.Relics.GemNoLowestRank]
-	%Relic4.button_pressed = Global.active_relics[Global.Relics.HealPostBattle]
-	%Relic5.button_pressed = Global.active_relics[Global.Relics.HealingGemChance]
-	%Relic6.button_pressed = Global.active_relics[Global.Relics.HealFullOneOff]
-	%Relic7.button_pressed = Global.active_relics[Global.Relics.AttackDamageIncrease]
-	%Relic8.button_pressed = Global.active_relics[Global.Relics.EnemyAttackDecrease]
-	%Relic9.button_pressed = Global.active_relics[Global.Relics.EnemyHealthDecrease]
-	%Relic10.button_pressed = Global.active_relics[Global.Relics.IncreaseGemSpawnRate]
-	%Relic11.button_pressed = Global.active_relics[Global.Relics.IncreaseGemSpawnMax]
+	%Relic1.set_pressed_no_signal(Global.active_relics[Global.Relics.MoveSpeed])
+	%Relic2.set_pressed_no_signal(Global.active_relics[Global.Relics.GemRankHigherChance])
+	%Relic3.set_pressed_no_signal(Global.active_relics[Global.Relics.GemNoLowestRank])
+	%Relic4.set_pressed_no_signal(Global.active_relics[Global.Relics.HealPostBattle])
+	%Relic5.set_pressed_no_signal(Global.active_relics[Global.Relics.HealingGemChance])
+	%Relic6.set_pressed_no_signal(Global.active_relics[Global.Relics.IncreaseHeroMaxHealth])
+	%Relic7.set_pressed_no_signal(Global.active_relics[Global.Relics.AttackDamageIncrease])
+	%Relic8.set_pressed_no_signal(Global.active_relics[Global.Relics.EnemyAttackDecrease])
+	%Relic9.set_pressed_no_signal(Global.active_relics[Global.Relics.EnemyHealthDecrease])
+	%Relic10.set_pressed_no_signal(Global.active_relics[Global.Relics.IncreaseGemSpawnRate])
+	%Relic11.set_pressed_no_signal(Global.active_relics[Global.Relics.IncreaseGemSpawnMax])
+	%Relic12.set_pressed_no_signal(Global.active_relics[Global.Relics.WeakerObstacles])
+	%Relic13.set_pressed_no_signal(Global.active_relics[Global.Relics.SlowerAttacks])
 
 
 func _process(delta: float) -> void:
@@ -20,7 +22,10 @@ func _process(delta: float) -> void:
 		Events.menu_pop.emit()
 	
 func toggle_relic(relic_type: Global.Relics, toggled_on: bool) -> void:
-	Global.degug_relic(relic_type, toggled_on)
+	if Global.active_relics[relic_type]:
+		Global.drop_relic(relic_type)
+	else:
+		Global.pickup_relic(relic_type, true)
 
 
 func _on_relic_1_toggled(toggled_on: bool) -> void:
@@ -44,7 +49,7 @@ func _on_relic_5_toggled(toggled_on: bool) -> void:
 
 
 func _on_relic_6_toggled(toggled_on: bool) -> void:
-	toggle_relic(Global.Relics.HealFullOneOff, toggled_on)
+	toggle_relic(Global.Relics.IncreaseHeroMaxHealth, toggled_on)
 
 
 func _on_relic_7_toggled(toggled_on: bool) -> void:

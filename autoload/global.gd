@@ -1,6 +1,6 @@
 extends Node
 
-const HERO_HEALTH := 200
+const HeroStartingHealth := 200
 
 # Menus
 enum MENU_TYPE {
@@ -20,7 +20,8 @@ var mini_game_active := false
 var game_active := false
 var total_run_time := 0.0
 var current_level := 1
-var hero_health := HERO_HEALTH
+var hero_max_health := HeroStartingHealth
+var hero_health := HeroStartingHealth
 
 var staff_pos := Vector2.ZERO
 
@@ -33,12 +34,12 @@ func reset_game() -> void:
 	game_active = false
 	total_run_time = 0.0
 	current_level = 1
-	hero_health = HERO_HEALTH
+	hero_max_health = HeroStartingHealth
+	hero_health = HeroStartingHealth
 	Scenes.change(Scenes.Enum.Title)
 
 
 func reset_relics():
-	heal_full_one_off_unused = true
 	relic_pickup_order = []
 	active_relics = {
 		Relics.MoveSpeed: false,
@@ -46,7 +47,7 @@ func reset_relics():
 		Relics.GemNoLowestRank: false,
 		Relics.HealPostBattle: false,
 		Relics.HealingGemChance: false,
-		Relics.HealFullOneOff: false,
+		Relics.IncreaseHeroMaxHealth: false,
 		Relics.AttackDamageIncrease: false,
 		Relics.EnemyAttackDecrease: false,
 		Relics.EnemyHealthDecrease: false,
@@ -145,7 +146,7 @@ enum Relics {
 	GemNoLowestRank,
 	HealPostBattle,
 	HealingGemChance,
-	HealFullOneOff,
+	IncreaseHeroMaxHealth,
 	AttackDamageIncrease,
 	EnemyAttackDecrease,
 	EnemyHealthDecrease,
@@ -161,7 +162,7 @@ var RelicTextures := {
 	Relics.GemNoLowestRank: preload("res://assets/relics/Galaxy Spell_34.png"),
 	Relics.HealPostBattle: preload("res://assets/relics/Heal Spell35.png"),
 	Relics.HealingGemChance: preload("res://assets/relics/Heal Spell50.png"),
-	Relics.HealFullOneOff: preload("res://assets/relics/Heal Spell8.png"),
+	Relics.IncreaseHeroMaxHealth: preload("res://assets/relics/Heal Spell8.png"),
 	Relics.AttackDamageIncrease: preload("res://assets/relics/Fire Spell Pack57.png"),
 	Relics.EnemyAttackDecrease: preload("res://assets/relics/Fire Spell Pack71.png"),
 	Relics.EnemyHealthDecrease: preload("res://assets/relics/Poison Spell28.png"),
@@ -177,7 +178,7 @@ var RelicNames := {
 	Relics.GemNoLowestRank: "NO MORE FEELING BLUE",
 	Relics.HealPostBattle: "POST-MATCH REFRESHMENTS",
 	Relics.HealingGemChance: "HEALING RAIN",
-	Relics.HealFullOneOff: "SECOND CHANCE",
+	Relics.IncreaseHeroMaxHealth: "UBER HERO",
 	Relics.AttackDamageIncrease: "STOKE THE FIRE",
 	Relics.EnemyAttackDecrease: "QUELL THE FLAMES",
 	Relics.EnemyHealthDecrease: "SAP STRENGTH",
@@ -193,7 +194,7 @@ var RelicDescriptions := {
 	Relics.GemNoLowestRank: "Lowest tier crystals no longer spawn",
 	Relics.HealPostBattle: "Heal some amount after each battle",
 	Relics.HealingGemChance: "Chance for healing crystals to spawn",
-	Relics.HealFullOneOff: "One-time revive to full health on death",
+	Relics.IncreaseHeroMaxHealth: "Max health increase",
 	Relics.AttackDamageIncrease: "Hero fireball starting damage increase",
 	Relics.EnemyAttackDecrease: "Enemy fireball starting damage decrease",
 	Relics.EnemyHealthDecrease: "Enemy health decrease",
@@ -214,24 +215,34 @@ var overworld_relics := [
 ]
 
 const SlowerAttacksMod := 1.3
-var heal_full_one_off_unused := true
+const MaxHealthMod := 50
 var recent_relic_pickup: Relics
-func pickup_relic(relic_type: Relics):
-	recent_relic_pickup = relic_type
+func pickup_relic(relic_type: Relics, debug: bool = false):
 	active_relics[relic_type] = true
 	relic_pickup_order.push_back(relic_type)
 	Events.refresh_hud.emit()
-	Events.menu_push.emit(Global.MENU_TYPE.RELIC_PICKUP)
+	
+	# on pickup relic stuff, most don't need to do anything here
+	if relic_type == Relics.IncreaseHeroMaxHealth:
+		hero_max_health += MaxHealthMod
+		hero_health += MaxHealthMod
+		Events.hero_health_changed.emit()
+	
+	if !debug:
+		recent_relic_pickup = relic_type
+		Events.menu_push.emit(MENU_TYPE.RELIC_PICKUP)
 
-func degug_relic(relic_type: Relics, toggled_on: bool):
-	if (active_relics[relic_type] and toggled_on) or (!active_relics[relic_type] and !toggled_on):
-		return
-	active_relics[relic_type] = toggled_on
-	if toggled_on:
-		relic_pickup_order.push_back(relic_type)
-	else:
-		for i in range(relic_pickup_order.size()):
-			if relic_pickup_order[i] == relic_type:
-				relic_pickup_order.remove_at(i)
-				break
+
+func drop_relic(relic_type: Relics, debug: bool = true):
+	active_relics[relic_type] = false
+	for i in range(relic_pickup_order.size()):
+		if relic_pickup_order[i] == relic_type:
+			relic_pickup_order.remove_at(i)
+			break
 	Events.refresh_hud.emit()
+	
+	# on drop relic stuff, most don't need to do anything here
+	if relic_type == Relics.IncreaseHeroMaxHealth:
+		hero_max_health = max(hero_max_health - MaxHealthMod, 1)
+		hero_health = max(hero_health - MaxHealthMod, 1)
+		Events.hero_health_changed.emit()

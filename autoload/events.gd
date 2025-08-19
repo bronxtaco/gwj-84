@@ -16,6 +16,7 @@ signal fireball_inactive
 
 signal crit_boost(gem_type: Global.GemType, amount: int)
 signal heal_boost(amount: int)
+signal hero_health_changed
 
 signal spawn_combined_gem_type(gemType: Global.GemType, position_: Vector2, impulse: Vector2, useDropSpawn: bool)
 
