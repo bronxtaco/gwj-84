@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://d11eesvpxlsk2" path="res://menus/menu_base.tscn" id="1_v3ixh"]
 [ext_resource type="Script" uid="uid://cxuwdtffl6onq" path="res://menus/relic_pickup_notification.gd" id="2_m5w4x"]
-[ext_resource type="Texture2D" uid="uid://dwkd05si7teq0" path="res://assets/relics/Celestial spell_17.png" id="3_1x4cg"]
+[ext_resource type="Texture2D" uid="uid://0uhup2oibqkj" path="res://assets/relics/Galaxy Spell_34.png" id="3_1x4cg"]
 
 [node name="RelicPickupNotification" instance=ExtResource("1_v3ixh")]
 theme_override_constants/margin_left = 240
@@ -21,8 +21,8 @@ theme_override_constants/separation = 7
 
 [node name="MarginContainer" type="MarginContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="0"]
 layout_mode = 2
-theme_override_constants/margin_left = 80
-theme_override_constants/margin_right = 80
+size_flags_horizontal = 4
+size_flags_vertical = 6
 theme_override_constants/margin_bottom = 5
 
 [node name="RelicTexture" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/MarginContainer" index="0"]
