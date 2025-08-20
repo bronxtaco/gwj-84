@@ -57,6 +57,7 @@ func reset_relics():
 		Relics.IncreaseGemSpawnMax: false,
 		Relics.WeakerObstacles: false,
 		Relics.SlowerAttacks: false,
+		Relics.FirstDamageHalved: false,
 	}
 	Events.refresh_hud.emit()
 	var relics_picked := []
@@ -161,6 +162,7 @@ enum Relics {
 	IncreaseGemSpawnMax,
 	WeakerObstacles,
 	SlowerAttacks,
+	FirstDamageHalved,
 }
 
 var RelicTextures := {
@@ -177,6 +179,7 @@ var RelicTextures := {
 	Relics.IncreaseGemSpawnMax: preload("res://assets/relics/Galaxy Spell_32.png"),
 	Relics.WeakerObstacles: preload("res://assets/relics/Stone Spells75.png"),
 	Relics.SlowerAttacks: preload("res://assets/relics/Ice Spells54.png"),
+	Relics.FirstDamageHalved: preload("res://assets/relics/Water Spell_56.png"),
 }
 
 var RelicNames := {
@@ -193,6 +196,7 @@ var RelicNames := {
 	Relics.IncreaseGemSpawnMax: "TOP OF THE PYRAMID",
 	Relics.WeakerObstacles: "THE PARTHENON",
 	Relics.SlowerAttacks: "BULLET TIME",
+	Relics.FirstDamageHalved: "ALPHA SHIELD",
 }
 
 var RelicDescriptions := {
@@ -209,6 +213,7 @@ var RelicDescriptions := {
 	Relics.IncreaseGemSpawnMax: "Max crystal spawns increase",
 	Relics.WeakerObstacles: "Static crystals have reduced health",
 	Relics.SlowerAttacks: "Fireball movement speed decrease",
+	Relics.FirstDamageHalved: "First damage taken each battle is halved",
 }
 
 var active_relics := {}

@@ -19,8 +19,9 @@ var level_bg_map = {
 @onready var GameWinText2 = %GameWinText2
 @onready var GameWinText3 = %GameWinText3
 
-
 var Enemy # set on ready
+
+var first_hero_damage_taken := false
 
 # StateMachine
 enum STATE {
@@ -183,4 +184,8 @@ func _on_apply_damage_to_enemy(amount: int):
 	
 func _on_apply_damage_to_hero(amount: int):
 	if amount > 0:
+		if !first_hero_damage_taken:
+			first_hero_damage_taken = true
+			if Global.active_relics[Global.Relics.FirstDamageHalved]:
+				amount = ceil(amount / 2)
 		Hero.apply_damage(amount)
