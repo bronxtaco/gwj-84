@@ -96,6 +96,9 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 position = Vector2(539, 256)
 
+[node name="SpawnedObstacles" type="Node2D" parent="."]
+unique_name_in_owner = true
+
 [node name="StaffTransparentBottom" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.25)
 texture = ExtResource("7_2sn1h")
@@ -177,6 +180,3 @@ position = Vector2(536, 312)
 
 [node name="Marker2D12" type="Marker2D" parent="ObstaclePositions"]
 position = Vector2(414, 368)
-
-[node name="SpawnedObstacles" type="Node2D" parent="."]
-unique_name_in_owner = true
