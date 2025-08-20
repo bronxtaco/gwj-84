@@ -17,9 +17,15 @@ var initialCollisionMasks : int = 0
 
 var removingGem : bool = false
 
+var shader_nodes = []
+var ultra_shader_param_offset: int = 0
+
 func _ready():
 	initialCollisionLayers = get_collision_layer()
 	initialCollisionMasks = get_collision_mask()
+	
+	shader_nodes.push_back(%Sprite)
+	shader_nodes.push_back($%DamageNumberLabel)
 
 func set_gem_visuals(type: Global.GemType):
 	# update visibily of the different sprites or text labels
@@ -28,6 +34,9 @@ func set_gem_visuals(type: Global.GemType):
 	%DamageNumberLabel.visible = !%MultiplyIcon.visible && !%DivideIcon.visible
 	
 	apply_gem_color(Global.get_gem_color(type))
+	if !(gemType == Global.GemType.Ultra):
+		for n in shader_nodes:
+			n.material = null
 	
 	%DamageNumber.scale = Vector2(1.0, 1.0) # damage number will set the scale. Just put to default each time
 	
@@ -103,6 +112,11 @@ func on_tween_end():
 func _physics_process(delta: float) -> void:
 	if removingGem: return
 	
+	if gemType == Global.GemType.Ultra:
+		for n in shader_nodes:
+			ultra_shader_param_offset = wrapi(ultra_shader_param_offset + 1, 0, 359)
+			n.material.set_shader_parameter("offset", ultra_shader_param_offset)
+	
 	for otherBody in get_colliding_bodies():
 		if removingGem: continue # if self is already removing, don't do anything
 	
@@ -144,7 +158,7 @@ func _physics_process(delta: float) -> void:
 func can_upgrade_on_collide(otherGem: RigidBody2D) -> bool:
 	if gemType != otherGem.gemType:
 		return false
-	if gemType == Global.GemType.Red: # if already at max gem, early out
+	if gemType == Global.GemType.Ultra: # if already at max gem, early out
 		return false
 	if gemType == Global.GemType.Heal or otherGem.gemType == Global.GemType.Heal:
 		return false # heal gems can't combine

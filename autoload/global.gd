@@ -75,6 +75,7 @@ enum GemType
 	Yellow,
 	Orange,
 	Red,
+	Ultra,
 	
 	Multiply, # multiplier
 	Divide, # divider
@@ -95,6 +96,8 @@ func get_gem_color(type: Global.GemType) -> Color:
 			return Color.from_rgba8(255, 157, 0)
 		Global.GemType.Red:
 			return Color.from_rgba8(232, 63, 33)
+		Global.GemType.Ultra:
+			return Color.hex(0x90538dff)
 		Global.GemType.Multiply:
 			return Color.from_rgba8(225, 225, 225)
 		Global.GemType.Divide:
@@ -118,6 +121,8 @@ func get_gem_damage(type: Global.GemType) -> int:
 			return 30
 		Global.GemType.Red:
 			return 80
+		Global.GemType.Ultra:
+			return 200
 		Global.GemType.Heal:
 			return 10
 		_:
