@@ -20,7 +20,7 @@ signal hero_health_changed
 
 signal spawn_combined_gem_type(gemType: Global.GemType, position_: Vector2, impulse: Vector2, useDropSpawn: bool)
 
-signal spawn_kill_gem()
+signal spawn_gem_external(gem_type: Global.GemType, pos: Vector2)
 signal kill_gem_scored()
 
 signal refresh_hud()

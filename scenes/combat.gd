@@ -61,7 +61,7 @@ class HeroAttackState extends FSM.State:
 
 	func physics_process(_delta):
 		if !spawned_kill_gem && obj.Hero.get_fireball_damage() >= obj.Enemy.currentHealth:
-			Events.spawn_kill_gem.emit()
+			Events.spawn_gem_external.emit(Global.GemType.KillGem)
 			spawned_kill_gem = true
 
 class HeroDefenceState extends FSM.State:

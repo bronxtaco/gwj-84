@@ -19,6 +19,7 @@ var gemSpawnTimer = gemSpawnTimeInterval
 
 func spawn_obstacle(spawnPosition: Vector2):
 	var obstacle = obstacleScene.instantiate() as Node2D
+	obstacle.gem_type = Global.GemType.Blue
 	%SpawnedObstacles.add_child(obstacle)
 	obstacle.position = spawnPosition
 
@@ -35,7 +36,7 @@ func _ready() -> void:
 	Events.fireball_active.connect(_on_fireball_active)
 	Events.fireball_inactive.connect(_on_fireball_inactive)
 	
-	Events.spawn_kill_gem.connect(_on_spawn_kill_gem)
+	Events.spawn_gem_external.connect(_on_spawn_gem_external)
 	
 	%Goal.deactivate()
 	move_goal()
@@ -161,6 +162,13 @@ func spawn_pos_reserved(reservedPositions: Array[Vector2], testPos: Vector2, gem
 			return true
 	return false
 
+
+func spawn_gem_at(gemType: Global.GemType, spawnPos: Vector2, useDropSpawn: bool):
+	var dropSpawnImpulseAmount : float = 9.0
+	var spawnImpulse = dropSpawnImpulseAmount * gen_random_direction()
+	spawn_gem_type(gemType, spawnPos, spawnImpulse, useDropSpawn)
+
+
 func spawn_gem(gemType: Global.GemType, reservedPositions: Array[Vector2]):
 	# find point to spawn gem
 	var spawnPos : Vector2
@@ -206,9 +214,12 @@ func gen_random_direction() -> Vector2:
 		randDir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0))
 	return randDir.normalized()
 
-func _on_spawn_kill_gem():
+func _on_spawn_gem_external(gem_type: Global.GemType, pos: Vector2 = Vector2.INF):
 	var reservedPositions : Array[Vector2]
-	spawn_gem(Global.GemType.KillGem, reservedPositions)
+	if pos == Vector2.INF:
+		spawn_gem(gem_type, reservedPositions)
+	else:
+		spawn_gem_at(gem_type, pos, false)
 
 func get_attract_locations():
 	return $CritterLocations
