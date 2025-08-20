@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cqorayt3trtqu"]
+[gd_scene load_steps=18 format=3 uid="uid://cqorayt3trtqu"]
 
 [ext_resource type="PackedScene" uid="uid://d11eesvpxlsk2" path="res://menus/menu_base.tscn" id="1_riyxq"]
 [ext_resource type="Script" uid="uid://dhenexglkw2cq" path="res://menus/menu_debug_relic.gd" id="2_bwfht"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://pnhdq0aqy2sw" path="res://assets/relics/Stone Spells75.png" id="14_o8wtp"]
 [ext_resource type="Texture2D" uid="uid://d0uda4mbccpdi" path="res://assets/relics/Ice Spells54.png" id="15_1uld7"]
 [ext_resource type="Texture2D" uid="uid://cpy0iq4ikx4ol" path="res://assets/relics/Water Spell_56.png" id="16_oqe7f"]
+[ext_resource type="Texture2D" uid="uid://mqdal04k22fb" path="res://assets/relics/Celestial spell_62.png" id="17_n2617"]
 
 [node name="MenuDebugRelic" instance=ExtResource("1_riyxq")]
 theme_override_constants/margin_left = 100
@@ -143,6 +144,14 @@ texture = ExtResource("16_oqe7f")
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="TextureRect7" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="10"]
+layout_mode = 2
+texture = ExtResource("17_n2617")
+
+[node name="Relic15" type="CheckBox" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="11"]
+unique_name_in_owner = true
+layout_mode = 2
+
 [connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/Relic1" to="." method="_on_relic_1_toggled"]
 [connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/Relic2" to="." method="_on_relic_2_toggled"]
 [connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/Relic3" to="." method="_on_relic_3_toggled"]
@@ -157,5 +166,6 @@ layout_mode = 2
 [connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer2/Relic12" to="." method="_on_relic_12_toggled"]
 [connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer2/Relic13" to="." method="_on_relic_13_toggled"]
 [connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer2/Relic14" to="." method="_on_relic_14_toggled"]
+[connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/HBoxContainer2/Relic15" to="." method="_on_relic_15_toggled"]
 
 [editable path="Modal"]

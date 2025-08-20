@@ -42,10 +42,11 @@ func _ready() -> void:
 	move_goal()
 	
 	var usedIndexes = []
-	var obstacleCount = min(Global.current_level, %ObstaclePositions.get_child_count())
-	for i in range(obstacleCount):
+	var obstacleCount = Global.current_level + 2 if Global.active_relics[Global.Relics.MoreObstacles] else Global.current_level
+	var obstacleCountCapped = min(obstacleCount, %ObstaclePositions.get_child_count())
+	for i in range(obstacleCountCapped):
 		var obstacleMarkerIndex
-		while usedIndexes.size() < Global.current_level:
+		while usedIndexes.size() < obstacleCountCapped:
 			obstacleMarkerIndex = randi_range(0,  %ObstaclePositions.get_child_count() - 1)
 			if usedIndexes.find(obstacleMarkerIndex) == -1:
 				usedIndexes.push_back(obstacleMarkerIndex)
