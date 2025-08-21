@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://biup80na4prc0"]
+[gd_scene load_steps=11 format=3 uid="uid://biup80na4prc0"]
 
 [ext_resource type="Texture2D" uid="uid://ni1gr827ywb3" path="res://assets/critterGame/goal.png" id="1_aqdrf"]
 [ext_resource type="Script" uid="uid://c8c8853ouvdj0" path="res://scenes/goal.gd" id="1_jo0vh"]
@@ -19,6 +19,9 @@ stream_3/stream = ExtResource("5_71tl1")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_eps0w"]
 radius = 64.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jo0vh"]
+radius = 256.0
 
 [node name="Goal" type="Area2D"]
 script = ExtResource("1_jo0vh")
@@ -57,5 +60,11 @@ unique_name_in_owner = true
 
 [node name="GoalRepulseShape2D" type="CollisionShape2D" parent="GoalRepulseArea"]
 shape = SubResource("CircleShape2D_eps0w")
+
+[node name="GoalAttractArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="GoalRepulseShape2D" type="CollisionShape2D" parent="GoalAttractArea"]
+shape = SubResource("CircleShape2D_jo0vh")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -20,6 +20,7 @@ func _ready() -> void:
 	%Relic17.set_pressed_no_signal(Global.active_relics[Global.Relics.ObstacleBreakAttackPause])
 	%Relic18.set_pressed_no_signal(Global.active_relics[Global.Relics.GlassCannon])
 	%Relic19.set_pressed_no_signal(Global.active_relics[Global.Relics.PushGemNoCharge])
+	%Relic20.set_pressed_no_signal(Global.active_relics[Global.Relics.GoalAttractGems])
 
 
 func _process(delta: float) -> void:
@@ -108,3 +109,7 @@ func _on_relic_18_toggled(toggled_on: bool) -> void:
 
 func _on_relic_19_toggled(toggled_on: bool) -> void:
 	toggle_relic(Global.Relics.PushGemNoCharge, toggled_on)
+
+
+func _on_relic_20_toggled(toggled_on: bool) -> void:
+	toggle_relic(Global.Relics.GoalAttractGems, toggled_on)

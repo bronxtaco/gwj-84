@@ -30,3 +30,5 @@ signal spawn_gem_external(gem_type: Global.GemType, pos: Vector2)
 signal kill_gem_scored()
 
 signal refresh_hud()
+
+signal draw_debug_vector_arrow(start_pos: Vector2, vector: Vector2, color: Color, thickness: float, arrow_size: float)

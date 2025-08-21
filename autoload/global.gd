@@ -67,6 +67,7 @@ func reset_relics():
 		Relics.ObstacleBreakAttackPause: false,
 		Relics.GlassCannon: false,
 		Relics.PushGemNoCharge: false,
+		Relics.GoalAttractGems: false,
 	}
 	Events.refresh_hud.emit()
 	var relics_picked := []
@@ -178,6 +179,7 @@ enum Relics {
 	ObstacleBreakAttackPause,
 	GlassCannon,
 	PushGemNoCharge,
+	GoalAttractGems,
 }
 
 var RelicTextures := {
@@ -200,6 +202,7 @@ var RelicTextures := {
 	Relics.ObstacleBreakAttackPause: preload("res://assets/relics/Celestial spell_79.png"),
 	Relics.GlassCannon: preload("res://assets/relics/Water Spell_11.png"),
 	Relics.PushGemNoCharge: preload("res://assets/relics/Poison Spell41.png"),
+	Relics.GoalAttractGems: preload("res://assets/relics/light Spell_9.png"),
 }
 
 var RelicNames := {
@@ -222,6 +225,7 @@ var RelicNames := {
 	Relics.ObstacleBreakAttackPause: "TIME OUT",
 	Relics.GlassCannon: "GLASS CANNON",
 	Relics.PushGemNoCharge: "JUGGERNAUT",
+	Relics.GoalAttractGems: "MYSTICAL MAGNET",
 }
 
 var RelicDescriptions := {
@@ -244,6 +248,7 @@ var RelicDescriptions := {
 	Relics.ObstacleBreakAttackPause: "Fireballs freeze after static crystal break",
 	Relics.GlassCannon: "Crystals are worth double when attacking and half when defending",
 	Relics.PushGemNoCharge: "Crystals can be moved without charge attacks",
+	Relics.GoalAttractGems: "Crystals are drawn to the firing portal",
 }
 
 var active_relics := {}
