@@ -265,6 +265,9 @@ stream = SubResource("AudioStreamRandomizer_fd06a")
 panning_strength = 2.0
 bus = &"Arena"
 
+[node name="AttackPauseTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="animation_finished" from="Sprite" to="." method="_on_sprite_animation_finished"]
 
 [editable path="HealthBar"]

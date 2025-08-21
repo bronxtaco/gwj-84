@@ -13,6 +13,7 @@ signal apply_damage_to_enemy(amount: int)
 signal apply_damage_to_hero
 signal fireball_active
 signal fireball_inactive
+signal pause_attack(pause_time: float)
 
 signal crit_boost(gem_type: Global.GemType, amount: int)
 signal heal_boost(amount: int)

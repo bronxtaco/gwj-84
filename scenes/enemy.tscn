@@ -214,4 +214,7 @@ stream = SubResource("AudioStreamRandomizer_1f82d")
 panning_strength = 2.0
 bus = &"Arena"
 
+[node name="AttackPauseTimer" type="Timer" parent="."]
+one_shot = true
+
 [editable path="FireballAttack"]

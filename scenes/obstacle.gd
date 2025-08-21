@@ -18,6 +18,8 @@ func apply_damage(amount: int) -> void:
 	health = max(health - amount, 0)
 	print("obstacle damage %d: health %d" % [ amount, health ])
 	if health == 0:
+		if Global.active_relics[Global.Relics.ObstacleBreakAttackPause]:
+			Events.pause_attack.emit(Global.ObstacleBreakAttackPauseMod)
 		Events.spawn_gem_external.emit(gem_type, global_position)
 		queue_free.call_deferred()
 	else:

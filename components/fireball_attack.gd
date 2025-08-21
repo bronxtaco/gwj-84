@@ -15,6 +15,7 @@ const SizeTable = [ # size = index where damage less than value
 var crit_boost_scene = preload("res://components/crit_boost.tscn")
 
 var active := false
+var frozen := false
 
 var size := 1:
 	set(_size):
@@ -38,22 +39,40 @@ func get_fireball_pos():
 	return %FireballMarker.global_position
 
 
+func freeze():
+	frozen = true
+	%FireballTrail.emitting = false
+	%Fireball.pause()
+
+
+func unfreeze():
+	frozen = false
+	%FireballTrail.emitting = true
+	%Fireball.play()
+	
+
 func launch_new(damage_: int):
 	%FireballPath.scale = Vector2.ONE
 	visible = true
 	active = true
+	unfreeze()
 	damage = damage_
 	%LaunchSound.play()
 	%TravelSound.play()
 	Events.fireball_active.emit()
 
 
-func update_progress(progress: float) -> bool:
-	for pathFollow in get_children():
-		if pathFollow is PathFollow2D:
-			pathFollow.progress_ratio = progress
-	if progress == 1:
-		explode()
+func update_progress(progress: float, freeze: bool) -> bool:
+	if active:
+		if !frozen and freeze:
+			freeze()
+		elif frozen and !freeze:
+			unfreeze()
+		for pathFollow in get_children():
+			if pathFollow is PathFollow2D:
+				pathFollow.progress_ratio = progress
+		if progress == 1:
+			explode()
 	
 	if !active:
 		Events.fireball_inactive.emit()

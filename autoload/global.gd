@@ -60,6 +60,7 @@ func reset_relics():
 		Relics.FirstDamageHalved: false,
 		Relics.MoreObstacles: false,
 		Relics.ObstaclesDropHealthGems: false,
+		Relics.ObstacleBreakAttackPause: false,
 	}
 	Events.refresh_hud.emit()
 	var relics_picked := []
@@ -167,6 +168,7 @@ enum Relics {
 	FirstDamageHalved,
 	MoreObstacles,
 	ObstaclesDropHealthGems,
+	ObstacleBreakAttackPause,
 }
 
 var RelicTextures := {
@@ -186,6 +188,7 @@ var RelicTextures := {
 	Relics.FirstDamageHalved: preload("res://assets/relics/Water Spell_56.png"),
 	Relics.MoreObstacles: preload("res://assets/relics/Celestial spell_62.png"),
 	Relics.ObstaclesDropHealthGems: preload("res://assets/relics/Blood Spell_70.png"),
+	Relics.ObstacleBreakAttackPause: preload("res://assets/relics/Celestial spell_79.png"),
 }
 
 var RelicNames := {
@@ -205,6 +208,7 @@ var RelicNames := {
 	Relics.FirstDamageHalved: "ALPHA SHIELD",
 	Relics.MoreObstacles: "BUMPY ROAD",
 	Relics.ObstaclesDropHealthGems: "HEALTHY OUTLOOK",
+	Relics.ObstacleBreakAttackPause: "TIME OUT",
 }
 
 var RelicDescriptions := {
@@ -224,6 +228,7 @@ var RelicDescriptions := {
 	Relics.FirstDamageHalved: "First damage taken each battle is halved",
 	Relics.MoreObstacles: "Number of static crystals increased",
 	Relics.ObstaclesDropHealthGems: "Static crystals drop health crystals",
+	Relics.ObstacleBreakAttackPause: "Fireballs freeze after static crystal break",
 }
 
 var active_relics := {}
@@ -236,6 +241,7 @@ var overworld_relics := [
 	{ "type": Relics.MoveSpeed, "active": true },
 ]
 
+const ObstacleBreakAttackPauseMod := 5.0
 const SlowerAttacksMod := 1.3
 const MaxHealthMod := 50
 var recent_relic_pickup: Relics

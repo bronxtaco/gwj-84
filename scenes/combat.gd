@@ -182,6 +182,7 @@ func _on_apply_damage_to_enemy(amount: int):
 	if amount > 0:
 		Enemy.apply_damage(amount)
 	
+	
 func _on_apply_damage_to_hero(amount: int):
 	if amount > 0:
 		if !first_hero_damage_taken:

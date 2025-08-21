@@ -4,6 +4,7 @@ extends Node2D
 @onready var AttackSound := %AttackSound
 @onready var DeathSound := %DeathSound
 @onready var FireballAttack := %FireballAttack
+@onready var AttackPauseTimer := $AttackPauseTimer
 
 #StateMachine
 enum STATE {
@@ -81,10 +82,14 @@ class AttackingState extends FSM.State:
 			Global.cheater = true
 			mod_time_fn.call(2.0)
 		
-		tracked_time += delta
+		var freeze := true
+		if obj.AttackPauseTimer.is_stopped():
+			freeze = false
+			tracked_time += delta
+		
 		var progress_seconds = min(tracked_time, remaining_attack_time)
 		var progress_normalized = min(base_progress + (progress_seconds / remaining_attack_time), 1.0)
-		if obj.FireballAttack.update_progress(progress_normalized):
+		if obj.FireballAttack.update_progress(progress_normalized, freeze):
 			done = true
 			Events.apply_damage_to_enemy.emit(obj.FireballAttack.damage)
 
@@ -121,6 +126,7 @@ func _ready():
 	Events.heal_boost.connect(_on_heal_boost)
 	Events.kill_gem_scored.connect(_on_kill_gem)
 	Events.hero_health_changed.connect(_on_hero_health_changed)
+	Events.pause_attack.connect(_on_pause_attack)
 	
 	
 	fsm.debug = true # enables logging for state changes
@@ -208,3 +214,8 @@ func _on_sprite_animation_finished() -> void:
 
 func _on_hero_health_changed():
 	update_health_bar()
+
+
+func _on_pause_attack(pause_time: float):
+	if fsm.current_state == STATE.Attacking:
+		AttackPauseTimer.start(pause_time)
