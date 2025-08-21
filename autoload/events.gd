@@ -19,6 +19,11 @@ signal crit_boost(gem_type: Global.GemType, amount: int)
 signal heal_boost(amount: int)
 signal hero_health_changed
 
+signal attack_phase_begin()
+signal attack_phase_end()
+signal defence_phase_begin()
+signal defence_phase_end()
+
 signal spawn_combined_gem_type(gemType: Global.GemType, position_: Vector2, impulse: Vector2, useDropSpawn: bool)
 
 signal spawn_gem_external(gem_type: Global.GemType, pos: Vector2)

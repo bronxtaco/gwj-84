@@ -54,6 +54,12 @@ class HeroAttackState extends FSM.State:
 	func on_enter(prev_state):
 		spawned_kill_gem = false
 		obj.Hero.start_attack()
+		Global.attack_phase = true
+		Events.attack_phase_begin.emit()
+	
+	func on_exit(_next_state):
+		Global.attack_phase = false
+		Events.attack_phase_end.emit()
 	
 	func get_next_state():
 		if obj.Hero.is_idle():
@@ -67,6 +73,12 @@ class HeroAttackState extends FSM.State:
 class HeroDefenceState extends FSM.State:
 	func on_enter(prev_state):
 		obj.Enemy.start_attack()
+		Global.defence_phase = true
+		Events.defence_phase_begin.emit()
+	
+	func on_exit(_next_state):
+		Global.defence_phase = false
+		Events.defence_phase_end.emit()
 	
 	func get_next_state():
 		if obj.Enemy.is_idle():

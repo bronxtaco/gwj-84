@@ -18,6 +18,8 @@ var hud_enabled := false
 var mini_game_active := false
 
 var game_active := false
+var attack_phase := false
+var defence_phase := false
 var total_run_time := 0.0
 var current_level := 1
 var hero_max_health := HeroStartingHealth
@@ -33,6 +35,8 @@ func reset_game() -> void:
 	reset_relics()
 	Events.refresh_hud.emit()
 	game_active = false
+	attack_phase = false
+	defence_phase = false
 	total_run_time = 0.0
 	current_level = 1
 	hero_max_health = HeroStartingHealth
@@ -61,6 +65,7 @@ func reset_relics():
 		Relics.MoreObstacles: false,
 		Relics.ObstaclesDropHealthGems: false,
 		Relics.ObstacleBreakAttackPause: false,
+		Relics.GlassCannon: false,
 	}
 	Events.refresh_hud.emit()
 	var relics_picked := []
@@ -71,6 +76,7 @@ func reset_relics():
 	overworld_relics = []
 	for i in range(4):
 		overworld_relics.push_back( { "type": relics_picked[i], "active": true })
+
 
 enum GemType
 {
@@ -169,6 +175,7 @@ enum Relics {
 	MoreObstacles,
 	ObstaclesDropHealthGems,
 	ObstacleBreakAttackPause,
+	GlassCannon,
 }
 
 var RelicTextures := {
@@ -189,6 +196,7 @@ var RelicTextures := {
 	Relics.MoreObstacles: preload("res://assets/relics/Celestial spell_62.png"),
 	Relics.ObstaclesDropHealthGems: preload("res://assets/relics/Blood Spell_70.png"),
 	Relics.ObstacleBreakAttackPause: preload("res://assets/relics/Celestial spell_79.png"),
+	Relics.GlassCannon: preload("res://assets/relics/Water Spell_11.png"),
 }
 
 var RelicNames := {
@@ -209,6 +217,7 @@ var RelicNames := {
 	Relics.MoreObstacles: "BUMPY ROAD",
 	Relics.ObstaclesDropHealthGems: "HEALTHY OUTLOOK",
 	Relics.ObstacleBreakAttackPause: "TIME OUT",
+	Relics.GlassCannon: "GLASS CANNON",
 }
 
 var RelicDescriptions := {
@@ -229,6 +238,7 @@ var RelicDescriptions := {
 	Relics.MoreObstacles: "Number of static crystals increased",
 	Relics.ObstaclesDropHealthGems: "Static crystals drop health crystals",
 	Relics.ObstacleBreakAttackPause: "Fireballs freeze after static crystal break",
+	Relics.GlassCannon: "Crystals are worth double when attacking and half when defending",
 }
 
 var active_relics := {}

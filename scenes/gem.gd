@@ -21,6 +21,10 @@ var shader_nodes = []
 var ultra_shader_param_offset: int = 0
 
 func _ready():
+	Events.attack_phase_begin.connect(_on_phase_change)
+	Events.attack_phase_end.connect(_on_phase_change)
+	Events.defence_phase_begin.connect(_on_phase_change)
+	Events.defence_phase_end.connect(_on_phase_change)
 	initialCollisionLayers = get_collision_layer()
 	initialCollisionMasks = get_collision_mask()
 	
@@ -76,9 +80,7 @@ func setup_gem(type: Global.GemType, gemPos: Vector2, spawnImpulse: Vector2, use
 	global_position = gemPos # set the gem in the right spot, but offset the gem sprite in anim
 	
 	gemType = type
-	gemDamage = Global.get_gem_damage(type)
-	
-	set_gem_visuals(type)
+	refresh_gem_damage()
 	
 	self.useDropSpawn = useDropSpawn
 	self.spawnImpulse = spawnImpulse
@@ -233,3 +235,22 @@ func gen_random_direction() -> Vector2:
 	while randDir.length_squared() == 0:
 		randDir = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0))
 	return randDir.normalized()
+
+
+func refresh_gem_damage():
+	if gemType == Global.GemType.KillGem:
+		set_gem_visuals(gemType)
+		return
+	
+	gemDamage = Global.get_gem_damage(gemType)
+	if Global.attack_phase:
+		if Global.active_relics[Global.Relics.GlassCannon]:
+			gemDamage = max(ceil(gemDamage * 2), 1)
+	elif Global.defence_phase:
+		if Global.active_relics[Global.Relics.GlassCannon]:
+			gemDamage = max(ceil(gemDamage / 2), 1)
+	set_gem_visuals(gemType)
+
+
+func _on_phase_change():
+	refresh_gem_damage()
