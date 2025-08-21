@@ -183,17 +183,12 @@ stream_2/stream = ExtResource("6_1ty1m")
 scale = Vector2(1.5, 1.5)
 motion_mode = 1
 script = ExtResource("1_oeans")
-attract_mode = null
 sprintSpeed = 200.0
 walkSpeed = 100.0
 chargeBackSpeed = 300.0
 attackMinMoveSpeed = 250.0
-attackMaxMoveSpeed = null
 minAttackTime = 0.25
-maxAttackTime = null
 maxChargeTime = 0.5
-aimLineMinLength = null
-aimLineMaxLength = null
 
 [node name="CritterSprite" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

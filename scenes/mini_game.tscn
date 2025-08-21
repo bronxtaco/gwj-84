@@ -50,11 +50,11 @@ position = Vector2(404, 381)
 
 [node name="Critter" parent="." instance=ExtResource("3_v2cs6")]
 position = Vector2(381, 420)
-attract_mode = null
-attackMaxMoveSpeed = null
-maxAttackTime = null
-aimLineMinLength = null
-aimLineMaxLength = null
+attract_mode = false
+attackMaxMoveSpeed = 500.0
+maxAttackTime = 0.65
+aimLineMinLength = 10.0
+aimLineMaxLength = 23.0
 
 [node name="CritterLocations" type="Node2D" parent="."]
 

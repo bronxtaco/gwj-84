@@ -8,14 +8,12 @@ extends Node2D
 @export var maxSpawnedGems : int = 8
 @export var gemSpawnTimeInterval : float = 3.0
 
-@export var gemSpawnMinBounds := Vector2(0.0, 0.0)
-@export var gemSpawnMaxBounds := Vector2(800, 600.0)
-
 @export var goalExclusionRadius : float = 35.0
 
 @export var arenaSideCenteringSpeed : float = 20 # speed applied when gem are outside the center polygon
 
 var gemSpawnTimer = gemSpawnTimeInterval
+var valid_gem_spawn_locations := []
 
 func spawn_obstacle(spawnPosition: Vector2):
 	var obstacle = obstacleScene.instantiate() as Node2D
@@ -25,6 +23,19 @@ func spawn_obstacle(spawnPosition: Vector2):
 
 func _ready() -> void:
 	Events.spawn_combined_gem_type.connect(_on_spawn_combined_gem_type)
+	
+	# populate gem spawn_locations
+	var pos_x = 110.0
+	var pos_y
+	while pos_x < 670.0:
+		pos_y = 240.0
+		while pos_y < 540.0:
+			var point = Vector2(pos_x, pos_y)
+			var inArena = Geometry2D.is_point_in_polygon(point - %ArenaCenterPolygon.position, %ArenaCenterPolygon.polygon)
+			if inArena:
+				valid_gem_spawn_locations.push_back(point)
+			pos_y += 5
+		pos_x += 5
 	
 	if just_for_show:
 		spawn_gem(Global.GemType.Blue, [])
@@ -102,6 +113,10 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	var mouseIn = Geometry2D.is_point_in_polygon(get_global_mouse_position() - %ArenaPolygon.position, %ArenaPolygon.polygon)
+	var c = Color.GREEN if mouseIn else Color.RED
+	Events.draw_debug_vector_arrow.emit(Vector2(50,50), Vector2.DOWN, c)
+	
 	# loop over all gems and if they are outside the arena center polygon, nudge them back inside
 	for gemNode in %SpawnedGems.get_children():
 		var gem = gemNode as RigidBody2D
@@ -173,24 +188,21 @@ func spawn_gem_at(gemType: Global.GemType, spawnPos: Vector2, useDropSpawn: bool
 func spawn_gem(gemType: Global.GemType, reservedPositions: Array[Vector2]):
 	# find point to spawn gem
 	var spawnPos : Vector2
-	var foundPos = false
+	const gemRadius = 24 # TODO: is there a way to get this direction for un-instantiated scene?
 	
-	var gemRadius = 24 # TODO: is there a way to get this direction for un-instantiated scene?
+	var valid_locations := []
+	for loc in valid_gem_spawn_locations:
+		var rand_loc = loc + Vector2(randf_range(-3, 3), randf_range(-3, 3))
+		var inGoal = Geometry2D.is_point_in_circle(rand_loc, %Goal.position, goalExclusionRadius)
+		if !inGoal:
+			if !spawn_pos_reserved(reservedPositions, rand_loc, gemRadius) && is_spawn_pos_empty(rand_loc, gemRadius):
+				valid_locations.push_back(rand_loc)
 	
-	var maxPosSearches = 64 #
-	while maxPosSearches > 0:
-		maxPosSearches -= 1
-		
-		var posX = randf_range(gemSpawnMinBounds.x, gemSpawnMaxBounds.x)
-		var posY = randf_range(gemSpawnMinBounds.y, gemSpawnMaxBounds.y)
-		var randomPoint = Vector2(posX, posY)
-		
-		var inArena = Geometry2D.is_point_in_polygon(randomPoint - %ArenaPolygon.position, %ArenaPolygon.polygon)
-		var inGoal = Geometry2D.is_point_in_circle(randomPoint, %Goal.position, goalExclusionRadius)	
-		if inArena && !inGoal:
-			if !spawn_pos_reserved(reservedPositions, randomPoint, gemRadius) && is_spawn_pos_empty(randomPoint, gemRadius):
-				spawnPos = randomPoint
-				break # break out of while loop, as we found a pos
+	if valid_locations.size() == 0:
+		print("No valid gem spawn locations found!!! Just use a random one that is inside the staff")
+		spawnPos = valid_gem_spawn_locations.pick_random()
+	else:
+		spawnPos = valid_locations.pick_random()
 	
 	var dropSpawnImpulseAmount : float = 9.0
 	var spawnImpulse = dropSpawnImpulseAmount * gen_random_direction()

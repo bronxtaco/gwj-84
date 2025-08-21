@@ -171,11 +171,9 @@ func _physics_process(delta):
 	
 	if play_scuttle_sound:
 		if !$ScuttleSound.playing:
-			print("ScuttleSound: Play")
 			$ScuttleSound.play()
 	else:
 		if $ScuttleSound.playing:
-			print("ScuttleSound: Stop")
 			$ScuttleSound.stop()
 
 
@@ -193,9 +191,6 @@ func apply_gem_collisions(force_mult: float) -> bool:
 			if isGem: 
 				var impulseSpeed = abs(velocity) * force_mult #attackMoveSpeed * 1.1
 				otherCollider.apply_central_impulse(-collision.get_normal() * impulseSpeed)
-				print("velocity %.2f %.2f" % [velocity.x, velocity.y])
-				print("impulseSpeed %.2f %.2f" % [impulseSpeed.x, impulseSpeed.y])
-				print("-collision.get_normal() * impulseSpeed %.2f %.2f" % [(-collision.get_normal() * impulseSpeed).x, (-collision.get_normal() * impulseSpeed).y])
 				return true
 	return false
 
@@ -205,29 +200,3 @@ func get_lateral_input(inputDirection: Vector2, moveDirection: Vector2) -> Vecto
 	var inputOntoRollDir = inputDirection.dot(moveDirection) * moveDirection
 	var inputLateral = inputDirection - inputOntoRollDir
 	return inputLateral
-
-
-const attract_walk_time := 2.0
-var attract_prev_pos: Vector2 = Vector2.ZERO
-func _on_attract_move_timer_timeout() -> void:
-	if !attract_mode:
-		return
-	
-	'''var critter_locations = get_parent().get_attract_locations()
-	%AttractMoveTimer.wait_time = attract_walk_time + randf_range(0.5, 1.5)
-	var i = randi() % critter_locations.get_child_count()
-	var target_pos = critter_locations.get_child(i)
-	var x_diff = target_pos.global_position.x - attract_prev_pos.x
-	var y_diff = target_pos.global_position.y - attract_prev_pos.y
-	if abs(x_diff) > abs(y_diff):
-		%CritterSprite.play("walkLeftRight")
-		%CritterSprite.flip_h = x_diff < 0
-	else:
-		if y_diff > 0:
-			%CritterSprite.play("walkDown")
-		else:
-			%CritterSprite.play("walkUp")
-	attract_prev_pos = target_pos.global_position
-	var tween = create_tween().tween_property(%CritterSprite, "global_position", target_pos.global_position, attract_walk_time)
-	await tween.finished
-	%CritterSprite.stop()'''
