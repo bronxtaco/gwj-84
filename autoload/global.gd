@@ -59,6 +59,7 @@ func reset_relics():
 		Relics.SlowerAttacks: false,
 		Relics.FirstDamageHalved: false,
 		Relics.MoreObstacles: false,
+		Relics.ObstaclesDropHealthGems: false,
 	}
 	Events.refresh_hud.emit()
 	var relics_picked := []
@@ -165,6 +166,7 @@ enum Relics {
 	SlowerAttacks,
 	FirstDamageHalved,
 	MoreObstacles,
+	ObstaclesDropHealthGems,
 }
 
 var RelicTextures := {
@@ -183,6 +185,7 @@ var RelicTextures := {
 	Relics.SlowerAttacks: preload("res://assets/relics/Ice Spells54.png"),
 	Relics.FirstDamageHalved: preload("res://assets/relics/Water Spell_56.png"),
 	Relics.MoreObstacles: preload("res://assets/relics/Celestial spell_62.png"),
+	Relics.ObstaclesDropHealthGems: preload("res://assets/relics/Blood Spell_70.png"),
 }
 
 var RelicNames := {
@@ -201,6 +204,7 @@ var RelicNames := {
 	Relics.SlowerAttacks: "BULLET TIME",
 	Relics.FirstDamageHalved: "ALPHA SHIELD",
 	Relics.MoreObstacles: "BUMPY ROAD",
+	Relics.ObstaclesDropHealthGems: "HEALTHY OUTLOOK",
 }
 
 var RelicDescriptions := {
@@ -219,6 +223,7 @@ var RelicDescriptions := {
 	Relics.SlowerAttacks: "Fireball movement speed decrease",
 	Relics.FirstDamageHalved: "First damage taken each battle is halved",
 	Relics.MoreObstacles: "Number of static crystals increased",
+	Relics.ObstaclesDropHealthGems: "Static crystals drop health crystals",
 }
 
 var active_relics := {}

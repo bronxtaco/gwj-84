@@ -19,7 +19,7 @@ var gemSpawnTimer = gemSpawnTimeInterval
 
 func spawn_obstacle(spawnPosition: Vector2):
 	var obstacle = obstacleScene.instantiate() as Node2D
-	obstacle.gem_type = Global.GemType.Blue
+	obstacle.gem_type = Global.GemType.Heal if Global.active_relics[Global.Relics.ObstaclesDropHealthGems] else Global.GemType.Blue
 	%SpawnedObstacles.add_child(obstacle)
 	obstacle.position = spawnPosition
 
