@@ -8,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://buu5kklbdoiow" path="res://assets/audio/sfx/GWJ84_SFX_GemSuccess_VerB-002.mp3" id="5_71tl1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rvs2r"]
-radius = 29.0172
+radius = 15.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_o1hth"]
 streams_count = 4
