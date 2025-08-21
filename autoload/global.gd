@@ -66,6 +66,7 @@ func reset_relics():
 		Relics.ObstaclesDropHealthGems: false,
 		Relics.ObstacleBreakAttackPause: false,
 		Relics.GlassCannon: false,
+		Relics.PushGemNoCharge: false,
 	}
 	Events.refresh_hud.emit()
 	var relics_picked := []
@@ -176,6 +177,7 @@ enum Relics {
 	ObstaclesDropHealthGems,
 	ObstacleBreakAttackPause,
 	GlassCannon,
+	PushGemNoCharge,
 }
 
 var RelicTextures := {
@@ -197,6 +199,7 @@ var RelicTextures := {
 	Relics.ObstaclesDropHealthGems: preload("res://assets/relics/Blood Spell_70.png"),
 	Relics.ObstacleBreakAttackPause: preload("res://assets/relics/Celestial spell_79.png"),
 	Relics.GlassCannon: preload("res://assets/relics/Water Spell_11.png"),
+	Relics.PushGemNoCharge: preload("res://assets/relics/Poison Spell41.png"),
 }
 
 var RelicNames := {
@@ -218,6 +221,7 @@ var RelicNames := {
 	Relics.ObstaclesDropHealthGems: "HEALTHY OUTLOOK",
 	Relics.ObstacleBreakAttackPause: "TIME OUT",
 	Relics.GlassCannon: "GLASS CANNON",
+	Relics.PushGemNoCharge: "JUGGERNAUT",
 }
 
 var RelicDescriptions := {
@@ -239,6 +243,7 @@ var RelicDescriptions := {
 	Relics.ObstaclesDropHealthGems: "Static crystals drop health crystals",
 	Relics.ObstacleBreakAttackPause: "Fireballs freeze after static crystal break",
 	Relics.GlassCannon: "Crystals are worth double when attacking and half when defending",
+	Relics.PushGemNoCharge: "Crystals can be moved without charge attacks",
 }
 
 var active_relics := {}

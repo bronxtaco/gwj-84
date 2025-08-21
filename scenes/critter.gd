@@ -108,31 +108,26 @@ func _physics_process(delta):
 	if inputDirection.length_squared() >= minInputToAimSqr:
 		lastAimVector = inputDirection
 	
+	const PushGemForce = 0.7
+	var pushGemForceRelicActive = Global.active_relics[Global.Relics.PushGemNoCharge]
 	# free movement in idle
 	if state == State.Idle:
 		velocity = inputDirection * (sprintSpeed * move_multiplier)
 		move_and_slide()
+		if pushGemForceRelicActive:
+			apply_gem_collisions(PushGemForce)
 	elif state == State.Walk:
 		velocity = inputDirection * (walkSpeed * move_multiplier)
 		move_and_slide()
+		if pushGemForceRelicActive:
+			apply_gem_collisions(PushGemForce)
 	elif state == State.Charging:
 		pass
 	elif state == State.Attack:
 		velocity = rollDirection * (attackMoveSpeed * move_multiplier)
 		move_and_slide()
-		
-		var collision : KinematicCollision2D = get_last_slide_collision()
-		if collision:
-			var otherCollider = collision.get_collider()
-			var isRigidBody = otherCollider is RigidBody2D
-			if isRigidBody:  
-				var otherRigidBody = otherCollider as RigidBody2D
-				var isGem = "gemType" in otherRigidBody
-				if isGem: 
-					var impulseSpeed = attackMoveSpeed * 1.1
-					otherCollider.apply_central_impulse(-collision.get_normal() * impulseSpeed)
-					$GemImpactSound.play()
-				
+		if apply_gem_collisions(1.1):
+			$GemImpactSound.play()
 			attackTimeRemaining = 0.0 # stop rolling every time you collide with anything
 			
 	# if we have any velocity, update are sprite direction and anim based of it
@@ -182,6 +177,28 @@ func _physics_process(delta):
 		if $ScuttleSound.playing:
 			print("ScuttleSound: Stop")
 			$ScuttleSound.stop()
+
+
+func apply_gem_collisions(force_mult: float) -> bool:
+	var collision : KinematicCollision2D = get_last_slide_collision()
+	if velocity == Vector2.ZERO:
+		return false
+	
+	if collision:
+		var otherCollider = collision.get_collider()
+		var isRigidBody = otherCollider is RigidBody2D
+		if isRigidBody:  
+			var otherRigidBody = otherCollider as RigidBody2D
+			var isGem = "gemType" in otherRigidBody
+			if isGem: 
+				var impulseSpeed = abs(velocity) * force_mult #attackMoveSpeed * 1.1
+				otherCollider.apply_central_impulse(-collision.get_normal() * impulseSpeed)
+				print("velocity %.2f %.2f" % [velocity.x, velocity.y])
+				print("impulseSpeed %.2f %.2f" % [impulseSpeed.x, impulseSpeed.y])
+				print("-collision.get_normal() * impulseSpeed %.2f %.2f" % [(-collision.get_normal() * impulseSpeed).x, (-collision.get_normal() * impulseSpeed).y])
+				return true
+	return false
+
 
 func get_lateral_input(inputDirection: Vector2, moveDirection: Vector2) -> Vector2:
 	# isolate our inputDirection just into the lateral components, from the roll direction POV 

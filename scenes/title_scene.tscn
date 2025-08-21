@@ -178,6 +178,10 @@ just_for_show = true
 
 [node name="Critter" parent="MiniGame" index="2"]
 attract_mode = true
+attackMaxMoveSpeed = null
+maxAttackTime = null
+aimLineMinLength = null
+aimLineMaxLength = null
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
