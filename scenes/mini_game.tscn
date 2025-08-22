@@ -21,10 +21,6 @@ gemScene = ExtResource("2_3kuml")
 obstacleScene = ExtResource("3_hd6k8")
 maxSpawnedGems = 4
 
-[node name="StaffBackground" type="Sprite2D" parent="."]
-texture = ExtResource("3_eps0w")
-centered = false
-
 [node name="Arena" type="Node2D" parent="."]
 
 [node name="ArenaEdge" type="StaticBody2D" parent="Arena"]
@@ -47,9 +43,6 @@ polygon = PackedVector2Array(355, 107, 419, 105, 499, 118, 566, 147, 628, 192, 6
 [node name="ArenaCenter" type="Marker2D" parent="Arena"]
 unique_name_in_owner = true
 position = Vector2(404, 381)
-
-[node name="Critter" parent="." instance=ExtResource("3_v2cs6")]
-position = Vector2(381, 420)
 
 [node name="CritterLocations" type="Node2D" parent="."]
 
@@ -88,56 +81,6 @@ position = Vector2(642, 448)
 
 [node name="Marker2D12" type="Marker2D" parent="CritterLocations"]
 position = Vector2(527, 509)
-
-[node name="SpawnedGems" type="Node2D" parent="."]
-unique_name_in_owner = true
-
-[node name="Goal" parent="." instance=ExtResource("5_burph")]
-unique_name_in_owner = true
-position = Vector2(539, 256)
-
-[node name="SpawnedObstacles" type="Node2D" parent="."]
-unique_name_in_owner = true
-
-[node name="StaffTransparentBottom" type="Sprite2D" parent="."]
-self_modulate = Color(1, 1, 1, 0.25)
-texture = ExtResource("7_2sn1h")
-centered = false
-
-[node name="StaffTransparentMiddle" type="Sprite2D" parent="."]
-self_modulate = Color(1, 1, 1, 0.25)
-texture = ExtResource("8_eps0w")
-centered = false
-
-[node name="StaffTransparentTop" type="Sprite2D" parent="."]
-self_modulate = Color(1, 1, 1, 0.25)
-texture = ExtResource("9_4ovyi")
-centered = false
-
-[node name="StaffForeground" type="Sprite2D" parent="."]
-texture = ExtResource("11_o1hth")
-centered = false
-
-[node name="GoalPositions" type="Node2D" parent="."]
-unique_name_in_owner = true
-
-[node name="Marker2D" type="Marker2D" parent="GoalPositions"]
-position = Vector2(539, 256)
-
-[node name="Marker2D2" type="Marker2D" parent="GoalPositions"]
-position = Vector2(313, 244)
-
-[node name="Marker2D3" type="Marker2D" parent="GoalPositions"]
-position = Vector2(172, 288)
-
-[node name="Marker2D4" type="Marker2D" parent="GoalPositions"]
-position = Vector2(108, 392)
-
-[node name="Marker2D5" type="Marker2D" parent="GoalPositions"]
-position = Vector2(663, 338)
-
-[node name="Marker2D6" type="Marker2D" parent="GoalPositions"]
-position = Vector2(659, 443)
 
 [node name="ObstaclePositions" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -180,3 +123,69 @@ position = Vector2(536, 312)
 
 [node name="Marker2D12" type="Marker2D" parent="ObstaclePositions"]
 position = Vector2(414, 368)
+
+[node name="GoalPositions" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Marker2D" type="Marker2D" parent="GoalPositions"]
+position = Vector2(539, 256)
+
+[node name="Marker2D2" type="Marker2D" parent="GoalPositions"]
+position = Vector2(313, 244)
+
+[node name="Marker2D3" type="Marker2D" parent="GoalPositions"]
+position = Vector2(172, 288)
+
+[node name="Marker2D4" type="Marker2D" parent="GoalPositions"]
+position = Vector2(108, 392)
+
+[node name="Marker2D5" type="Marker2D" parent="GoalPositions"]
+position = Vector2(663, 338)
+
+[node name="Marker2D6" type="Marker2D" parent="GoalPositions"]
+position = Vector2(659, 443)
+
+[node name="DrawLayerBackground" type="Node2D" parent="."]
+
+[node name="StaffBackground" type="Sprite2D" parent="DrawLayerBackground"]
+texture = ExtResource("3_eps0w")
+centered = false
+
+[node name="DrawLayerStaff" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Critter" parent="DrawLayerStaff" instance=ExtResource("3_v2cs6")]
+position = Vector2(381, 420)
+
+[node name="SpawnedGems" type="Node2D" parent="DrawLayerStaff"]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="SpawnedObstacles" type="Node2D" parent="DrawLayerStaff"]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="DrawLayerTop" type="Node2D" parent="."]
+
+[node name="Goal" parent="DrawLayerTop" instance=ExtResource("5_burph")]
+unique_name_in_owner = true
+position = Vector2(539, 256)
+
+[node name="StaffTransparentBottom" type="Sprite2D" parent="DrawLayerTop"]
+self_modulate = Color(1, 1, 1, 0.25)
+texture = ExtResource("7_2sn1h")
+centered = false
+
+[node name="StaffTransparentMiddle" type="Sprite2D" parent="DrawLayerTop"]
+self_modulate = Color(1, 1, 1, 0.25)
+texture = ExtResource("8_eps0w")
+centered = false
+
+[node name="StaffTransparentTop" type="Sprite2D" parent="DrawLayerTop"]
+self_modulate = Color(1, 1, 1, 0.25)
+texture = ExtResource("9_4ovyi")
+centered = false
+
+[node name="StaffForeground" type="Sprite2D" parent="DrawLayerTop"]
+texture = ExtResource("11_o1hth")
+centered = false
