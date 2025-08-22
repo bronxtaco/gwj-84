@@ -8,14 +8,14 @@ func _ready() -> void:
 	Scenes.change(Scenes.Enum.Splash)
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("pause"):
+	if Scenes.is_pause_enabled() and Input.is_action_just_pressed("pause"):
 		if !Global.paused:
 			Events.menu_push.emit(Global.MENU_TYPE.PAUSE)
 	
 	if !Global.paused and Global.game_active:
 		Global.total_run_time += delta
 	
-	if !Global.paused and Input.is_action_just_pressed("debug_f7"):
+	if Scenes.is_current_scene_gameplay() and !Global.paused and Input.is_action_just_pressed("debug_f7"):
 		Global.cheater = true
 		Events.menu_push.emit(Global.MENU_TYPE.DEBUG_RELIC)
 
@@ -40,4 +40,5 @@ func on_change_scene(new_scene:PackedScene):
 	fade_tween = create_tween()
 	fade_tween.tween_property(%Fade, "color:a", 0.0, fade_time)
 	await fade_tween.finished
+	Events.menu_enable.emit()
 	%ActiveScene.process_mode = Node.PROCESS_MODE_INHERIT

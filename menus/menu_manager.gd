@@ -6,6 +6,7 @@ extends Node2D
 	Global.MENU_TYPE.SETTINGS: preload("res://menus/menu_settings.tscn"),
 	Global.MENU_TYPE.AUDIO: preload("res://menus/menu_audio.tscn"),
 	Global.MENU_TYPE.CREDITS: preload("res://menus/menu_credits.tscn"),
+	Global.MENU_TYPE.QUIT_CONFIRM: preload("res://menus/menu_quit.tscn"),
 	Global.MENU_TYPE.RELIC_PICKUP: preload("res://menus/relic_pickup_notification.tscn"),
 	Global.MENU_TYPE.DEBUG_RELIC: preload("res://menus/menu_debug_relic.tscn"),
 }
@@ -16,15 +17,29 @@ extends Node2D
 # Node that contains the active scene for pausing and disabling input
 @export var scene_container: Node
 
+var menus_enabled := false
 var menu_stack := []
 
 func _ready():
 	Events.menu_push.connect(_on_menu_push)
 	Events.menu_pop.connect(_on_menu_pop)
 	Events.menu_pop_all.connect(_on_menu_pop_all)
+	Events.menu_enable.connect(_on_menu_enable)
+	Events.menu_disable.connect(_on_menu_disable)
 
 
+func _on_menu_enable():
+	menus_enabled = true
+
+func _on_menu_disable():
+	_on_menu_pop_all()
+	menus_enabled = false
+	
+	
 func _on_menu_push(menu_type: Global.MENU_TYPE, data: Dictionary = {}):
+	if !menus_enabled:
+		return
+		
 	var current_focus = get_viewport().gui_get_focus_owner()
 	if current_focus:
 		current_focus.release_focus()

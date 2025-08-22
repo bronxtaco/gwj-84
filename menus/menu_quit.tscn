@@ -1,0 +1,87 @@
+[gd_scene load_steps=14 format=3 uid="uid://bjfcmnus4bjad"]
+
+[ext_resource type="PackedScene" uid="uid://d11eesvpxlsk2" path="res://menus/menu_base.tscn" id="1_77t7p"]
+[ext_resource type="Script" uid="uid://c5tcbyinicw52" path="res://menus/menu_quit.gd" id="2_8i676"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_77t7p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8i676"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_o82yb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_una4p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pt7qg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tgyku"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6w8v6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xiqoa"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3tp8m"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e3j2w"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kxda4"]
+
+[node name="MenuQuit" instance=ExtResource("1_77t7p")]
+theme_override_constants/margin_bottom = 260
+script = ExtResource("2_8i676")
+
+[node name="Label" parent="Modal/MarginContainer/VBoxContainer" index="0"]
+text = "Quit Game"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="1"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="0"]
+layout_mode = 2
+text = "Are you sure?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="1"]
+layout_mode = 2
+theme_override_constants/separation = 21
+alignment = 1
+
+[node name="YesButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="0"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_focus_color = Color(1, 0.85098, 0.270588, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_77t7p")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_8i676")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_o82yb")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_una4p")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_pt7qg")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_tgyku")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_6w8v6")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_xiqoa")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3tp8m")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_e3j2w")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_kxda4")
+text = "Yes"
+
+[node name="NoButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_focus_color = Color(1, 0.85098, 0.270588, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_77t7p")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_8i676")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_o82yb")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_una4p")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_pt7qg")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_tgyku")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_6w8v6")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_xiqoa")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3tp8m")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_e3j2w")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_kxda4")
+text = "No"
+
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/YesButton" to="." method="_on_yes_button_pressed"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/NoButton" to="." method="_on_no_button_pressed"]
+
+[editable path="Modal"]

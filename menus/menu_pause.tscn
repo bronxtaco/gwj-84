@@ -72,7 +72,27 @@ theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_l0eqk")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_l7kfn")
 text = "Credits"
 
+[node name="QuitButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="2"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_focus_color = Color(1, 0.85098, 0.270588, 1)
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = SubResource("StyleBoxEmpty_dv8ct")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_cxa3s")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_6dlt5")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_pcmdw")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_m7itc")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_yrpv6")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_qw6ad")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_tds7n")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_0vgoq")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_l0eqk")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_l7kfn")
+text = "Quit"
+
 [connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
 
 [editable path="Modal"]

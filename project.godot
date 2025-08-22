@@ -14,7 +14,7 @@ config/name="Crystal Critter"
 run/main_scene="uid://dl87g6v073ake"
 config/features=PackedStringArray("4.4", "Mobile")
 boot_splash/bg_color=Color(0.0784314, 0.133333, 0.25098, 1)
-config/icon="res://icon.svg"
+config/icon="uid://bymd0skdx1mpg"
 
 [autoload]
 

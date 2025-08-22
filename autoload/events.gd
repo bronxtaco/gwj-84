@@ -8,6 +8,8 @@ signal menu_pop
 signal menu_pop_all
 signal menu_empty
 signal menu_unpaused
+signal menu_enable
+signal menu_disable
 
 signal apply_damage_to_enemy(amount: int)
 signal apply_damage_to_hero
